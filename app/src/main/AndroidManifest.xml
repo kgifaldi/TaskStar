@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.kgifaldi.taskstar">
 
     <application
+        tools:replace="android:icon"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,12 +17,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ParentLogin">
 
-        </activity>
-        <activity android:name=".ChildLogin">
-
-    </activity>
+        <!-- following are the layouts that we created for this application -->
+        <activity android:name=".ParentLogin"></activity>
+        <activity android:name=".ChildLogin"></activity>
+        <activity android:name=".ChildMain"></activity>
+        <activity android:name=".TodaysTasks"></activity>
+        <activity android:name=".RewardsStore"></activity>
+        <activity android:name=".Reward"></activity>
 
     </application>
 
