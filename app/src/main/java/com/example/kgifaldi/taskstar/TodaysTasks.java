@@ -48,10 +48,10 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
     private void initCards(){
         card_adapter = new CardAdapter(getApplicationContext(), 0, questions);
 
-        questions.add(new Task("Did you do lan"));
-        questions.add(new Task("your name"));
-        questions.add(new Task("who r u"));
-        questions.add(new Task("whats up?"));
+        questions.add(new Task("Did you do laundry?"));
+        questions.add(new Task("Have you cleaned your room?"));
+        questions.add(new Task("Have you completed your math homework?"));
+        questions.add(new Task("Did you have a great day?"));
         leftToDo = 4;
     }
 

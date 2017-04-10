@@ -20,8 +20,10 @@ public class ChildMain extends Activity {
                 Intent intent;
                 if(className == "TodaysTasks")
                     intent = new Intent(ChildMain.this, TodaysTasks.class);
-                else
+                else if(className == "RewardsStore")
                     intent = new Intent(ChildMain.this, RewardsStore.class);
+                else
+                    intent = new Intent(ChildMain.this, RedeemReward.class);
                 startActivity(intent);
             }
 
@@ -35,6 +37,7 @@ public class ChildMain extends Activity {
         setContentView(R.layout.child_main);
         setCardListener(R.id.task_card, "TodaysTasks");
         setCardListener(R.id.reward_card, "RewardsStore");
+        setCardListener(R.id.performance_card, "RedeemReward");
     }
 
 

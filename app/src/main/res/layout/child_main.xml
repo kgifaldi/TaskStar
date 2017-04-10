@@ -26,15 +26,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="Roboto"
-                android:text="TextView"
+                android:text="Hello Emily!"
+                android:textColor="@color/colorSecondary"
                 android:textSize="40sp"
                 tools:fontFamily="casual"
                 tools:text="Hello Emily!"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="22dp"
-                android:textColor="@color/colorSecondary"
-                />
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -42,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
                 android:text="Coins:"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:layout_alignBaseline="@+id/num_coins"
                 android:layout_alignBottom="@+id/num_coins"
                 android:layout_alignParentStart="true"
@@ -57,10 +55,10 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:fontFamily="casual"
-                android:text="TextView"
-                android:textSize="40sp"
-                tools:text="50,000"
+                android:text="50,000"
                 android:textColor="@color/colorSecondary"
+                android:textSize="30sp"
+                tools:text="50,000"
 
                 />
 
@@ -129,7 +127,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:fontFamily="casual"
-                android:text="Your Performance"
+                android:text="Redeem Rewards"
                 android:textSize="30sp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
