@@ -14,42 +14,47 @@
             android:id="@+id/editText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="211dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Username"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="211dp"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName"
+
+            android:textColor="@color/colorSecondary"
+            android:textColorHint="@color/colorPrimaryDark"
+            android:textCursorDrawable="@color/colorSecondary" />
 
         <EditText
             android:id="@+id/editText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:hint="Password"
-            android:layout_below="@+id/editText2"
             android:layout_alignStart="@+id/editText2"
-            android:layout_marginTop="21dp" />
+            android:layout_below="@+id/editText2"
+            android:layout_marginTop="21dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@color/colorPrimaryDark"
+            android:textColorHint="@color/colorPrimaryDark" />
 
         <Button
             android:id="@+id/parentLoginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:layout_below="@+id/editText3"
             android:layout_alignEnd="@+id/editText3"
-            android:layout_marginTop="39dp" />
+            android:layout_below="@+id/editText3"
+            android:layout_marginTop="39dp"
+            android:text="Login" />
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/logo"
-            android:layout_marginBottom="65dp"
             android:layout_alignBottom="@+id/editText2"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="65dp"
+            app:srcCompat="@drawable/logo" />
 
     </RelativeLayout>
 </LinearLayout>
