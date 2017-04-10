@@ -20,7 +20,7 @@ import java.io.BufferedReader;
 import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
-    String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
+    public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
 
     LinearLayout ll;
 

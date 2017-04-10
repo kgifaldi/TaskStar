@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:id="@+id/addtask_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:id="@+id/addtask_main"
-    android:background="@color/colorPrimary">
+    android:background="@android:color/darker_gray"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,24 +16,24 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="19dp"
             android:text="Add Task"
             android:textColor="@color/colorSecondary"
-            android:textSize="40sp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:textSize="40sp" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_marginEnd="14dp"
             android:layout_marginTop="24dp"
+            android:layout_toStartOf="@+id/editText"
             android:text="Task Name:"
             android:textColor="@color/colorSecondary"
-            android:textSize="20sp"
-            android:layout_below="@+id/textView4"
-            android:layout_toStartOf="@+id/editText"
-            android:layout_marginEnd="14dp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView6"
@@ -73,24 +73,27 @@
             android:id="@+id/repeat_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/today_toggle"
+            android:layout_alignBottom="@+id/today_toggle"
             android:layout_marginStart="18dp"
+            android:layout_toEndOf="@+id/today_toggle"
+            android:backgroundTint="@color/text_icons"
+            android:checked="false"
             android:minHeight="100dp"
             android:minWidth="150dp"
             android:text="REPEAT"
             android:textOff="REPEAT"
             android:textOn="REPEAT"
-            tools:text="REPEAT"
-            android:checked="false"
-            android:layout_alignBaseline="@+id/today_toggle"
-            android:layout_alignBottom="@+id/today_toggle"
-            android:layout_toEndOf="@+id/today_toggle"
-            android:backgroundTint="@color/text_icons"
-            />
+            tools:text="REPEAT" />
 
         <ToggleButton
             android:id="@+id/today_toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_below="@+id/textView6"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="@color/primaryText"
             android:checked="true"
             android:minHeight="100dp"
             android:minWidth="150dp"
@@ -98,11 +101,85 @@
             android:textOff="JUST TODAY"
             android:textOn="JUST TODAY"
             tools:text="Just Today"
-            android:layout_below="@+id/textView6"
-            android:layout_alignStart="@+id/textView5"
-            android:layout_marginTop="14dp"
-            android:backgroundTint="@color/primaryText"
 
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignStart="@+id/today_toggle"
+            android:layout_below="@+id/today_toggle"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:id="@+id/weekly_list"
+            >
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="M"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="T"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="W"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Th"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="F"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Sa"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Su"
+                android:textColor="@color/colorPrimaryDark" />
+
+
+        </LinearLayout>
+   <!--     <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <LinearLayout
+                android:id="@+id/child_task_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignStart="@+id/weekly_list"
+                android:layout_below="@+id/weekly_list"
+                android:orientation="vertical"></LinearLayout>
+        </ScrollView>
+-->
     </RelativeLayout>
 </LinearLayout>

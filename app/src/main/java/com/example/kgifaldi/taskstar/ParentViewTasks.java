@@ -34,7 +34,7 @@ public class ParentViewTasks extends Activity {
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
-        for(int i = 0; i < tasks.length; i++) {
+     /*   for(int i = 0; i < tasks.length; i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -64,9 +64,9 @@ public class ParentViewTasks extends Activity {
             NameText.setTextColor(getResources().getColor(R.color.primaryText));
 
             // finally, add text and image to cardView and add cardView to linear layout within child_login xml file
-            tmp.addView(NameText);
-            ll.addView(tmp);
+            //tmp.addView(NameText);
+           // ll.addView(tmp);
 
-        }
+        }*/
     }
 }
