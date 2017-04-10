@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,29 +8,101 @@
     android:id="@+id/addtask_main"
     android:background="@color/colorPrimary">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/TempAddTask"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        >
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:text="Add Task"
+            android:textColor="@color/colorSecondary"
+            android:textSize="40sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
-            <TextView
-                android:id="@+id/tempAddtask_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="casual"
-                android:text="Add Task (temp)"
-                android:textSize="40sp" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Task Name:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="20sp"
+            android:layout_below="@+id/textView4"
+            android:layout_toStartOf="@+id/editText"
+            android:layout_marginEnd="14dp" />
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView5"
+            android:layout_below="@+id/textView5"
+            android:layout_marginTop="27dp"
+            android:text="Task Reward:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView5"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_alignParentEnd="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/secondaryText"
+            android:textColorHint="@color/text_icons" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignParentEnd="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/secondaryText"
+            android:textColorHint="@color/text_icons" />
+
+        <ToggleButton
+            android:id="@+id/repeat_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:minHeight="100dp"
+            android:minWidth="150dp"
+            android:text="REPEAT"
+            android:textOff="REPEAT"
+            android:textOn="REPEAT"
+            tools:text="REPEAT"
+            android:checked="false"
+            android:layout_alignBaseline="@+id/today_toggle"
+            android:layout_alignBottom="@+id/today_toggle"
+            android:layout_toEndOf="@+id/today_toggle"
+            android:backgroundTint="@color/text_icons"
+            />
+
+        <ToggleButton
+            android:id="@+id/today_toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:minHeight="100dp"
+            android:minWidth="150dp"
+            android:text="Just Today"
+            android:textOff="JUST TODAY"
+            android:textOn="JUST TODAY"
+            tools:text="Just Today"
+            android:layout_below="@+id/textView6"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_marginTop="14dp"
+            android:backgroundTint="@color/primaryText"
+
+            />
+    </RelativeLayout>
 </LinearLayout>
