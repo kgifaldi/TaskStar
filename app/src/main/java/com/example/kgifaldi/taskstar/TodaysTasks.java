@@ -2,19 +2,28 @@ package com.example.kgifaldi.taskstar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import android.animation.AnimatorListenerAdapter;
 import com.wenchao.cardstack.CardStack;
+import com.wenchao.cardstack.CardAnimator;
+import com.wenchao.cardstack.CardUtils;
+import com.wenchao.cardstack.DragGestureDetector;
 
+import java.util.ArrayList;
 
 // TODO
 public class TodaysTasks extends Activity implements CardStack.CardEventListener {
 
-    private CardStack todays_tasks;
+    public static CardStack todays_tasks;
     private CardAdapter card_adapter;
     int leftToDo = 0;
 
@@ -31,17 +40,21 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
         todays_tasks.setContentResource(R.layout.single_task);
         todays_tasks.setStackMargin(20);
         todays_tasks.setAdapter(card_adapter);
+
         todays_tasks.setListener(this);
     }
+    private ArrayList<Task> questions = new ArrayList<>();
 
     private void initCards(){
-        card_adapter = new CardAdapter(getApplicationContext(), 0);
-        card_adapter.add("child1");
-        card_adapter.add("q2");
-        card_adapter.add("q3");
-        card_adapter.add("q4");
+        card_adapter = new CardAdapter(getApplicationContext(), 0, questions);
+
+        questions.add(new Task("Did you do lan"));
+        questions.add(new Task("your name"));
+        questions.add(new Task("who r u"));
+        questions.add(new Task("whats up?"));
         leftToDo = 4;
     }
+
 
     // swipe end occurs when user lifts touch of card
     @Override
@@ -69,6 +82,7 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
     public void discarded(int i, int i1) {
 
         if(i1 == 0 || i1 == 2) // direction 0 and 2 are LEFT (whereas 1 and 3 are right)
+
             card_adapter.add(card_adapter.getItem(0)); // so if LEFT, then add to back of stack
         else if(leftToDo == 1){
             Intent intent = new Intent(TodaysTasks.this, ChildMain.class); // otherwise, if right and end of stack, start main child activity because child has completed all tasks!

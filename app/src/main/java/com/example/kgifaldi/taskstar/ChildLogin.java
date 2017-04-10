@@ -9,6 +9,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,23 +42,6 @@ public class ChildLogin extends Activity {
 
     }
 
-
-    private int getMatColor(String typeColor)
-    {
-        int returnColor = Color.BLACK;
-        int arrayId = getResources().getIdentifier("mdcolor_" + typeColor, "array", getApplicationContext().getPackageName());
-
-        if (arrayId != 0)
-        {
-            TypedArray colors = getResources().obtainTypedArray(arrayId);
-            int index = (int) (Math.random() * colors.length());
-            returnColor = colors.getColor(index, Color.BLACK);
-            colors.recycle();
-        }
-        return returnColor;
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +51,7 @@ public class ChildLogin extends Activity {
         ll = (LinearLayout) findViewById(R.id.child_list);
 
         // some variables used to format xml elements
-        int cardHeight = 500;
+        int cardHeight =400;
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
@@ -76,10 +60,11 @@ public class ChildLogin extends Activity {
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             LinearLayout.LayoutParams lp_txt = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 40, 0, 0);
+            lp.setMargins(0, 50, 0, 0);
 
             // instantiate card view and set some values
             CardView tmp = new CardView(this);
+            tmp.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
             // give card unique id for future referencing:
             tempId = View.generateViewId();
             tmp.setId(tempId);
@@ -114,13 +99,23 @@ public class ChildLogin extends Activity {
             NameText.setLayoutParams(lp);
             NameText.setText(children[i]);
             NameText.setTextSize(txtSz);
-            NameText.setPadding(0, (cardHeight - txtSz)/4, 0, 0);
-            NameText.setTextColor(getResources().getColor(R.color.primaryText));
+            NameText.setPadding(450, 65, 0, 0);
+            NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
+            int randomColor = MaterialColorPalette.getRandomColor("500");
+
+
 
             String letter = (NameText.getText().charAt(0)+"");
-            TextDrawable drbl = TextDrawable.builder().buildRound(letter, getMatColor("500"));
+            TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);
+
             childImg.setImageDrawable(drbl);
+            int width = 350;
+            int height = 350;
+            childImg.setPadding(50, 50, 50, 50);
+            LinearLayout.LayoutParams prms = new LinearLayout.LayoutParams(width, height);
+            childImg.setLayoutParams(prms);
+
 
             // finally, add text and image to cardView and add cardView to linear layout within child_login xml file
             tmp.addView(childImg);
