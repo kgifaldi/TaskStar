@@ -1,5 +1,6 @@
 package com.example.kgifaldi.taskstar;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -9,6 +10,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -121,11 +123,35 @@ public class ChildLogin extends Activity {
             tmp.addView(childImg);
             tmp.addView(NameText);
             ll.addView(tmp);
-
+            enterReveal(childImg);
             // add onClickListener to CardViews
             setCardListener(tempId);
 
         }
+
+
     }
+
+    void enterReveal(final View v){
+
+        v.post(new Runnable() {
+            @Override
+            public void run() {
+
+                int cx = v.getMeasuredWidth() / 2;
+                int cy = v.getMeasuredHeight() / 2;
+
+                int finRad = Math.max(v.getWidth(), v.getHeight()) / 2;
+
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finRad);
+                v.setVisibility(View.VISIBLE);
+                anim.setDuration(500);
+
+                anim.start();
+
+            }
+        });
+    }
+
 }
 

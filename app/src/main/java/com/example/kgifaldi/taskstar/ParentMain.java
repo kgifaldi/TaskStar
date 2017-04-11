@@ -1,17 +1,29 @@
 package com.example.kgifaldi.taskstar;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -25,10 +37,24 @@ public class ParentMain extends Activity {
 
     LinearLayout ll;
 
+    View but; // ImageButton imageButton
+    ScrollView scrollView; // ImageView imageView
+    LinearLayout revealView, layoutButtons; // linearView(id):
+    Animation alphaAnimation;
+    float pixelDensity;
+    public String FLAG = "plus"; // plus if FAB is plus; exit if FAB is exit
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_main);
+
+
+        scrollView = (ScrollView) findViewById(R.id.ScrollView01);
+        but = (View) findViewById(R.id.AddChildFAB);
+        revealView = (LinearLayout)findViewById(R.id.linearView);
+        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.alpha_anim);
+        pixelDensity = getResources().getDisplayMetrics().density;
+        layoutButtons = (LinearLayout)findViewById(R.id.layoutButtons);
 
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.parentchild_list);
@@ -38,6 +64,8 @@ public class ParentMain extends Activity {
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
+
+        scrollView = (ScrollView)findViewById(R.id.ScrollView01);
         for(int i = 0; i < children.length; i++) {
 
             // set lp to linear layouts params to pass to cards
@@ -108,10 +136,38 @@ public class ParentMain extends Activity {
             // add onClickListener to CardViews
             setCardListener(tempId);
 
+            enterReveal(childImg);
         }
-        FloatingActionButton fabBt = (FloatingActionButton)findViewById(R.id.AddChildFAB);
+
+
+
+        enterReveal(but);
+
+
+
         setListeners();
     }
+
+    void enterReveal(final View v){
+
+        v.post(new Runnable() {
+            @Override
+            public void run() {
+
+                int cx = v.getMeasuredWidth() / 2;
+                int cy = v.getMeasuredHeight() / 2;
+
+                int finRad = Math.max(v.getWidth(), v.getHeight()) / 2;
+
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finRad);
+                v.setVisibility(View.VISIBLE);
+                anim.setDuration(500);
+                anim.start();
+
+                }
+        });
+    }
+
 
     private int getMatColor(String typeColor)
     {
@@ -146,6 +202,8 @@ public class ParentMain extends Activity {
 
     }
 
+    // TODO: BUG when you click the FAB too fast, the list of children stays hidden. Not important
+    
     void setListeners(){
         View card = (View) findViewById(R.id.AddTask_card);
 
@@ -177,9 +235,101 @@ public class ParentMain extends Activity {
 
         });
 
-        View FAB = findViewById(R.id.AddChildFAB);
+        final View FAB = findViewById(R.id.AddChildFAB);
 
-        FAB.setOnClickListener(new View.OnClickListener(){
+
+        FAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int x = scrollView.getRight();
+                int y = scrollView.getBottom();
+                x-=((28*pixelDensity) + (16*pixelDensity));
+
+                int hypotenuse = (int) Math.hypot(scrollView.getWidth(), scrollView.getHeight());
+
+                if(FLAG == "plus"){
+
+                    // using tutorial @ following blog post: http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/
+
+                    FAB.setBackgroundResource(R.drawable.ic_close_black_24dp);
+                    FAB.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+
+                    RelativeLayout.LayoutParams parameters = (RelativeLayout.LayoutParams)revealView.getLayoutParams();
+                    parameters.height = scrollView.getHeight();
+                    revealView.setLayoutParams(parameters);
+
+
+                    Animator anim = ViewAnimationUtils.createCircularReveal(revealView, x, y, 0, hypotenuse);
+                    anim.setDuration(600);
+
+                    anim.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            layoutButtons.setVisibility(View.VISIBLE);
+                            layoutButtons.startAnimation(alphaAnimation);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                            scrollView.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+
+
+                    revealView.setVisibility(View.VISIBLE);
+                    anim.start();
+                    FLAG = "exit";
+                }
+                else{
+
+                    Animator anim = ViewAnimationUtils.createCircularReveal(revealView, x, y, hypotenuse, 0);
+                    anim.setDuration(500);
+
+                    anim.addListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            scrollView.setVisibility(View.VISIBLE);
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            revealView.setVisibility(View.GONE);
+                            layoutButtons.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    });
+
+
+                    anim.start();
+
+                    FAB.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                    FLAG = "plus";
+                }
+            }
+        });
+     /*   FAB.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
@@ -190,6 +340,6 @@ public class ParentMain extends Activity {
 
             }
 
-        });
+        });*/
     }
 }
