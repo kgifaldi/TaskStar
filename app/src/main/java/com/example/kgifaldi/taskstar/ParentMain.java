@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-
+import android.widget.ImageView.*;
 import com.amulyakhare.textdrawable.TextDrawable;
 
 /**
@@ -36,6 +39,14 @@ public class ParentMain extends Activity {
     String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
 
     LinearLayout ll;
+
+    public static View glob_card;
+    public static String name_card;
+    public static Drawable color_card;
+    public static int curr_child;
+    public static int curr_color;
+    public static String curr_name;
+    public static char curr_letter;
 
     View but; // ImageButton imageButton
     ScrollView scrollView; // ImageView imageView
@@ -84,6 +95,9 @@ public class ParentMain extends Activity {
             tmp.setMaxCardElevation(25);
             tmp.setCardElevation(15);
             tmp.setMinimumHeight(cardHeight);
+
+
+            tmp.setTransitionName(getString(R.string.transition_string));
 
             // add ripple effect to card!
             ColorStateList csl = ColorStateList.valueOf(getResources().getColor(R.color.secondaryText));
@@ -134,7 +148,7 @@ public class ParentMain extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId);
+            setCardListener(tempId, randomColor, children[i], children[i].charAt(0));
 
             enterReveal(childImg);
         }
@@ -146,6 +160,9 @@ public class ParentMain extends Activity {
 
 
         setListeners();
+
+
+
     }
 
     void enterReveal(final View v){
@@ -169,32 +186,45 @@ public class ParentMain extends Activity {
     }
 
 
-    private int getMatColor(String typeColor)
-    {
-        int returnColor = Color.BLACK;
-        int arrayId = getResources().getIdentifier("mdcolor_" + typeColor, "array", getApplicationContext().getPackageName());
+    public void animateIntent(View v){
+        v.setId(R.id.glob_card);
 
-        if (arrayId != 0)
-        {
-            TypedArray colors = getResources().obtainTypedArray(arrayId);
-            int index = (int) (Math.random() * colors.length());
-            returnColor = colors.getColor(index, Color.BLACK);
-            colors.recycle();
-        }
-        return returnColor;
+        Intent intent;
+        intent = new Intent(this, ParentChildView.class);
+
+
+        String transitionName = getString(R.string.transition_string);
+        System.out.println(transitionName);
+
+        glob_card = v;
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ParentMain.this, v, transitionName);
+        ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 
-    void setCardListener(int cardId){
+
+    void setCardListener(final int cardId, final int color, final String childName, final char letter){
+
         View card = (View) findViewById(cardId);
+        color_card = card.getBackground();
+
+        System.out.println("---------------------------------------------------------");
+        System.out.println(cardId);
 
         card.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
 
-                Intent intent;
-                intent = new Intent(ParentMain.this, ParentChildView.class);
-                startActivity(intent);
+                System.out.println("COLOR, NAME:");
+                System.out.println(name_card);
+
+                curr_color = color;
+                curr_name = childName;
+                curr_letter = letter;
+                curr_child = cardId;
+
+                animateIntent(v);
 
             }
 
@@ -203,7 +233,7 @@ public class ParentMain extends Activity {
     }
 
     // TODO: BUG when you click the FAB too fast, the list of children stays hidden. Not important
-    
+
     void setListeners(){
         View card = (View) findViewById(R.id.AddTask_card);
 
@@ -211,6 +241,7 @@ public class ParentMain extends Activity {
 
             @Override
             public void onClick(View v){
+
 
                 Intent intent;
                 intent = new Intent(ParentMain.this, AddTask.class);
@@ -252,9 +283,6 @@ public class ParentMain extends Activity {
 
                     // using tutorial @ following blog post: http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/
 
-                    FAB.setBackgroundResource(R.drawable.ic_close_black_24dp);
-                    FAB.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_close_black_24dp));
-
                     RelativeLayout.LayoutParams parameters = (RelativeLayout.LayoutParams)revealView.getLayoutParams();
                     parameters.height = scrollView.getHeight();
                     revealView.setLayoutParams(parameters);
@@ -268,6 +296,11 @@ public class ParentMain extends Activity {
                         public void onAnimationStart(Animator animation) {
                             layoutButtons.setVisibility(View.VISIBLE);
                             layoutButtons.startAnimation(alphaAnimation);
+                            FAB.setBackground(getResources().getDrawable(R.drawable.ic_close_black_24dp));
+                            ImageView iFAB = (ImageView)FAB;
+                            iFAB.setImageResource(R.drawable.ic_close_black_24dp);
+                            ((ImageView) FAB).setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.red)));
+
                         }
 
                         @Override
@@ -301,7 +334,14 @@ public class ParentMain extends Activity {
                         @Override
                         public void onAnimationStart(Animator animation) {
                             scrollView.setVisibility(View.VISIBLE);
-
+                            FAB.setBackground(getResources().getDrawable(R.drawable.ic_add_black_24dp));
+                            FAB.setBackgroundResource(R.drawable.ic_add_black_24dp);
+                            FAB.setBackgroundColor(Color.BLACK);
+                            FAB.setBackgroundColor(getResources().getColor(R.color.red));
+                            ImageView iFAB = (ImageView)FAB;
+                            iFAB.setImageResource(R.drawable.ic_add_black_24dp);
+                            iFAB.setBackgroundColor(getResources().getColor(R.color.red));
+                            ((ImageView) FAB).setImageTintList(ColorStateList.valueOf(getResources().getColor(R.color.cardview_light_background)));
                         }
 
                         @Override
@@ -324,22 +364,10 @@ public class ParentMain extends Activity {
 
                     anim.start();
 
-                    FAB.setBackgroundResource(R.drawable.ic_add_black_24dp);
                     FLAG = "plus";
                 }
             }
         });
-     /*   FAB.setOnClickListener(new View.OnClickListener(){
 
-            @Override
-            public void onClick(View v){
-
-                Intent intent;
-                intent = new Intent(ParentMain.this, AddChild.class);
-                startActivity(intent);
-
-            }
-
-        });*/
     }
 }

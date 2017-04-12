@@ -4,9 +4,11 @@
     android:id="@+id/addtask_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/gray"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,12 +18,11 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="19dp"
             android:text="Add Task"
             android:textColor="@color/colorSecondary"
-            android:textSize="40sp" />
+            android:textSize="40sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
         <TextView
             android:id="@+id/textView5"
@@ -166,20 +167,58 @@
 
 
         </LinearLayout>
-   <!--     <ScrollView
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/repeat_toggle"
+    android:layout_marginTop="40dp"
+    >
+        <FrameLayout
+            android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearView">
 
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_below="@+id/weekly_list"
+            android:id="@+id/ScrollView02"
             >
 
-            <LinearLayout
-                android:id="@+id/child_task_list"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/parentchild_list2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignStart="@+id/weekly_list"
-                android:layout_below="@+id/weekly_list"
-                android:orientation="vertical"></LinearLayout>
+                android:background="@color/gray"
+                android:orientation="vertical"
+                android:padding="5dp"
+                android:paddingTop="0dp" />
+
         </ScrollView>
--->
-    </RelativeLayout>
-</LinearLayout>
+
+        </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/AddChildFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAlignBottom="true"
+            android:clickable="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="30dp"
+            app:backgroundTint="@color/dividerColor"
+            app:fabSize="normal"
+            android:src="@drawable/ic_select_all_black_24dp"
+            android:backgroundTint="@color/colorSecondary"
+            android:tint="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            />
+
+     </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+

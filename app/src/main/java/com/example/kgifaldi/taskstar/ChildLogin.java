@@ -8,6 +8,8 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -23,20 +25,42 @@ import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
     public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
-
+    public static String curr_name;
+    public static int curr_color;
     LinearLayout ll;
 
-    void setCardListener(int cardId){
+    public void animateIntent(View v){
+
+        Intent intent;
+        intent = new Intent(this, ChildMain.class);
+
+
+        String transitionName = getString(R.string.transition_string);
+        System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
+        System.out.println(transitionName);
+
+        // dont know if right.. try out
+        View viewStart = findViewById(R.id.info_card);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ChildLogin.this, v, transitionName);
+        ActivityCompat.startActivity(this, intent, options.toBundle());
+    }
+
+
+    void setCardListener(int cardId, final int color, final String name){
+
         View card = (View) findViewById(cardId);
+
+
 
         card.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
 
-                Intent intent;
-                intent = new Intent(ChildLogin.this, ChildMain.class);
-                startActivity(intent);
+                curr_color = color;
+                curr_name = name;
+
+               animateIntent(v);
 
             }
 
@@ -53,7 +77,7 @@ public class ChildLogin extends Activity {
         ll = (LinearLayout) findViewById(R.id.child_list);
 
         // some variables used to format xml elements
-        int cardHeight =400;
+        int cardHeight = 400;
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
@@ -75,6 +99,9 @@ public class ChildLogin extends Activity {
             tmp.setMaxCardElevation(25);
             tmp.setCardElevation(15);
             tmp.setMinimumHeight(cardHeight);
+
+            // attempting transition with shared elements
+            tmp.setTransitionName(getResources().getString(R.string.transition_string));
 
             // add ripple effect to card!
             ColorStateList csl = ColorStateList.valueOf(getResources().getColor(R.color.secondaryText));
@@ -125,7 +152,7 @@ public class ChildLogin extends Activity {
             ll.addView(tmp);
             enterReveal(childImg);
             // add onClickListener to CardViews
-            setCardListener(tempId);
+            setCardListener(tempId, randomColor, children[i]);
 
         }
 
