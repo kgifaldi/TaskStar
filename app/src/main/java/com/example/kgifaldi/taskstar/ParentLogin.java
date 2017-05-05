@@ -25,7 +25,7 @@ public class ParentLogin extends Activity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ParentLogin.this, ParentMain.class);
+                Intent intent = new Intent(ParentLogin.this, MainActivity.class);
                 startActivity(intent);
             }
         });

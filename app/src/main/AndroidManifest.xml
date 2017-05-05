@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".ParentLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -19,7 +19,8 @@
         </activity>
 
         <!-- following are the layouts that we created for this application -->
-        <activity android:name=".ParentLogin"></activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".SecureLogin"></activity>
         <activity android:name=".ChildLogin"></activity>
         <activity android:name=".ChildMain"></activity>
         <activity android:name=".TodaysTasks"></activity>

@@ -37,6 +37,15 @@ import com.amulyakhare.textdrawable.TextDrawable;
 
 public class ParentMain extends Activity {
     String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
+    public static int childId = -1;
+    /* TODO: parent name needs list of childrens names: erase above string[]
+
+        1) String[] children = {get this from database}
+        2) onclick childClick, set childId so that other classes have access to it
+
+
+     */
+
 
     LinearLayout ll;
 

@@ -16,6 +16,15 @@ import android.widget.TextView;
 public class ParentViewRewards extends Activity {
     String[] rewards = {"Reward1", "Reward2", "Reward3", "Reward4", "Reward5"};
 
+    /*
+    TODO: delete above array
+
+    1) get parentId from seceureLogin.parendId
+    2) access childId from ParentMain.childId
+    3) use ParentMain.ChildId to access specific childs rewards from database {get childId rewards from database}
+
+     */
+
     LinearLayout ll;
 
     @Override

@@ -2,6 +2,7 @@ package com.example.kgifaldi.taskstar;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
@@ -25,6 +26,7 @@ import android.widget.ToggleButton;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -171,6 +173,30 @@ public class AddTask extends Activity {
         final View FAB = findViewById(R.id.AddChildFAB);
         FAB.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+
+                // this button will submit all children selected to the database
+
+
+                // get list of all children slected
+                ArrayList<String> childrenSelected = new ArrayList<String>();
+                for(int vi = 0; vi < iv.size(); vi++) {
+                    if (findViewById(iv.get(vi)).getAlpha() == (float) 1.0)
+                        childrenSelected.add(ChildLogin.children[vi]);
+
+
+
+                }
+
+                // TODO: push this ArryayList of children to database:
+                // TODO: push task name and task reward to each child in this array
+
+                // start new intent
+                Intent intent;
+                intent = new Intent(AddTask.this, ParentMain.class);
+                startActivity(intent);
+
+
+                /* commenting this out: changing FAB from selecting all children -> submitting children
                 int alreadySel = 0;
                 int sz = iv.size();
                 System.out.println("SIZE, HERRRRRRRREE, APLHA OF FIRSSTTTTT:");
@@ -190,7 +216,7 @@ public class AddTask extends Activity {
                     }
 
                 }
-
+            */
             }
         });
 

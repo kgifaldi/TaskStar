@@ -52,6 +52,20 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
         questions.add(new Task("Have you cleaned your room?"));
         questions.add(new Task("Have you completed your math homework?"));
         questions.add(new Task("Did you have a great day?"));
+
+        /*
+
+        TODO:
+
+        delete above
+        1) String[] tasks = {get this from database using childs id (access childId from the ChildLogin: variable name is ChildLogin.currChild}
+        2) 2 options
+            1. have an array of bools for tasks is done or not done
+            2. have a helper function which deletes task once swiped left
+
+         */
+
+
         leftToDo = 4;
     }
 

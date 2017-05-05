@@ -1,69 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addtask_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical"
+    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rewards Store"
+            android:textColor="@color/colorSecondary"
+            android:textSize="40sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click to Purchase:"
+            android:layout_alignTop="@+id/relativeLayout"
+            android:layout_alignParentStart="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:id="@+id/relativeLayout"
+            android:layout_below="@+id/textView4">
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearView">
+
+                <ScrollView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_below="@+id/weekly_list"
+                    android:id="@+id/ScrollView02"
+                    >
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/parentchild_list2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/gray"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:paddingTop="0dp" >
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="109dp"
-        android:text="REWARDS STORE"
-        android:textSize="40sp" />
+                    </LinearLayout>
 
+                </ScrollView>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="100 Coins - Reward A"
-        android:id="@+id/checkBox"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp" />
+            </FrameLayout>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="200 Coins - Reward B"
-        android:layout_below="@+id/checkBox"
-        android:layout_alignStart="@+id/checkBox2"
-        android:id="@+id/checkBox5" />
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="300 Coins - Reward C"
-        android:id="@+id/checkBox4"
-        android:layout_below="@+id/checkBox5"
-        android:layout_centerHorizontal="true" />
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="400 Coins - Reward D"
-        android:id="@+id/checkBox3"
-        android:layout_below="@+id/checkBox4"
-        android:layout_centerHorizontal="true" />
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:text="500 Coins - Reward E"
-        android:id="@+id/checkBox2"
-        android:layout_below="@+id/checkBox3"
-        android:layout_alignStart="@+id/checkBox3" />
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/AddChildFAB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:baselineAlignBottom="true"
+                android:clickable="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="30dp"
+                app:fabSize="normal"
+                android:src="@drawable/ic_select_all_black_24dp"
+                app:backgroundTint="@color/colorSecondary"
+                android:tint="@color/colorPrimary"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                />
 
-    <Button
-        android:id="@+id/purchase_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/checkBox3"
-        android:layout_below="@+id/checkBox2"
-        android:text="Purchase!" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>
 
-</RelativeLayout>

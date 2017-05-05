@@ -25,6 +25,16 @@ import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
     public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
+    public static int currChild = -1; // current child id of logged in child
+
+    /*
+        TODO: delete above:
+
+        1) String[] children = {get this from database}
+        2) onclick, store childId in public static variable to access from the childMain activity
+
+    */
+
     public static String curr_name;
     public static int curr_color;
     LinearLayout ll;
@@ -107,17 +117,6 @@ public class ChildLogin extends Activity {
             ColorStateList csl = ColorStateList.valueOf(getResources().getColor(R.color.secondaryText));
             RippleDrawable d = new RippleDrawable(csl, null, null);
             tmp.setForeground(d);
-
-            // initialize ImageView to place into Child Card
-            // TODO: dynamically select child photo, rn generic photo is used
-           // ImageView childImg = new ImageView(this);
-            //childImg.setLayoutParams(lp);
-
-           // childImg.setImageResource(R.drawable.genchild);
-            //childImg.setMaxWidth(cardHeight/2);
-            //childImg.setMinimumHeight(cardHeight/2);
-            //childImg.setMaxHeight(cardHeight/2);
-            //childImg.setAdjustViewBounds(true);
 
 
 
