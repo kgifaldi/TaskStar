@@ -55,6 +55,28 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+
+        // PARENT TABLE
+        db.execSQL("CREATE TABLE " + PARENT_NAME + " ("
+                + PARENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + PARENT_USER_NAME + " TEXT, "
+                + CHILDREN_IDS + " TEXT, "
+                + PARENT_IMAGE_SRC + " BLOB, "
+                + PARENT_COL_URI + " TEXT"
+                + ");");
+
+        // CHILD TABLE
+        db.execSQL("CREATE TABLE " + CHILD_NAME + " ("
+                + CHILD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CHILD_USER_NAME + " TEXT, "
+                + CHILD_REWARD_BALANCE + " TEXT, "
+                + REWARDS_PURCHASED_LIST + " TEXT, "
+                + REWARDS_AVAILABLE_LIST + " TEXT, "
+                + TASK_LIST + " TEXT, "
+                + CHILD_IMAGE_SRC + " BLOB, "
+                + CHILD_COL_URI + " TEXT"
+                + ");");
+
     }
 
     @Override
