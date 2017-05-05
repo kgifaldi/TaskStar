@@ -14,12 +14,14 @@ import java.util.ArrayList;
 
 public class ParentLogin extends Activity {
 
-    private EditText parent_username_text = (EditText) findViewById(R.id.parent_username);
+    private EditText parent_username_text;
     DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
@@ -33,6 +35,8 @@ public class ParentLogin extends Activity {
     void setListener(int buttonId){
 
         Button login = (Button) findViewById(buttonId);
+        parent_username_text = (EditText) findViewById(R.id.parent_username);
+        System.out.println(parent_username_text);
 
         login.setOnClickListener(new View.OnClickListener() {
 
@@ -48,7 +52,7 @@ public class ParentLogin extends Activity {
                 ArrayList<String[]> parent_list = parent_csv.readCsvFile(resID);
 
                 // Initialize a blank parent
-                Parent parent_obj = new Parent(null);
+                Parent parent_obj = new Parent(new String[]{"dummy", "dummy", "dummy"});
 
 
                 // Check to see which parent from the csv file we should load in
@@ -57,6 +61,7 @@ public class ParentLogin extends Activity {
                     String [] parent_info = parent_list.get(i);
 
                     String parent_name_from_csv = parent_info[0];
+                    System.out.println(parent_username_text);
                     String parent_name_from_screen = parent_username_text.getText().toString();
 
                     if (parent_name_from_csv == parent_name_from_screen){
@@ -84,7 +89,13 @@ public class ParentLogin extends Activity {
                 }
 
                 Intent parent_main_intent = new Intent(ParentLogin.this, ParentMain.class);
-                parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parent", (Serializable) parent_obj);
+
+                parent_main_intent.putExtras(bundle);
+
+                // parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
                 startActivity(parent_main_intent);
             }
         });

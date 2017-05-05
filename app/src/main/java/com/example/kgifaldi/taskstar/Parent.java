@@ -1,10 +1,12 @@
 package com.example.kgifaldi.taskstar;
 
+import java.io.Serializable;
+
 /**
  * Created by Luigi on 5/5/17.
  */
 
-public class Parent {
+public class Parent implements Serializable {
     String id;
     String username;
     String[] child_ids;

@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/parent_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -29,8 +29,8 @@
             android:id="@+id/editText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editText2"
-            android:layout_below="@+id/editText2"
+            android:layout_alignStart="@+id/parent_username"
+            android:layout_below="@+id/parent_username"
             android:layout_marginTop="21dp"
             android:ems="10"
             android:hint="Password"
@@ -51,7 +51,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editText2"
+            android:layout_alignBottom="@+id/parent_username"
             android:layout_alignParentStart="true"
             android:layout_marginBottom="65dp"
             app:srcCompat="@drawable/logo" />
