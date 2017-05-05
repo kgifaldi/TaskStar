@@ -11,8 +11,9 @@ public class Parent {
     String image_src;
 
     Parent(String[] Info){
-
-
+        setUsername(Info[0]);
+        setChild_ids((Info[1].split(" ")));
+        setImage_src(Info[2]);
     }
 
     public String getId() {

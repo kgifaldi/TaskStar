@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-/**
+/*
  * Created by MaggieThomann on 5/5/17.
  */
 
@@ -18,34 +18,34 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Parent Table
-    private static final String TABLE_PARENT = "parents";
-    private static final String PARENT_ID = "_id";
-    private static final String PARENT_USER_NAME = "parent_user_name";
-    private static final String CHILDREN_IDS = "children_ids";
-    private static final String PARENT_IMAGE_SRC = "image_src";
+    public static final String TABLE_PARENT = "parents";
+    public static final String PARENT_ID = "_id";
+    public static final String PARENT_USER_NAME = "parent_user_name";
+    public static final String CHILDREN_IDS = "children_ids";
+    public static final String PARENT_IMAGE_SRC = "image_src";
 
     // Child Table
-    private static final String TABLE_CHILDREN = "children";
-    private static final String CHILD_ID = "_id";
-    private static final String CHILD_USER_NAME = "child_user_name";
-    private static final String CHILD_REWARD_BALANCE = "child_reward_balance";
-    private static final String REWARDS_PURCHASED_LIST = "rewards_purchased_list";
-    private static final String REWARDS_AVAILABLE_LIST = "rewards_available_list";
-    private static final String TASK_LIST = "task_list";
-    private static final String CHILD_IMAGE_SRC = "image_src";
+    public static final String TABLE_CHILDREN = "children";
+    public static final String CHILD_ID = "_id";
+    public static final String CHILD_USER_NAME = "child_user_name";
+    public static final String CHILD_REWARD_BALANCE = "child_reward_balance";
+    public static final String REWARDS_PURCHASED_LIST = "rewards_purchased_list";
+    public static final String REWARDS_AVAILABLE_LIST = "rewards_available_list";
+    public static final String TASK_LIST = "task_list";
+    public static final String CHILD_IMAGE_SRC = "image_src";
 
     // Task Table
-    private static final String TABLE_TASK = "task";
-    private static final String TASK_ID = "_id";
-    private static final String TASK_DESCRIPTION = "task_description";
-    private static final String COINS_WORTH = "coins_worth";
-    private static final String WEEKLY_OCCURENCE = "weekly_occurence";
+    public static final String TABLE_TASK = "task";
+    public static final String TASK_ID = "_id";
+    public static final String TASK_DESCRIPTION = "task_description";
+    public static final String COINS_WORTH = "coins_worth";
+    public static final String WEEKLY_OCCURENCE = "weekly_occurence";
 
     // Reward Table
-    private static final String TABLE_REWARD = "reward";
-    private static final String REWARD_ID = "_id";
-    private static final String REWARD_DESCRIPTION = "reward_description";
-    private static final String PRICE = "price";
+    public static final String TABLE_REWARD = "reward";
+    public static final String REWARD_ID = "_id";
+    public static final String REWARD_DESCRIPTION = "reward_description";
+    public static final String PRICE = "price";
 
 
     public DBHelper(Context context) {
