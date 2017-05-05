@@ -22,8 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String PARENT_ID = "_id";
     private static final String PARENT_USER_NAME = "parent_user_name";
     private static final String CHILDREN_IDS = "children_ids";
-    public static String PARENT_IMAGE_SRC = "image_src";
-    public static String PARENT_COL_URI = "image_uri";
+    private static final String PARENT_IMAGE_SRC = "image_src";
 
     // Child Table
     private static final String TABLE_CHILDREN = "children";
@@ -33,8 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String REWARDS_PURCHASED_LIST = "rewards_purchased_list";
     private static final String REWARDS_AVAILABLE_LIST = "rewards_available_list";
     private static final String TASK_LIST = "task_list";
-    public static String CHILD_IMAGE_SRC = "image_src";
-    public static String CHILD_COL_URI = "image_uri";
+    private static final String CHILD_IMAGE_SRC = "image_src";
 
     // Task Table
     private static final String TABLE_TASK = "task";
@@ -64,8 +62,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + PARENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PARENT_USER_NAME + " TEXT, "
                 + CHILDREN_IDS + " TEXT, "
-                + PARENT_IMAGE_SRC + " BLOB, "
-                + PARENT_COL_URI + " TEXT"
+                + PARENT_IMAGE_SRC + " TEXT "
                 + ");");
 
         // CHILD TABLE
@@ -76,8 +73,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + REWARDS_PURCHASED_LIST + " TEXT, "
                 + REWARDS_AVAILABLE_LIST + " TEXT, "
                 + TASK_LIST + " TEXT, "
-                + CHILD_IMAGE_SRC + " BLOB, "
-                + CHILD_COL_URI + " TEXT"
+                + CHILD_IMAGE_SRC + " TEXT "
                 + ");");
 
 
