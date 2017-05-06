@@ -31,13 +31,14 @@ import android.widget.TextView;
 import android.widget.ImageView.*;
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Luigi on 4/8/17.
  */
 
 public class ParentMain extends Activity {
 
-    private static String [] children_ids;
     private static String parent_image_id;
 
     private static Child [] children_obj_array;
@@ -59,6 +60,7 @@ public class ParentMain extends Activity {
     public static int curr_color;
     public static String curr_name;
     public static char curr_letter;
+    DBHelper dbHelper;
 
     private static Parent this_parent = new Parent();
 
@@ -79,13 +81,16 @@ public class ParentMain extends Activity {
         Intent parent_main_intent = getIntent();
         this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
-        // Get the data from that bundle
-        children_ids = this_parent.getChild_ids();
+        String parent_id = this_parent.getId();
 
-        // Retrieve the children from that by id
-        for (String id : children_ids) {
-            System.out.println(id);
-        }
+        // DATABASE HELPER ----------------------------------------------
+        dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+        // ----------------------------------------------------------------------
+
+        ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
+
+        System.out.println(children_array_list);
 
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView01);
@@ -107,7 +112,7 @@ public class ParentMain extends Activity {
         // add Children cards to child_login:
 
         scrollView = (ScrollView)findViewById(R.id.ScrollView01);
-        for(int i = 0; i < children_ids.length; i++) {
+        for(Child each_child : children_array_list) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -152,7 +157,7 @@ public class ParentMain extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(children_ids[i]);
+            NameText.setText(each_child.getUsername());
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -178,7 +183,7 @@ public class ParentMain extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId, randomColor, children_ids[i], children_ids[i].charAt(0));
+            setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0));
 
             enterReveal(childImg);
         }

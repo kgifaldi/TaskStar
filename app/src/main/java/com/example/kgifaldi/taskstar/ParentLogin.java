@@ -91,13 +91,18 @@ public class ParentLogin extends Activity {
                         MyCsvFileReader child_csv = new MyCsvFileReader(getApplicationContext());
                         ArrayList<String[]> child_list = child_csv.readCsvFile(res_id_child);
 
-                        int index_thru_child_list = 0;
+                        System.out.println("CHILD LIST: ");
+                        System.out.println(child_list.get(0));
 
                         for (String id : children_ids){
                             children_ids_string += id;
 
                             for (String[] csv_list : child_list){
+                                System.out.println("csv list id = " + csv_list[1]);
+                                System.out.println("id " + id);
+
                                 if (csv_list[1] == id){
+
                                     Child child_obj = new Child(csv_list);
                                     contentValuesChild.put(dbHelper.CHILD_ID, child_obj.getId());
                                     contentValuesChild.put(dbHelper.PARENT_ID_FOR_CHILD, child_obj.getParentId());

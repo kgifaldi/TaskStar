@@ -153,7 +153,6 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] columnNames = dbCursor.getColumnNames();
         return columnNames;
     }
-
     public ArrayList<Child> get_children_from_db(String parent_id) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CHILDREN, new String[]{});
@@ -165,6 +164,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 do {
                     if (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)) == parent_id){
                         String [] child_info = new String [8];
+
 
                         // Construct the string from the cursor
                         child_info[0] = (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)));
