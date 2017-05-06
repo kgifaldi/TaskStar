@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.ImageView.*;
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -277,9 +278,10 @@ public class ParentMain extends Activity {
             @Override
             public void onClick(View v){
 
-
-                Intent intent;
-                intent = new Intent(ParentMain.this, AddTask.class);
+                Intent intent = new Intent(ParentMain.this, AddTask.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parent", (Serializable) this_parent);
+                intent.putExtras(bundle);
                 startActivity(intent);
 
             }

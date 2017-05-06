@@ -31,7 +31,7 @@
             android:layout_below="@+id/textView4"
             android:layout_marginEnd="14dp"
             android:layout_marginTop="24dp"
-            android:layout_toStartOf="@+id/editText"
+            android:layout_toStartOf="@+id/TaskName"
             android:text="Task Name:"
             android:textColor="@color/colorSecondary"
             android:textSize="20sp" />
@@ -48,7 +48,7 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/TaskName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/textView5"
@@ -60,7 +60,7 @@
             android:textColorHint="@color/text_icons" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/TaskReward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textView6"
@@ -116,6 +116,7 @@
             >
 
             <CheckBox
+                android:id="@+id/Mon_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -123,7 +124,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
-                android:id="@+id/checkBox6"
+                android:id="@+id/Tue_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -131,6 +132,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
+                android:id="@+id/Wed_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -138,6 +140,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
+                android:id="@+id/Thu_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -145,6 +148,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
+                android:id="@+id/Fri_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -152,6 +156,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
+                android:id="@+id/Sat_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -159,6 +164,7 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <CheckBox
+                android:id="@+id/Sun_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"

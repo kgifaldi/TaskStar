@@ -2,6 +2,7 @@ package com.example.kgifaldi.taskstar;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.GradientDrawable;
@@ -16,6 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,6 +29,7 @@ import android.widget.ToggleButton;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,11 +47,28 @@ public class AddTask extends Activity {
     View but;
     ScrollView scrollView; // ImageView imageView
     Vector<Integer> iv = new Vector<>();
+    private EditText TaskNametext;
+    private EditText TaskRewardtext;
+    private String frequency;
+    private static Parent this_parent = new Parent();
+
+    // DATABASE HELPER ----------------------------------------------
+    public DBHelper dbHelper;
+    // ----------------------------------------------------------------------
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent parent_main_intent = getIntent();
+        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+        final String parent_id = this_parent.getId();
+
         setContentView(R.layout.addtaskview);
+        dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
         but = (View) findViewById(R.id.AddChildFAB);
@@ -177,22 +198,126 @@ public class AddTask extends Activity {
                 // this button will submit all children selected to the database
 
 
+                TaskNametext = (EditText)findViewById(R.id.TaskName);
+                System.out.println(TaskNametext.getText());
+                TaskRewardtext = (EditText) findViewById(R.id.TaskReward);
+                System.out.println(TaskRewardtext.getText());
+
+                if(((LinearLayout)findViewById(R.id.weekly_list)).getVisibility() == View.INVISIBLE){
+                    frequency = "once";
+                } else {
+                    frequency = "";
+                    if (((CheckBox)findViewById(R.id.Mon_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Tue_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Wed_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Thu_cb)).isChecked()){
+                        frequency += "1";
+                    }else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Fri_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Sat_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                    if (((CheckBox)findViewById(R.id.Sun_cb)).isChecked()){
+                        frequency += "1";
+                    } else {
+                        frequency += "0";
+                    }
+                }
+                System.out.println(frequency);
+
                 // get list of all children slected
                 ArrayList<String> childrenSelected = new ArrayList<String>();
                 for(int vi = 0; vi < iv.size(); vi++) {
-                    if (findViewById(iv.get(vi)).getAlpha() == (float) 1.0)
+                    if (findViewById(iv.get(vi)).getAlpha() > 0.95) {
                         childrenSelected.add(ChildLogin.children[vi]);
+                    }
 
 
 
                 }
 
+                String[] temp_tasklist;
+
+                ArrayList<Child> children_fromdb = dbHelper.get_children_from_db(parent_id);
+                for(Child child : children_fromdb){
+                    if(childrenSelected.contains(child.getUsername())){
+                        temp_tasklist = child.getTaskList();
+                        temp_tasklist[(temp_tasklist.length)+1] = TaskNametext.getText().toString();
+                    }
+                }
+
+                ContentValues contentValuesChild = new ContentValues();
+                //dbHelper.deleteData(dbHelper.TABLE_CHILDREN, null, );
+                for(Child child: children_fromdb){
+                    contentValuesChild.put(dbHelper.CHILD_ID, child.getId());
+                    contentValuesChild.put(dbHelper.PARENT_ID_FOR_CHILD, child.getParentId());
+                    contentValuesChild.put(dbHelper.CHILD_USER_NAME, child.getUsername());
+                    contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child.getRewardBalance());
+                    String [] rewardsPurchased = child.getRewardsPurchased();
+                    StringBuilder buffer = new StringBuilder();
+                    for (String each : rewardsPurchased)
+                        buffer.append(",").append(each);
+                    String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
+
+                    String [] rewardsAvailable = child.getRewardsAvailable();
+                    StringBuilder buffer_new = new StringBuilder();
+                    for (String each : rewardsAvailable)
+                        buffer.append(",").append(each);
+                    String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
+
+                    contentValuesChild.put(dbHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
+                    contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
+
+                    String [] tasks = child.getTaskList();
+                    StringBuilder buffer_tasks = new StringBuilder();
+                    for (String each : tasks)
+                        buffer.append(",").append(each);
+                    String tasksString = buffer_new.deleteCharAt(0).toString();
+
+                    contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
+                    contentValuesChild.put(dbHelper.TASK_LIST, child.getImageSrc());
+
+                    dbHelper.insertData(dbHelper.TABLE_CHILDREN, contentValuesChild);
+
+                }
+
+                ContentValues contentValuesTask = new ContentValues();
+
+                contentValuesTask.put(dbHelper.TASK_DESCRIPTION, TaskNametext.getText().toString());
+                contentValuesTask.put(dbHelper.COINS_WORTH, TaskRewardtext.getText().toString());
+                contentValuesTask.put(dbHelper.WEEKLY_OCCURENCE, frequency);
+
+                dbHelper.insertData(dbHelper.TABLE_TASK, contentValuesChild);
+
                 // TODO: push this ArryayList of children to database:
                 // TODO: push task name and task reward to each child in this array
 
                 // start new intent
-                Intent intent;
-                intent = new Intent(AddTask.this, ParentMain.class);
+
+                Intent intent = new Intent(AddTask.this, ParentMain.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parent", (Serializable) this_parent);
+                intent.putExtras(bundle);
                 startActivity(intent);
 
 
