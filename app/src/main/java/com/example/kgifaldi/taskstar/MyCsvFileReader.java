@@ -48,4 +48,35 @@ public class MyCsvFileReader {
         }
         return object;
     }
+
+    public ArrayList<String[]> readCsvFileBySemiColon(int fileresource) {
+        ArrayList<String[]> object = new ArrayList<>();
+        InputStream fin = null;
+        InputStreamReader isr = null;
+        BufferedReader reader = null;
+        try {
+            fin = context.getResources().openRawResource(fileresource);
+            isr = new InputStreamReader(fin);
+            reader = new BufferedReader(isr);
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                String[] objectInfo = line.split(",");
+                object.add(objectInfo);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (isr != null)
+                    isr.close();
+                if (fin != null)
+                    fin.close();
+                if (reader != null)
+                    reader.close();
+            } catch (IOException ex) {
+                ex.getMessage();
+            }
+        }
+        return object;
+    }
 }

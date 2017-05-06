@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -26,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Child Table
     public static final String TABLE_CHILDREN = "children";
+    public static final String PARENT_ID_FOR_CHILD = "parent_id_of_child";
     public static final String CHILD_ID = "_id";
     public static final String CHILD_USER_NAME = "child_user_name";
     public static final String CHILD_REWARD_BALANCE = "child_reward_balance";
@@ -68,6 +70,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // CHILD TABLE
         db.execSQL("CREATE TABLE " + TABLE_CHILDREN + " ("
                 + CHILD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + PARENT_ID_FOR_CHILD + "TEXT, "
                 + CHILD_USER_NAME + " TEXT, "
                 + CHILD_REWARD_BALANCE + " TEXT, "
                 + REWARDS_PURCHASED_LIST + " TEXT, "
@@ -149,6 +152,46 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor dbCursor = db.query(tblname, null, null, null, null, null, null);
         String[] columnNames = dbCursor.getColumnNames();
         return columnNames;
+    }
+
+    public ArrayList<Child> get_children_from_db(String parent_id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CHILDREN, new String[]{});
+
+        ArrayList<Child> parents_children = new ArrayList<Child>();
+
+        if (cursor != null ) {
+            if  (cursor.moveToFirst()) {
+                do {
+                    if (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)) == parent_id){
+                        String [] child_info = new String [8];
+
+                        // Construct the string from the cursor
+                        child_info[0] = (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)));
+                        child_info[1] = (cursor.getString(cursor.getColumnIndex(CHILD_ID)));
+                        child_info[2] = (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME)));
+                        child_info[3] = (cursor.getString(cursor.getColumnIndex(CHILD_REWARD_BALANCE)));
+                        child_info[4] = (cursor.getString(cursor.getColumnIndex(REWARDS_PURCHASED_LIST)));
+                        child_info[5] = (cursor.getString(cursor.getColumnIndex(REWARDS_AVAILABLE_LIST)));
+                        child_info[6] = (cursor.getString(cursor.getColumnIndex(TASK_LIST)));
+                        child_info[7] = (cursor.getString(cursor.getColumnIndex(CHILD_IMAGE_SRC)));
+
+                        // Construct the object and add it to the array
+                        Child child = new Child(child_info);
+                        parents_children.add(child);
+                    }
+                    else{
+                        continue;
+                    }
+
+
+                }while (cursor.moveToNext());
+            }
+        }
+
+        cursor.close();
+
+        return parents_children;
     }
 
     /*

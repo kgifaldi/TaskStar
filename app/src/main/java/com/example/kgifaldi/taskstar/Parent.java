@@ -12,6 +12,10 @@ public class Parent implements Serializable {
     String[] child_ids;
     String image_src;
 
+    public Parent(){
+        // This has no parameters and is used to initialize a parent
+    }
+
     Parent(String[] Info){
         setUsername(Info[0]);
         setChild_ids((Info[1].split(" ")));

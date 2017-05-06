@@ -36,16 +36,19 @@ import com.amulyakhare.textdrawable.TextDrawable;
  */
 
 public class ParentMain extends Activity {
-    String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
+
+    private static String [] children_ids;
+    private static String parent_image_id;
+
+    private static Child [] children_obj_array;
+
     public static int childId = -1;
     /* TODO: parent name needs list of childrens names: erase above string[]
 
         1) String[] children = {get this from database}
         2) onclick childClick, set childId so that other classes have access to it
 
-
      */
-
 
     LinearLayout ll;
 
@@ -57,16 +60,32 @@ public class ParentMain extends Activity {
     public static String curr_name;
     public static char curr_letter;
 
+    private static Parent this_parent = new Parent();
+
     View but; // ImageButton imageButton
     ScrollView scrollView; // ImageView imageView
     LinearLayout revealView, layoutButtons; // linearView(id):
     Animation alphaAnimation;
     float pixelDensity;
     public String FLAG = "plus"; // plus if FAB is plus; exit if FAB is exit
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_main);
+
+        // Get the bundle passed into main parent
+        Intent parent_main_intent = getIntent();
+        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+        // Get the data from that bundle
+        children_ids = this_parent.getChild_ids();
+
+        // Retrieve the children from that by id
+        for (String id : children_ids) {
+            System.out.println(id);
+        }
 
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView01);
@@ -79,6 +98,8 @@ public class ParentMain extends Activity {
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.parentchild_list);
 
+
+
         // some variables used to format xml elements
         int cardHeight = 300;
         int txtSz = 40;
@@ -86,7 +107,7 @@ public class ParentMain extends Activity {
         // add Children cards to child_login:
 
         scrollView = (ScrollView)findViewById(R.id.ScrollView01);
-        for(int i = 0; i < children.length; i++) {
+        for(int i = 0; i < children_ids.length; i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -131,7 +152,7 @@ public class ParentMain extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(children[i]);
+            NameText.setText(children_ids[i]);
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -157,7 +178,7 @@ public class ParentMain extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId, randomColor, children[i], children[i].charAt(0));
+            setCardListener(tempId, randomColor, children_ids[i], children_ids[i].charAt(0));
 
             enterReveal(childImg);
         }
