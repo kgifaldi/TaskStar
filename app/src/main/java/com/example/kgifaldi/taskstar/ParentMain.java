@@ -64,7 +64,7 @@ public class ParentMain extends Activity {
     public static char curr_letter;
     DBHelper dbHelper;
 
-    private static Parent this_parent = new Parent();
+    private static Parent this_parent;
 
     View but; // ImageButton imageButton
     ScrollView scrollView; // ImageView imageView
@@ -79,19 +79,14 @@ public class ParentMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_main);
 
-        // Get the bundle passed into main parent
-        Intent parent_main_intent = getIntent();
-        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
-
-
-        String parent_id = this_parent.getId();
+        //this_parent = ParentLogin.parent_obj;
+        String parent_id = PublicData.parent_obj.getId();
         pid = parent_id;
         // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
         // ----------------------------------------------------------------------
 
         ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
-
         System.out.println(children_array_list);
 
 
@@ -112,6 +107,9 @@ public class ParentMain extends Activity {
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
+
+
+        children_array_list = PublicData.children_list;
 
         scrollView = (ScrollView)findViewById(R.id.ScrollView01);
         for(Child each_child : children_array_list) {
@@ -289,12 +287,6 @@ public class ParentMain extends Activity {
                 Log.d("ParentMain", "Clicked an add task card");
 
                 Intent intent = new Intent(ParentMain.this, AddTask.class);
-
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("parent", (Serializable) this_parent);
-
-                intent.putExtras(bundle);
                 startActivity(intent);
 
             }

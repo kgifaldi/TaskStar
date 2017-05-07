@@ -16,7 +16,7 @@ public class SecureLogin extends Activity {
 
     public static int parentId = -1;
     private static Parent this_parent = new Parent();
-
+    public static Parent parent = MainActivity.parent_obj;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,16 +38,7 @@ public class SecureLogin extends Activity {
                 // TODO change to convert string to .class ...
                 Intent intent;
                 intent = new Intent(SecureLogin.this, ParentMain.class);
-
-                Intent parent_main_intent = getIntent();
-                this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("parent", (Serializable) this_parent);
-
-                intent.putExtras(bundle);
-
-
+                this_parent = (Parent) ParentLogin.parent_obj;
                 startActivity(intent);
 
             }

@@ -60,14 +60,17 @@ public class AddTask extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addtaskview);
-        Intent parent_main_intent = getIntent();
-        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+     //   Intent parent_main_intent = getIntent();
+     //   this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
 
-        final String parent_id = this_parent.getId();
+        //final String parent_id = this_parent.getId();
         // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
         // ----------------------------------------------------------------------
+
+        final String parent_id = ParentMain.pid;
+
 
         ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
 
@@ -117,6 +120,8 @@ public class AddTask extends Activity {
         int cardHeight = 300;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
+
+        children_array_list = PublicData.children_list;
 
         for(Child each_child : children_array_list) {
 

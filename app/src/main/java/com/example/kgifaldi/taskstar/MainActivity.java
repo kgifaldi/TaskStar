@@ -10,9 +10,8 @@ import java.io.Serializable;
 
 
 public class MainActivity extends Activity {
-
+    public static Parent parent_obj = ParentLogin.parent_obj;
     private static Parent this_parent = new Parent();
-
 
     void setCardListener(int cardId, final String className){
         View card = (View) findViewById(cardId);

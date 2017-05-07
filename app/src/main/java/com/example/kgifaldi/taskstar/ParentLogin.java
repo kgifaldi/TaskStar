@@ -18,7 +18,7 @@ public class ParentLogin extends Activity {
 
     private EditText parent_username_text;
     DBHelper dbHelper;
-
+    public static Parent parent_obj = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,13 +164,14 @@ public class ParentLogin extends Activity {
                         break;
                     }
                 }
+                PublicData.parent_obj = parent_obj;
+
+                ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId());
+                PublicData.children_list = children_array_list;
 
                 Intent parent_main_intent = new Intent(ParentLogin.this, MainActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("parent", (Serializable) parent_obj);
 
-                parent_main_intent.putExtras(bundle);
 
                 //parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
                 startActivity(parent_main_intent);
