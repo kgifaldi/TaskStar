@@ -82,11 +82,11 @@ public class ParentMain extends Activity {
         Intent parent_main_intent = getIntent();
         this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
+
         String parent_id = this_parent.getId();
 
         // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
-        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
         // ----------------------------------------------------------------------
 
         ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);

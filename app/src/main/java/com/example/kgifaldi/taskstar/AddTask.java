@@ -270,7 +270,7 @@ public class AddTask extends Activity {
                 //dbHelper.deleteData(dbHelper.TABLE_CHILDREN, null, );
                 for(Child child: children_fromdb){
                     contentValuesChild.put(dbHelper.CHILD_ID, child.getId());
-                    contentValuesChild.put(dbHelper.PARENT_ID_FOR_CHILD, child.getParentId());
+                    contentValuesChild.put(dbHelper.CHILDS_PARENT, child.getParentId());
                     contentValuesChild.put(dbHelper.CHILD_USER_NAME, child.getUsername());
                     contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child.getRewardBalance());
                     String [] rewardsPurchased = child.getRewardsPurchased();

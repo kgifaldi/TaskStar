@@ -42,6 +42,7 @@ public class Child implements Serializable{
         setRewardsPurchased(args[4].split(","));
         setRewardsAvailable(args[5].split(","));
         setTaskList(args[6].split(","));
+        setImageSrc(args[7]);
     }
 
     public String getId() {
@@ -59,7 +60,7 @@ public class Child implements Serializable{
     }
 
     public void setParentId(String id) {
-        this.id = parent_id;
+        parent_id = id;
     }
     public String getParentId(){return parent_id;}
 
@@ -87,7 +88,6 @@ public class Child implements Serializable{
     public String getImageSrc() {
         return image_src;
     }
-
     public void setImageSrc(String image_src) {
         this.image_src = image_src;
     }

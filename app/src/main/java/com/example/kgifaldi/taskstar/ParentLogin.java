@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,13 +39,18 @@ public class ParentLogin extends Activity {
     void setListener(int buttonId){
 
         Button login = (Button) findViewById(buttonId);
-        parent_username_text = (EditText) findViewById(R.id.parent_username);
-        System.out.println(parent_username_text);
+
 
         login.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+
+                Log.d("Parent Login", "Login has been clicked");
+
+                parent_username_text = (EditText) findViewById(R.id.parent_username);
+                System.out.println(parent_username_text);
 
                 // Initializing csv reading
                 int resID = getApplicationContext().getResources().getIdentifier("parents", "raw", getApplicationContext().getPackageName());
@@ -53,8 +60,10 @@ public class ParentLogin extends Activity {
                 MyCsvFileReader parent_csv = new MyCsvFileReader(getApplicationContext());
                 ArrayList<String[]> parent_list = parent_csv.readCsvFile(resID);
 
+
+
                 // Initialize a blank parent
-                Parent parent_obj = new Parent(new String[]{"dummy", "dummy", "dummy"});
+                Parent parent_obj = new Parent();
 
 
                 // Check to see which parent from the csv file we should load in
@@ -62,11 +71,15 @@ public class ParentLogin extends Activity {
                 for (int i = 0; i < parent_list.size(); i++){
                     String [] parent_info = parent_list.get(i);
 
-                    String parent_name_from_csv = parent_info[0];
-                    System.out.println(parent_username_text);
+                    String parent_name_from_csv = parent_info[1];
+
                     String parent_name_from_screen = parent_username_text.getText().toString();
 
-                    if (parent_name_from_csv == parent_name_from_screen){
+                    Log.d("Parent Logged In: ", parent_name_from_screen);
+                    Log.d("Parent from csv:  ", parent_name_from_csv);
+
+                    if (parent_name_from_csv.trim().equals(parent_name_from_screen.trim())){
+                        System.out.println("Parent matches the parent from the csv");
                         // We've found the parent!
                         // Create an instance of parent and break
                         parent_obj = new Parent(parent_info);
@@ -89,25 +102,27 @@ public class ParentLogin extends Activity {
 
                         // Read in the csv file
                         MyCsvFileReader child_csv = new MyCsvFileReader(getApplicationContext());
-                        ArrayList<String[]> child_list = child_csv.readCsvFile(res_id_child);
+                        ArrayList<String[]> child_list = child_csv.readCsvFileBySemiColon(res_id_child);
 
-                        System.out.println("CHILD LIST: ");
-                        System.out.println(child_list.get(0));
 
                         for (String id : children_ids){
                             children_ids_string += id;
-
+                            System.out.println("Processing:  ... " + id);
                             for (String[] csv_list : child_list){
-                                System.out.println("csv list id = " + csv_list[1]);
-                                System.out.println("id " + id);
+                                System.out.println("     CSV = " + csv_list[1]);
+                                String csv_id = csv_list[1];
+                                String parent_child_id = id;
 
-                                if (csv_list[1] == id){
 
+                                if (csv_id.trim().equals(parent_child_id.trim())){
+                                    Log.d("ParentLogin", "Child in csv matches child of current parent");
                                     Child child_obj = new Child(csv_list);
                                     contentValuesChild.put(dbHelper.CHILD_ID, child_obj.getId());
-                                    contentValuesChild.put(dbHelper.PARENT_ID_FOR_CHILD, child_obj.getParentId());
+                                    contentValuesChild.put(dbHelper.CHILDS_PARENT, child_obj.getParentId());
                                     contentValuesChild.put(dbHelper.CHILD_USER_NAME, child_obj.getUsername());
+                                    Log.d("ParentLogin", ("Inserting child " + child_obj.getUsername() + " into the DB."));
                                     contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child_obj.getRewardBalance());
+                                    contentValuesChild.put(dbHelper.CHILD_IMAGE_SRC, child_obj.getImageSrc());
                                     String [] rewardsPurchased = child_obj.getRewardsPurchased();
                                     StringBuilder buffer = new StringBuilder();
                                     for (String each : rewardsPurchased)
@@ -115,9 +130,10 @@ public class ParentLogin extends Activity {
                                     String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
 
                                     String [] rewardsAvailable = child_obj.getRewardsAvailable();
+                                    Log.d("Rewards available", rewardsAvailable[0]);
                                     StringBuilder buffer_new = new StringBuilder();
                                     for (String each : rewardsAvailable)
-                                        buffer.append(",").append(each);
+                                        buffer_new.append(",").append(each);
                                     String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
 
                                     contentValuesChild.put(DBHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
@@ -126,8 +142,8 @@ public class ParentLogin extends Activity {
                                     String [] tasks = child_obj.getTaskList();
                                     StringBuilder buffer_tasks = new StringBuilder();
                                     for (String each : tasks)
-                                        buffer.append(",").append(each);
-                                    String tasksString = buffer_new.deleteCharAt(0).toString();
+                                        buffer_tasks.append(",").append(each);
+                                    String tasksString = buffer_tasks.deleteCharAt(0).toString();
 
                                     contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
                                     contentValuesChild.put(dbHelper.TASK_LIST, child_obj.getImageSrc());

@@ -17,9 +17,10 @@ public class Parent implements Serializable {
     }
 
     Parent(String[] Info){
-        setUsername(Info[0]);
-        setChild_ids((Info[1].split(" ")));
-        setImage_src(Info[2]);
+        setId(Info[0]);
+        setUsername(Info[1]);
+        setChild_ids((Info[2].split(" ")));
+        setImage_src(Info[3]);
     }
 
     public String getId() {

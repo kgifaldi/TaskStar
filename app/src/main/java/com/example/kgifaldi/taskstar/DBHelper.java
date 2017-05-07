@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Child Table
     public static final String TABLE_CHILDREN = "children";
-    public static final String PARENT_ID_FOR_CHILD = "parent_id_of_child";
+    public static final String CHILDS_PARENT = "childs_parent";
     public static final String CHILD_ID = "_id";
     public static final String CHILD_USER_NAME = "child_user_name";
     public static final String CHILD_REWARD_BALANCE = "child_reward_balance";
@@ -70,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper {
         // CHILD TABLE
         db.execSQL("CREATE TABLE " + TABLE_CHILDREN + " ("
                 + CHILD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + PARENT_ID_FOR_CHILD + "TEXT, "
+                + CHILDS_PARENT + " TEXT, "
                 + CHILD_USER_NAME + " TEXT, "
                 + CHILD_REWARD_BALANCE + " TEXT, "
                 + REWARDS_PURCHASED_LIST + " TEXT, "
@@ -154,6 +155,8 @@ public class DBHelper extends SQLiteOpenHelper {
         return columnNames;
     }
     public ArrayList<Child> get_children_from_db(String parent_id) {
+        Log.d("DBHelper", "get_children_drom_db called");
+        Log.d("DBHelper", ("called with id " + parent_id));
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CHILDREN, new String[]{});
 
@@ -162,12 +165,14 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor != null ) {
             if  (cursor.moveToFirst()) {
                 do {
-                    if (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)) == parent_id){
+                    Log.d("DBHelper", "Parent ID " + cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim());
+                    if (cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim().equals(parent_id.trim())){
                         String [] child_info = new String [8];
 
+                        Log.d("DBHelper", ("Retrieving child " + (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME))) + " from the database"));
 
                         // Construct the string from the cursor
-                        child_info[0] = (cursor.getString(cursor.getColumnIndex(PARENT_ID_FOR_CHILD)));
+                        child_info[0] = (cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)));
                         child_info[1] = (cursor.getString(cursor.getColumnIndex(CHILD_ID)));
                         child_info[2] = (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME)));
                         child_info[3] = (cursor.getString(cursor.getColumnIndex(CHILD_REWARD_BALANCE)));
