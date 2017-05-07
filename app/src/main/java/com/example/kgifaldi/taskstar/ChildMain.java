@@ -96,7 +96,7 @@ public class ChildMain extends Activity {
         // initialize TextView to place into Child Card
         TextView NameText = new TextView(this);
         NameText.setLayoutParams(lp);
-        NameText.setText(ChildLogin.curr_name);
+        NameText.setText(PublicData.selected_child.getUsername());
         NameText.setTextSize(txtSz);
         NameText.setPadding(450, 65, 0, 0);
         NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -120,6 +120,9 @@ public class ChildMain extends Activity {
         tmp.addView(childImg);
         tmp.addView(NameText);
 
+
+        TextView Balance = (TextView) findViewById(R.id.num_coins);
+        Balance.setText(PublicData.selected_child.getRewardBalance());
 
 
 
