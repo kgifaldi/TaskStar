@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,12 +81,8 @@ public class ParentMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.parent_main);
 
-        //this_parent = ParentLogin.parent_obj;
         String parent_id = PublicData.parent_obj.getId();
-        pid = parent_id;
-        // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
-        // ----------------------------------------------------------------------
 
         ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
         System.out.println(children_array_list);
@@ -96,19 +94,13 @@ public class ParentMain extends Activity {
         alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.alpha_anim);
         pixelDensity = getResources().getDisplayMetrics().density;
         layoutButtons = (LinearLayout)findViewById(R.id.layoutButtons);
-
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.parentchild_list);
-
-
-
         // some variables used to format xml elements
         int cardHeight = 300;
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
-
-
         children_array_list = PublicData.children_list;
 
         scrollView = (ScrollView)findViewById(R.id.ScrollView01);
@@ -130,30 +122,11 @@ public class ParentMain extends Activity {
             tmp.setMaxCardElevation(25);
             tmp.setCardElevation(15);
             tmp.setMinimumHeight(cardHeight);
-
-
             tmp.setTransitionName(getString(R.string.transition_string));
-
             // add ripple effect to card!
             ColorStateList csl = ColorStateList.valueOf(getResources().getColor(R.color.secondaryText));
             RippleDrawable d = new RippleDrawable(csl, null, null);
             tmp.setForeground(d);
-
-            // initialize ImageView to place into Child Card
-            // TODO: dynamically select child photo, rn generic photo is used
-            // ImageView childImg = new ImageView(this);
-            //childImg.setLayoutParams(lp);
-
-            // childImg.setImageResource(R.drawable.genchild);
-            //childImg.setMaxWidth(cardHeight/2);
-            //childImg.setMinimumHeight(cardHeight/2);
-            //childImg.setMaxHeight(cardHeight/2);
-            //childImg.setAdjustViewBounds(true);
-
-
-
-            // TODO: formatting image and text with each child card...
-
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
@@ -162,8 +135,6 @@ public class ParentMain extends Activity {
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
             int randomColor = MaterialColorPalette.getRandomColor("500");
-
-
 
             String letter = (NameText.getText().charAt(0)+"");
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
@@ -176,7 +147,6 @@ public class ParentMain extends Activity {
             LinearLayout.LayoutParams prms = new LinearLayout.LayoutParams(width, height);
             childImg.setLayoutParams(prms);
 
-
             // finally, add text and image to cardView and add cardView to linear layout within child_login xml file
             tmp.addView(childImg);
             tmp.addView(NameText);
@@ -188,16 +158,46 @@ public class ParentMain extends Activity {
             enterReveal(childImg);
         }
 
+        Button subChild = (Button) findViewById(R.id.button);
+        subChild.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+
+                String childName;
+                int childAge;
+                EditText editName = (EditText) findViewById(R.id.ChildName);
+                EditText editAge = (EditText) findViewById(R.id.ChildAge);
+
+
+                childName = editName.getText().toString();
+                childAge = Integer.parseInt(editAge.getText().toString());
+
+                Child newChild = (Child) new Child();
+                newChild.setParentId(PublicData.parent_obj.getId());
+                newChild.setRewardBalance("0");
+                newChild.setUsername(childName);
+                newChild.setAge(editAge.getText().toString());
+
+                int size = PublicData.children_list.size();
+                int newId = Integer.parseInt(PublicData.children_list.get(size-1).getId()) + 1;
+                newChild.setId(String.valueOf(newId));
+
+                PublicData.children_list.add(newChild);
+                PublicData.new_children.add(newChild);
+
+                // reload current activity with new children
+                finish();
+                startActivity(getIntent());
+
+
+            }
+
+        });
 
 
         enterReveal(but);
-
-
-
         setListeners();
-
-
-
     }
 
     void enterReveal(final View v){
@@ -224,9 +224,6 @@ public class ParentMain extends Activity {
     public void animateIntent(View v, Intent intent){
         v.setId(R.id.glob_card);
 
-
-
-
         String transitionName = getString(R.string.transition_string);
         System.out.println(transitionName);
 
@@ -242,39 +239,24 @@ public class ParentMain extends Activity {
         View card = (View) findViewById(cardId);
         color_card = card.getBackground();
 
-        System.out.println("---------------------------------------------------------");
-        System.out.println(cardId);
 
         card.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v){
-
-                System.out.println("Clicked Card");
-                System.out.println(childName);
-
                 Intent intent = new Intent(ParentMain.this, ParentChildView.class);
-
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("child", (Serializable) child_obj);
-
-                intent.putExtras(bundle);
-
                 curr_color = color;
                 curr_name = childName;
                 curr_letter = letter;
                 curr_child = cardId;
-
                 animateIntent(v, intent);
-
             }
 
         });
 
     }
 
-    // TODO: BUG when you click the FAB too fast, the list of children stays hidden. Not important
+    // TODO: BUG when you click the FAB too fast, the list of children stays hidden. Not too important
 
     void setListeners(){
         View card = (View) findViewById(R.id.AddTask_card);
@@ -309,8 +291,6 @@ public class ParentMain extends Activity {
         });
 
         final View FAB = findViewById(R.id.AddChildFAB);
-
-
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -324,12 +304,9 @@ public class ParentMain extends Activity {
                 if(FLAG == "plus"){
 
                     // using tutorial @ following blog post: http://anjithsasindran.in/blog/2015/08/15/material-sharing-card/
-
                     RelativeLayout.LayoutParams parameters = (RelativeLayout.LayoutParams)revealView.getLayoutParams();
                     parameters.height = scrollView.getHeight();
                     revealView.setLayoutParams(parameters);
-
-
                     Animator anim = ViewAnimationUtils.createCircularReveal(revealView, x, y, 0, hypotenuse);
                     anim.setDuration(600);
 

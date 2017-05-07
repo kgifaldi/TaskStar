@@ -22,19 +22,14 @@ public class ParentViewRewards extends Activity {
     1) get parentId from seceureLogin.parendId
     2) access childId from ParentMain.childId
     3) use ParentMain.ChildId to access specific childs rewards from database {get childId rewards from database}
-
      */
-
     LinearLayout ll;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.parentsviewrewards);
-
             // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
             ll = (LinearLayout) findViewById(R.id.rewards_list);
-
             // some variables used to format xml elements
             int cardHeight = 250;
             int txtSz = 40;

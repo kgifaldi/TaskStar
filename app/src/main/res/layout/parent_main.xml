@@ -139,14 +139,19 @@
                         android:layout_alignParentTop="true"
                         android:text="Child Name:"
                         android:layout_alignParentStart="true" />
+
+
                         <EditText
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/ChildName"
                             android:layout_marginStart="71dp"
                             android:layout_alignBaseline="@+id/textView7"
                             android:layout_alignBottom="@+id/textView7"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentEnd="true" />
+
+
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="238dp"
@@ -162,6 +167,8 @@
                         android:layout_marginStart="71dp"
                         android:layout_alignBaseline="@+id/textView8"
                         android:layout_alignBottom="@+id/textView"
+                        android:inputType="number"
+                        android:id="@+id/ChildAge"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentEnd="true" />
 
@@ -186,6 +193,8 @@
 
 
         </LinearLayout>
+
+
 
     </RelativeLayout>
 

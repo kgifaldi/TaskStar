@@ -29,6 +29,7 @@ import android.widget.ToggleButton;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.io.PushbackInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,11 +73,7 @@ public class AddTask extends Activity {
         final String parent_id = ParentMain.pid;
 
 
-        ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
-
-        System.out.println(children_array_list);
-
-
+        ArrayList<Child> children_array_list;
         dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);

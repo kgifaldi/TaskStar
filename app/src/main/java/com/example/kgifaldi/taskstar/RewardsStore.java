@@ -86,21 +86,7 @@ public class RewardsStore extends Activity {
             ColorStateList csl = ColorStateList.valueOf(getResources().getColor(R.color.secondaryText));
             RippleDrawable d = new RippleDrawable(csl, null, null);
             tmp.setForeground(d);
-
-            // initialize ImageView to place into Child Card
-            // TODO: dynamically select child photo, rn generic photo is used
-            // ImageView childImg = new ImageView(this);
-            //childImg.setLayoutParams(lp);
-
-            // childImg.setImageResource(R.drawable.genchild);
-            //childImg.setMaxWidth(cardHeight/2);
-            //childImg.setMinimumHeight(cardHeight/2);
-            //childImg.setMaxHeight(cardHeight/2);
-            //childImg.setAdjustViewBounds(true);
-
-
             // TODO: formatting image and text with each child card...
-
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
@@ -143,8 +129,6 @@ public class RewardsStore extends Activity {
             public void onClick(View v){
                 int alreadySel = 0;
                 int sz = iv.size();
-                System.out.println("SIZE, HERRRRRRRREE, APLHA OF FIRSSTTTTT:");
-                System.out.println(sz);
 
                 for(int vi = 0; vi < iv.size(); vi++){
                     if(findViewById(iv.get(vi)).getAlpha() == (float)1.0)

@@ -64,8 +64,6 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
             2. have a helper function which deletes task once swiped left
 
          */
-
-
         leftToDo = 4;
     }
 

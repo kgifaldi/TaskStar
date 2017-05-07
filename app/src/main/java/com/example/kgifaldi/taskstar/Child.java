@@ -27,6 +27,7 @@ public class Child implements Serializable{
     String[] rewards_available;
     String[] task_list;
     String image_src;
+    String age;
 
     public Child(){
         // This has no parameters and is used to initialize a parent
@@ -91,5 +92,8 @@ public class Child implements Serializable{
     public void setImageSrc(String image_src) {
         this.image_src = image_src;
     }
+
+    public void setAge(String age){ this.age = age;}
+    public String getAge(){return this.age;}
 
 }

@@ -21,13 +21,9 @@ public class SecureLogin extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secure_login);
-
         /*
-
         TODO: set parentId once logged in so that other classes can access it
-
          */
-
 
         Button but = (Button) findViewById(R.id.login);
         but.setOnClickListener(new View.OnClickListener(){
@@ -44,9 +40,5 @@ public class SecureLogin extends Activity {
             }
 
         });
-
     }
-
-
-
 }
