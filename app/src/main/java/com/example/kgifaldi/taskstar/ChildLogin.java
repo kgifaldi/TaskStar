@@ -25,17 +25,6 @@ import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
-    //public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
-    //public static int currChild = -1; // current child id of logged in child
-
-    /*
-        TODO: delete above:
-
-        1) String[] children = {get this from database}
-        2) onclick, store childId in public static variable to access from the childMain activity
-
-    */
-
     public static String curr_name;
     public static int curr_color;
     LinearLayout ll;
@@ -46,11 +35,7 @@ public class ChildLogin extends Activity {
         intent = new Intent(this, ChildMain.class);
 
         String transitionName = getString(R.string.transition_string);
-        //System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
-        //System.out.println(transitionName);
 
-        // dont know if right.. try out
-        View viewStart = findViewById(R.id.info_card);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ChildLogin.this, v, transitionName);
         ActivityCompat.startActivity(this, intent, options.toBundle());
     }
