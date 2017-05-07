@@ -16,6 +16,8 @@ public class PublicData extends Application {
     // this may be unecssesary
     public static ArrayList<Child> new_children = new ArrayList<>();
 
+    public static Child selected_child = null;
+
     //public static ArrayList<Child>
 
 

@@ -257,7 +257,7 @@ public class AddTask extends Activity {
                 ArrayList<String> childrenSelected = new ArrayList<String>();
                 for(int vi = 0; vi < iv.size(); vi++) {
                     if (findViewById(iv.get(vi)).getAlpha() > 0.95) {
-                        childrenSelected.add(ChildLogin.children[vi]);
+                        //childrenSelected.add(ChildLogin.children[vi]);
                     }
 
 

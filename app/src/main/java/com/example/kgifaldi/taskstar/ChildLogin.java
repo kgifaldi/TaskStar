@@ -21,11 +21,12 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
-    public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
-    public static int currChild = -1; // current child id of logged in child
+    //public static String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
+    //public static int currChild = -1; // current child id of logged in child
 
     /*
         TODO: delete above:
@@ -44,10 +45,9 @@ public class ChildLogin extends Activity {
         Intent intent;
         intent = new Intent(this, ChildMain.class);
 
-
         String transitionName = getString(R.string.transition_string);
-        System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
-        System.out.println(transitionName);
+        //System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
+        //System.out.println(transitionName);
 
         // dont know if right.. try out
         View viewStart = findViewById(R.id.info_card);
@@ -56,7 +56,7 @@ public class ChildLogin extends Activity {
     }
 
 
-    void setCardListener(int cardId, final int color, final String name){
+    void setCardListener(final int cardId, final int color, final String childName, final char letter, final Child child_obj){
 
         View card = (View) findViewById(cardId);
 
@@ -68,7 +68,9 @@ public class ChildLogin extends Activity {
             public void onClick(View v){
 
                 curr_color = color;
-                curr_name = name;
+                curr_name = childName;
+
+                PublicData.selected_child = child_obj;
 
                animateIntent(v);
 
@@ -83,15 +85,19 @@ public class ChildLogin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_login);
 
+        System.out.println(PublicData.parent_obj.getId());
+
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.child_list);
+
+        ArrayList<Child> children_array_list = PublicData.children_list;
 
         // some variables used to format xml elements
         int cardHeight = 400;
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
-        for(int i = 0; i < children.length; i++) {
+        for(Child each_child : children_array_list) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -125,7 +131,7 @@ public class ChildLogin extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(children[i]);
+            NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -151,7 +157,8 @@ public class ChildLogin extends Activity {
             ll.addView(tmp);
             enterReveal(childImg);
             // add onClickListener to CardViews
-            setCardListener(tempId, randomColor, children[i]);
+            //setCardListener(tempId, randomColor, children[i]);
+            setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0), each_child);
 
         }
 
