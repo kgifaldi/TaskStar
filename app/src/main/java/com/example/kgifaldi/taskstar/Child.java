@@ -27,7 +27,8 @@ public class Child implements Serializable{
     String[] rewards_available;
     String[] task_list;
     String image_src;
-    String age;
+    String age; // TODO add to database
+    String balance; // TODO: add to Database
 
     public Child(){
         // This has no parameters and is used to initialize a parent
@@ -44,8 +45,11 @@ public class Child implements Serializable{
         setRewardsAvailable(args[5].split(","));
         setTaskList(args[6].split(","));
         setImageSrc(args[7]);
+        setBalance("0");
     }
 
+    public String getBalance(){ return balance;}
+    public void setBalance(String balance){ this.balance = balance;}
     public String getId() {
         return id;
     }

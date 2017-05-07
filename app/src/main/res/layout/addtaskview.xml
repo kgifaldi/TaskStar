@@ -216,7 +216,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="30dp"
             app:fabSize="normal"
-            android:src="@drawable/ic_select_all_black_24dp"
+            android:src="@drawable/ic_done"
             app:backgroundTint="@color/colorSecondary"
             android:tint="@color/colorPrimary"
             android:layout_alignParentBottom="true"

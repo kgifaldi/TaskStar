@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -168,7 +169,7 @@ public class ParentLogin extends Activity {
 
                 ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId());
                 PublicData.children_list = children_array_list;
-
+                PublicData.password = ((TextView) findViewById(R.id.password_enter)).getText().toString();
                 Intent parent_main_intent = new Intent(ParentLogin.this, MainActivity.class);
 
 

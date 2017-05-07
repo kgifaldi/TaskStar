@@ -45,6 +45,10 @@ public class ChildMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_main);
 
+        // set coin amount
+        TextView coinAmount = (TextView) findViewById(R.id.num_coins);
+        String childs_coins = PublicData.child_obj.getBalance();
+        coinAmount.setText(childs_coins);
 
 
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later

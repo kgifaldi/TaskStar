@@ -41,5 +41,7 @@ dependencies {
     compile "com.android.support:animated-vector-drawable:${supportLibVersion}" // AnimatedVectorDrawableCompat
     compile "com.android.support:transition:${supportLibVersion}"
     compile "com.android.support:support-annotations:${supportLibVersion}"
-
+    compile ('com.github.orangegangsters:lollipin:2.0.0@aar') {
+        transitive = true
+    }
 }

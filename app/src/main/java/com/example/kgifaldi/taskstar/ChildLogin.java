@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 public class ChildLogin extends Activity {
@@ -56,7 +57,7 @@ public class ChildLogin extends Activity {
     }
 
 
-    void setCardListener(int cardId, final int color, final String name){
+    void setCardListener(int cardId, final int color, final String name, final Child tempChild){
 
         View card = (View) findViewById(cardId);
 
@@ -69,7 +70,7 @@ public class ChildLogin extends Activity {
 
                 curr_color = color;
                 curr_name = name;
-
+                PublicData.child_obj = tempChild;
                animateIntent(v);
 
             }
@@ -91,7 +92,11 @@ public class ChildLogin extends Activity {
         int txtSz = 40;
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
-        for(int i = 0; i < children.length; i++) {
+
+        ArrayList<Child> children_array_list;
+        children_array_list = PublicData.children_list;
+
+        for(Child each_child : children_array_list) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -125,7 +130,7 @@ public class ChildLogin extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(children[i]);
+            NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -151,7 +156,7 @@ public class ChildLogin extends Activity {
             ll.addView(tmp);
             enterReveal(childImg);
             // add onClickListener to CardViews
-            setCardListener(tempId, randomColor, children[i]);
+            setCardListener(tempId, randomColor, each_child.getUsername(), each_child);
 
         }
 

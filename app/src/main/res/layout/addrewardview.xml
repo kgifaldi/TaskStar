@@ -1,35 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addtask_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical"
     android:padding="16dp"
-    android:id="@+id/addreward_main"
-    android:background="@color/colorPrimary">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/TempAddRew"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_height="match_parent"
         >
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Reward"
+            android:textColor="@color/colorSecondary"
+            android:textSize="40sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView4"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="24dp"
+            android:layout_toStartOf="@+id/TaskName"
+            android:text="Reward Name:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/textView5"
+            android:layout_below="@+id/textView5"
+            android:layout_marginTop="27dp"
+            android:text="Reward Cost:"
+            android:textColor="@color/colorSecondary"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/RewardName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView5"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_alignParentEnd="true"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/secondaryText"
+            android:textColorHint="@color/text_icons" />
+
+        <EditText
+            android:id="@+id/RewardCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignParentEnd="true"
+            android:ems="10"
+            android:inputType="number"
+            android:textColor="@color/secondaryText"
+            android:textColorHint="@color/text_icons" />
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/repeat_toggle"
+            android:layout_marginTop="200dp"
+            >
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearView">
 
-            <TextView
-                android:id="@+id/TempAddRew_text"
+                <ScrollView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="0dp"
+                    android:layout_marginTop="0dp"
+                    android:id="@+id/ScrollView02"
+                    >
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/parentchild_list2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/cardview_light_background"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:paddingTop="0dp" />
+
+                </ScrollView>
+
+            </FrameLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/AddChildFAB"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:fontFamily="casual"
-                android:text="Add Reward (temp)"
-                android:textSize="40sp" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+                android:baselineAlignBottom="true"
+                android:clickable="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="30dp"
+                app:fabSize="normal"
+                android:src="@drawable/ic_done"
+                app:backgroundTint="@color/colorSecondary"
+                android:tint="@color/colorPrimary"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                />
 
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
+

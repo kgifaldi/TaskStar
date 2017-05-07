@@ -14,21 +14,22 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/e"
+            android:layout_above="@+id/password"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="42dp"
             android:layout_marginEnd="13dp"
             app:srcCompat="@drawable/logo" />
 
         <TextView
-            android:id="@+id/e"
+            android:id="@+id/password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/editText3"
-            android:layout_alignStart="@+id/editText3"
-            android:layout_marginStart="43dp"
-            android:text="Please enter PIN"
-            android:textColor="@color/cardview_dark_background" />
+            android:layout_alignEnd="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="86dp"
+            android:text="Please re-enter your password:"
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="25sp" />
 
 
         <Button
@@ -36,9 +37,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="18dp"
-            android:layout_toEndOf="@+id/editText3"
-            android:text="Button" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="140dp"
+            android:text="Login" />
+
+        <EditText
+            android:id="@+id/password_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="78dp"
+            android:ems="10"
+            android:backgroundTint="@color/cardview_dark_background"
+            android:textColorHint="@color/colorPrimaryLight"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:textColor="@color/blue_gray"
+            android:textSize="25sp" />
 
     </RelativeLayout>
 </LinearLayout>

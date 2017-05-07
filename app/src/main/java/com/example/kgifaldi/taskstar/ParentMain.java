@@ -33,6 +33,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ImageView.*;
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.github.orangegangsters.lollipin.lib.PinActivity;
+import com.github.orangegangsters.lollipin.lib.managers.AppLockActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
