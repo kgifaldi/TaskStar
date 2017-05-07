@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
+
 /**
  * Created by kgifaldi on 4/13/17.
  */
@@ -13,6 +15,8 @@ import android.widget.Button;
 public class SecureLogin extends Activity {
 
     public static int parentId = -1;
+    private static Parent this_parent = new Parent();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +38,16 @@ public class SecureLogin extends Activity {
                 // TODO change to convert string to .class ...
                 Intent intent;
                 intent = new Intent(SecureLogin.this, ParentMain.class);
+
+                Intent parent_main_intent = getIntent();
+                this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("parent", (Serializable) this_parent);
+
+                intent.putExtras(bundle);
+
+
                 startActivity(intent);
 
             }

@@ -51,23 +51,29 @@ public class AddTask extends Activity {
     private EditText TaskRewardtext;
     private String frequency;
     private static Parent this_parent = new Parent();
-
     // DATABASE HELPER ----------------------------------------------
-    public DBHelper dbHelper;
+    DBHelper dbHelper;
     // ----------------------------------------------------------------------
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.addtaskview);
         Intent parent_main_intent = getIntent();
         this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
-        final String parent_id = this_parent.getId();
 
-        setContentView(R.layout.addtaskview);
+        final String parent_id = this_parent.getId();
+        // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
+        // ----------------------------------------------------------------------
+
+        ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_id);
+
+        System.out.println(children_array_list);
+
+
         dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
@@ -112,7 +118,7 @@ public class AddTask extends Activity {
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
 
-        for (int i = 0; i < ChildLogin.children.length; i++) {
+        for(Child each_child : children_array_list) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -158,7 +164,7 @@ public class AddTask extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(ChildLogin.children[i]);
+            NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));

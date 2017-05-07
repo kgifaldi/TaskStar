@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import java.io.Serializable;
 
 
 public class MainActivity extends Activity {
+
+    private static Parent this_parent = new Parent();
+
 
     void setCardListener(int cardId, final String className){
         View card = (View) findViewById(cardId);
@@ -24,6 +28,17 @@ public class MainActivity extends Activity {
                    intent = new Intent(MainActivity.this, SecureLogin.class);
                    // intent.putExtra(AppLock.EXTRA_TYPE, AppLock.ENABLE_PINLOCK);
                     // startActivity(intent, REQUEST_CODE_ENABLE);
+
+                    Intent parent_main_intent = getIntent();
+                    this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("parent", (Serializable) this_parent);
+
+                    intent.putExtras(bundle);
+
+
+
                     startActivity(intent);
 
                 }

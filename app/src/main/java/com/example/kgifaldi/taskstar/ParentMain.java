@@ -40,7 +40,7 @@ import java.util.ArrayList;
  */
 
 public class ParentMain extends Activity {
-
+    public static String pid;
     private static String parent_image_id;
 
     private static ArrayList<Child> children_array_list;
@@ -85,7 +85,7 @@ public class ParentMain extends Activity {
 
 
         String parent_id = this_parent.getId();
-
+        pid = parent_id;
         // DATABASE HELPER ----------------------------------------------
         dbHelper = new DBHelper(this.getApplicationContext());
         // ----------------------------------------------------------------------
@@ -159,7 +159,7 @@ public class ParentMain extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(each_child.getUsername());
+            NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));

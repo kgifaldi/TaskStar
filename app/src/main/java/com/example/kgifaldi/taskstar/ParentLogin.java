@@ -165,14 +165,14 @@ public class ParentLogin extends Activity {
                     }
                 }
 
-                Intent parent_main_intent = new Intent(ParentLogin.this, ParentMain.class);
+                Intent parent_main_intent = new Intent(ParentLogin.this, MainActivity.class);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parent", (Serializable) parent_obj);
 
                 parent_main_intent.putExtras(bundle);
 
-                // parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
+                //parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
                 startActivity(parent_main_intent);
             }
         });
