@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -42,7 +43,7 @@ public class ParentMain extends Activity {
 
     private static String parent_image_id;
 
-    private static Child [] children_obj_array;
+    private static ArrayList<Child> children_array_list;
 
     public static int childId = -1;
     /* TODO: parent name needs list of childrens names: erase above string[]
@@ -184,7 +185,7 @@ public class ParentMain extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0));
+            setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0), each_child);
 
             enterReveal(childImg);
         }
@@ -222,11 +223,10 @@ public class ParentMain extends Activity {
     }
 
 
-    public void animateIntent(View v){
+    public void animateIntent(View v, Intent intent){
         v.setId(R.id.glob_card);
 
-        Intent intent;
-        intent = new Intent(this, ParentChildView.class);
+
 
 
         String transitionName = getString(R.string.transition_string);
@@ -239,7 +239,7 @@ public class ParentMain extends Activity {
     }
 
 
-    void setCardListener(final int cardId, final int color, final String childName, final char letter){
+    void setCardListener(final int cardId, final int color, final String childName, final char letter, final Child child_obj){
 
         View card = (View) findViewById(cardId);
         color_card = card.getBackground();
@@ -252,15 +252,23 @@ public class ParentMain extends Activity {
             @Override
             public void onClick(View v){
 
-                System.out.println("COLOR, NAME:");
-                System.out.println(name_card);
+                System.out.println("Clicked Card");
+                System.out.println(childName);
+
+                Intent intent = new Intent(ParentMain.this, ParentChildView.class);
+
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("child", (Serializable) child_obj);
+
+                intent.putExtras(bundle);
 
                 curr_color = color;
                 curr_name = childName;
                 curr_letter = letter;
                 curr_child = cardId;
 
-                animateIntent(v);
+                animateIntent(v, intent);
 
             }
 
@@ -278,9 +286,14 @@ public class ParentMain extends Activity {
             @Override
             public void onClick(View v){
 
+                Log.d("ParentMain", "Clicked an add task card");
+
                 Intent intent = new Intent(ParentMain.this, AddTask.class);
+
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parent", (Serializable) this_parent);
+
                 intent.putExtras(bundle);
                 startActivity(intent);
 
