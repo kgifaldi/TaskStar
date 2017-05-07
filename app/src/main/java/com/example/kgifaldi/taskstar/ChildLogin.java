@@ -45,19 +45,14 @@ public class ChildLogin extends Activity {
         Intent intent;
         intent = new Intent(this, ChildMain.class);
 
-
         String transitionName = getString(R.string.transition_string);
-        System.out.println("WHAAAAAAAAAAAAAAAAAAAAAAT");
-        System.out.println(transitionName);
 
-        // dont know if right.. try out
-        View viewStart = findViewById(R.id.info_card);
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ChildLogin.this, v, transitionName);
         ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 
 
-    void setCardListener(int cardId, final int color, final String name, final Child tempChild){
+    void setCardListener(final int cardId, final int color, final String childName, final char letter, final Child child_obj){
 
         View card = (View) findViewById(cardId);
 
@@ -71,6 +66,10 @@ public class ChildLogin extends Activity {
                 curr_color = color;
                 curr_name = name;
                 PublicData.child_obj = tempChild;
+                curr_name = childName;
+
+                PublicData.selected_child = child_obj;
+
                animateIntent(v);
 
             }
@@ -84,8 +83,12 @@ public class ChildLogin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_login);
 
+        System.out.println(PublicData.parent_obj.getId());
+
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.child_list);
+
+        ArrayList<Child> children_array_list = PublicData.children_list;
 
         // some variables used to format xml elements
         int cardHeight = 400;
@@ -156,6 +159,8 @@ public class ChildLogin extends Activity {
             ll.addView(tmp);
             enterReveal(childImg);
             // add onClickListener to CardViews
+            //setCardListener(tempId, randomColor, children[i]);
+            setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0), each_child);
             setCardListener(tempId, randomColor, each_child.getUsername(), each_child);
 
         }
