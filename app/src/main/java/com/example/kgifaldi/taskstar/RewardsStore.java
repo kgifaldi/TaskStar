@@ -2,6 +2,7 @@ package com.example.kgifaldi.taskstar;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.RippleDrawable;
@@ -24,14 +25,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.example.kgifaldi.taskstar.R;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import static com.example.kgifaldi.taskstar.R.id.textV;
 
 public class RewardsStore extends Activity {
 
-    public static String[] coins = {"100", "200", "500", "30k", "100k", "1k", "20k"};
-    public static String[] rewards = {"stickers", "Soda", "Desert", "Trip to Water Park", "New Bike", "Pizza", "Trip to Zoo"};
+    //public static String[] coins = {"100", "200", "500", "30k", "100k", "1k", "20k"};
+    //public static String[] rewards = {"stickers", "Soda", "Desert", "Trip to Water Park", "New Bike", "Pizza", "Trip to Zoo"};
 
     LinearLayout ll;
     String FLAG = "plus";
@@ -39,14 +41,68 @@ public class RewardsStore extends Activity {
     ScrollView scrollView; // ImageView imageView
     Vector<Integer> iv = new Vector<>();
 
+    DBHelper dbHelper;
+    final ArrayList<String[]> selected = new ArrayList<String[]>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rewards_store);
 
+        final String[] rewardsDescriptions = PublicData.selected_child.getRewardsAvailable();
+
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
         but = (View) findViewById(R.id.AddChildFAB);
+
+
+        dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+
+        int resID = getApplicationContext().getResources().getIdentifier("rewards", "raw", getApplicationContext().getPackageName());
+
+
+        // Read in the csv file
+        MyCsvFileReader rewards_csv = new MyCsvFileReader(getApplicationContext());
+        ArrayList<String[]> rewards_list = rewards_csv.readCsvFile(resID);
+
+        ContentValues contentValues = new ContentValues();
+
+
+        for(String[] rew : rewards_list){
+            String[] temp_rew = rew[0].split(";");
+            contentValues.put(dbHelper.REWARD_ID , temp_rew[0]);
+            contentValues.put(dbHelper.REWARD_DESCRIPTION,  temp_rew[1]);
+            contentValues.put(dbHelper.PRICE,  temp_rew[2]);
+            dbHelper.insertData(dbHelper.TABLE_REWARD, contentValues);
+        }
+
+
+        ArrayList<ArrayList<String>> rewardsinfo = dbHelper.get_Rewards();
+
+        ArrayList<String> rew_prz_from_db = rewardsinfo.get(1);
+        ArrayList<String> rew_desc_from_db = rewardsinfo.get(0);
+        ArrayList<String> rewardsValues = new ArrayList<String>();
+
+        System.out.print(rewardsDescriptions.length);
+        System.out.print(rew_desc_from_db.size());
+        System.out.println("----");
+
+        int counter2;
+        for (String rewd1 : rewardsDescriptions){
+            counter2 = 0;
+            System.out.println("rewd1");
+            System.out.println(rewd1);
+            for (String rewd2 : rew_desc_from_db){
+                System.out.println("rewd2");
+                System.out.println(rewd2);
+                if (rewd1.contains(rewd2.trim())){
+                    rewardsValues.add(rew_prz_from_db.get(counter2));
+                    break;
+                }
+                counter2++;
+            }
+        }
 
 
         int txtSz = 40;
@@ -58,7 +114,7 @@ public class RewardsStore extends Activity {
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
 
-        for (int i = 0; i < rewards.length; i++) {
+        for (int i = 0; i < rewardsDescriptions.length; i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -90,7 +146,7 @@ public class RewardsStore extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(rewards[i]);
+            NameText.setText(rewardsDescriptions[i]);
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -98,7 +154,8 @@ public class RewardsStore extends Activity {
 
 
             String letter = (NameText.getText().charAt(0) + "");
-            letter = coins[i];
+            //letter = coins[i];
+            letter = rewardsValues.get(i);
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);
 
@@ -119,7 +176,7 @@ public class RewardsStore extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId);
+            setCardListener(tempId, NameText.getText().toString(), letter);
             iv.add(tempId);
             enterReveal(childImg);
         }
@@ -127,23 +184,31 @@ public class RewardsStore extends Activity {
         final View FAB = findViewById(R.id.AddChildFAB);
         FAB.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                int alreadySel = 0;
-                int sz = iv.size();
 
-                for(int vi = 0; vi < iv.size(); vi++){
-                    if(findViewById(iv.get(vi)).getAlpha() == (float)1.0)
-                        alreadySel++;
-                    findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.primaryText));
-                    findViewById(iv.get(vi)).setAlpha((float) 1.0);
 
-                }
-                if(alreadySel == sz){
-                    for(int vi = 0; vi < iv.size(); vi++){
-                        findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.text_icons));
-                        findViewById(iv.get(vi)).setAlpha((float) .9);
+
+                for(String[] rew : selected){
+                    int i;
+                    int balance = Integer.parseInt(PublicData.selected_child.getRewardBalance().trim());
+                    if (balance > Integer.parseInt(rew[1].trim())) {
+                        String[] temp_rews = new String[PublicData.selected_child.getRewardsPurchased().length + 1];
+                        for (i = 0; i < PublicData.selected_child.getRewardsPurchased().length; i++) {
+
+                            temp_rews[i] = PublicData.selected_child.getRewardsPurchased()[i];
+
+                        }
+                        //System.out.println("before adding new rew");
+                        temp_rews[PublicData.selected_child.getRewardsPurchased().length] = rew[0];
+                        PublicData.selected_child.setRewardsPurchased(temp_rews);
+                        PublicData.selected_child.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
                     }
 
+                    Intent intent;
+                    intent = new Intent(RewardsStore.this, ChildMain.class);
+                    startActivity(intent);
+
                 }
+
 
             }
         });
@@ -153,9 +218,11 @@ public class RewardsStore extends Activity {
     }
 
 
-    void setCardListener(int cardId) {
+    void setCardListener(int cardId, String Name, String value) {
 
         View card = (View) findViewById(cardId);
+
+        final String[] stuff = new String[] {Name, value};
 
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -169,9 +236,11 @@ public class RewardsStore extends Activity {
                 if (alph == (float) 0.9) {
                     v.setBackgroundColor(getResources().getColor(R.color.primaryText));
                     v.setAlpha((float) 1.0);
+                    selected.add(stuff);
                 } else { // card is selected: change to not selected
                     v.setBackgroundColor(getResources().getColor(R.color.text_icons));
                     v.setAlpha((float) 0.9);
+                    selected.remove(stuff);
                 }
 
             }
