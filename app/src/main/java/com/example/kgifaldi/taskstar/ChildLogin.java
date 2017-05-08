@@ -64,8 +64,8 @@ public class ChildLogin extends Activity {
             public void onClick(View v){
 
                 curr_color = color;
-                curr_name = name;
-                PublicData.child_obj = tempChild;
+                curr_name = childName;
+                PublicData.child_obj = child_obj;
                 curr_name = childName;
 
                 PublicData.selected_child = child_obj;
@@ -86,7 +86,7 @@ public class ChildLogin extends Activity {
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.child_list);
 
-        ArrayList<Child> children_array_list = PublicData.children_list;
+        //ArrayList<Child> children_array_list = PublicData.children_list;
 
         // some variables used to format xml elements
         int cardHeight = 400;
@@ -159,7 +159,7 @@ public class ChildLogin extends Activity {
             // add onClickListener to CardViews
             //setCardListener(tempId, randomColor, children[i]);
             setCardListener(tempId, randomColor, each_child.getUsername(), each_child.getUsername().charAt(0), each_child);
-            setCardListener(tempId, randomColor, each_child.getUsername(), each_child);
+            //setCardListener(tempId, randomColor, each_child.getUsername(), each_child);
 
         }
 
