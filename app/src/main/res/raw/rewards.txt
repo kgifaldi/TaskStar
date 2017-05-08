@@ -1,0 +1,4 @@
+1; Waterpark; 400
+2; Shopping; 200
+3; Ice Cream Store Trip; 100
+4; Paintball; 200
