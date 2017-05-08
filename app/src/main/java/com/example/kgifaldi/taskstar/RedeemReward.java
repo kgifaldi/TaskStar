@@ -1,12 +1,15 @@
 package com.example.kgifaldi.taskstar;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -30,6 +33,7 @@ public class RedeemReward extends Activity {
     Vector<Integer> iv = new Vector<>();
 
     DBHelper dbHelper;
+    final ArrayList<String> selected = new ArrayList<String>();
 
     @Override
 
@@ -44,11 +48,11 @@ public class RedeemReward extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redeem_reward);
-        String[] rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
+        final String[] rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
         //System.out.println(rewardsDescriptions[1]);
 
         //TODO
-
+        /*
         dbHelper = new DBHelper(this.getApplicationContext());
         dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
 
@@ -97,6 +101,7 @@ public class RedeemReward extends Activity {
             }
         }
 
+        */
         //String rewardVal = "100";
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
@@ -112,8 +117,8 @@ public class RedeemReward extends Activity {
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
 
-        System.out.print(rewardsDescriptions.length);
-        System.out.print(rewardsValues.size());
+        //System.out.print(rewardsDescriptions.length);
+        //System.out.print(rewardsValues.size());
 
         for (int i = 0; i < rewardsDescriptions.length; i++) {
 
@@ -155,9 +160,10 @@ public class RedeemReward extends Activity {
 
 
             String letter = (NameText.getText().charAt(0) + "");
-            System.out.println("HERE? bef");
-            letter = rewardsValues.get(i);
-            System.out.println("HERE? aft");
+            //System.out.println("HERE? bef");
+            //letter = rewardsValues.get(i);
+            letter = "1";
+            //System.out.println("HERE? aft");
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);
 
@@ -178,32 +184,31 @@ public class RedeemReward extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            //TODO setCardListener(tempId);
+            setCardListener(tempId, NameText.getText().toString());
             iv.add(tempId);
-            //TODO enterReveal(childImg);
+            enterReveal(childImg);
         }
 
         final View FAB = findViewById(R.id.AddChildFAB);
         FAB.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                int alreadySel = 0;
-                int sz = iv.size();
+                String[] newRewards = new String[rewardsDescriptions.length - selected.size()];
 
-                for(int vi = 0; vi < iv.size(); vi++){
-                    if(findViewById(iv.get(vi)).getAlpha() == (float)1.0)
-                        alreadySel++;
-                    findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.primaryText));
-                    findViewById(iv.get(vi)).setAlpha((float) 1.0);
-
-                }
-                if(alreadySel == sz){
-                    for(int vi = 0; vi < iv.size(); vi++){
-                        findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.text_icons));
-                        findViewById(iv.get(vi)).setAlpha((float) .9);
+                int counter = 0;
+                //System.out.println("Resulting Rewards");
+                for(String reward : rewardsDescriptions){
+                    if (selected.contains(reward)){
+                        continue;
+                    } else {
+                        //System.out.println(reward);
+                        newRewards[counter] = reward;
                     }
-
+                    counter++;
                 }
-
+                PublicData.selected_child.setRewardsPurchased(newRewards);
+                Intent intent;
+                intent = new Intent(RedeemReward.this, ChildMain.class);
+                startActivity(intent);
             }
         });
 
@@ -215,4 +220,57 @@ public class RedeemReward extends Activity {
          */
 
     }
+
+    void setCardListener(int cardId, final String rewName) {
+
+        View card = (View) findViewById(cardId);
+
+
+        card.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                float alph = v.getAlpha();
+
+                // card is not selected: change to selected
+                if (alph == (float) 0.9) {
+                    v.setBackgroundColor(getResources().getColor(R.color.primaryText));
+                    v.setAlpha((float) 1.0);
+                    selected.add(rewName);
+                    //System.out.println(rewName);
+                } else { // card is selected: change to not selected
+                    v.setBackgroundColor(getResources().getColor(R.color.text_icons));
+                    v.setAlpha((float) 0.9);
+                    selected.remove(rewName);
+                    //System.out.println(rewName);
+                }
+
+            }
+
+        });
+
+    }
+
+
+    void enterReveal(final View v) {
+
+        v.post(new Runnable() {
+            @Override
+            public void run() {
+
+                int cx = v.getMeasuredWidth() / 2;
+                int cy = v.getMeasuredHeight() / 2;
+
+                int finRad = Math.max(v.getWidth(), v.getHeight()) / 2;
+
+                Animator anim = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finRad);
+                v.setVisibility(View.VISIBLE);
+                anim.setDuration(500);
+                anim.start();
+
+            }
+        });
+    }
+
 }
