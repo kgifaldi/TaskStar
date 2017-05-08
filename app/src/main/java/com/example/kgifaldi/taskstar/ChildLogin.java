@@ -70,8 +70,6 @@ public class ChildLogin extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_login);
 
-        System.out.println(PublicData.parent_obj.getId());
-
         // grab existing linear layout (within child_login.xml) so that we can add our Views to it later
         ll = (LinearLayout) findViewById(R.id.child_list);
 
