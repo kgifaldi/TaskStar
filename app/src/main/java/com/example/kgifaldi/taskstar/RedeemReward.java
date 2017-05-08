@@ -1,6 +1,7 @@
 package com.example.kgifaldi.taskstar;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -27,6 +29,8 @@ public class RedeemReward extends Activity {
     ScrollView scrollView; // ImageView imageView
     Vector<Integer> iv = new Vector<>();
 
+    DBHelper dbHelper;
+
     @Override
 
     /* TODO:
@@ -40,11 +44,60 @@ public class RedeemReward extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redeem_reward);
-        String[] rewardsIDs = PublicData.selected_child.getRewardsPurchased();
-        System.out.println(rewardsIDs[1]);
+        String[] rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
+        //System.out.println(rewardsDescriptions[1]);
 
         //TODO
-        String rewardVal = "100";
+
+        dbHelper = new DBHelper(this.getApplicationContext());
+        dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
+
+        int resID = getApplicationContext().getResources().getIdentifier("rewards", "raw", getApplicationContext().getPackageName());
+
+
+        // Read in the csv file
+        MyCsvFileReader rewards_csv = new MyCsvFileReader(getApplicationContext());
+        ArrayList<String[]> rewards_list = rewards_csv.readCsvFile(resID);
+
+        ContentValues contentValues = new ContentValues();
+
+
+        for(String[] rew : rewards_list){
+            String[] temp_rew = rew[0].split(";");
+            contentValues.put(dbHelper.REWARD_ID , temp_rew[0]);
+            contentValues.put(dbHelper.REWARD_DESCRIPTION,  temp_rew[1]);
+            contentValues.put(dbHelper.PRICE,  temp_rew[2]);
+            dbHelper.insertData(dbHelper.TABLE_REWARD, contentValues);
+        }
+
+
+        ArrayList<ArrayList<String>> rewardsinfo = dbHelper.get_Rewards();
+
+        ArrayList<String> rew_prz_from_db = rewardsinfo.get(1);
+        ArrayList<String> rew_desc_from_db = rewardsinfo.get(0);
+        ArrayList<String> rewardsValues = new ArrayList<String>();
+
+        System.out.print(rewardsDescriptions.length);
+        System.out.print(rew_desc_from_db.size());
+        System.out.println("----");
+
+        int counter2;
+        for (String rewd1 : rewardsDescriptions){
+            counter2 = 0;
+            System.out.println("rewd1");
+            System.out.println(rewd1);
+            for (String rewd2 : rew_desc_from_db){
+                System.out.println("rewd2");
+                System.out.println(rewd2);
+                if (rewd1.contains(rewd2.trim())){
+                    rewardsValues.add(rew_prz_from_db.get(counter2));
+                    break;
+                }
+                counter2++;
+            }
+        }
+
+        //String rewardVal = "100";
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
         but = (View) findViewById(R.id.AddChildFAB);
@@ -59,7 +112,10 @@ public class RedeemReward extends Activity {
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
 
-        for (int i = 0; i < rewardsIDs.length; i++) {
+        System.out.print(rewardsDescriptions.length);
+        System.out.print(rewardsValues.size());
+
+        for (int i = 0; i < rewardsDescriptions.length; i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -91,7 +147,7 @@ public class RedeemReward extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(rewardsIDs[i]);
+            NameText.setText(rewardsDescriptions[i]);
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -99,7 +155,9 @@ public class RedeemReward extends Activity {
 
 
             String letter = (NameText.getText().charAt(0) + "");
-            letter = rewardVal;//coins[i];
+            System.out.println("HERE? bef");
+            letter = rewardsValues.get(i);
+            System.out.println("HERE? aft");
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);
 

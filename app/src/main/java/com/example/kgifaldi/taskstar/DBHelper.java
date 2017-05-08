@@ -154,6 +154,33 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] columnNames = dbCursor.getColumnNames();
         return columnNames;
     }
+
+    public ArrayList<ArrayList<String>> get_Rewards(){
+        ArrayList<ArrayList<String>> rewardsinfo = new ArrayList<ArrayList<String>>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_REWARD, new String[]{});
+
+        ArrayList<String> prizes = new ArrayList<String>();
+        ArrayList<String> descriptions = new ArrayList<String>();
+
+        if (cursor != null ) {
+            if  (cursor.moveToFirst()) {
+                do {
+                    // Construct the string from the cursor
+                    descriptions.add(cursor.getString(cursor.getColumnIndex(REWARD_DESCRIPTION)));
+                    prizes.add(cursor.getString(cursor.getColumnIndex(PRICE)));
+
+                }while (cursor.moveToNext());
+            }
+        }
+
+        rewardsinfo.add(descriptions);
+        rewardsinfo.add(prizes);
+
+        cursor.close();
+        return rewardsinfo;
+    }
+
     public ArrayList<Child> get_children_from_db(String parent_id) {
         Log.d("DBHelper", "get_children_drom_db called");
         Log.d("DBHelper", ("called with id " + parent_id));
