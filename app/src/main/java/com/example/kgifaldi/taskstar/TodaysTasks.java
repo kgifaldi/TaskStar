@@ -56,7 +56,7 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
         ArrayList<TaskClass> task_list = PublicData.selected_child.getTaskList();
         leftToDo = task_list.size();
         for(int i = 0; i < leftToDo; i++){
-            questions.add(new Task("Did you" + task_list.get(i).getName() +"?"));
+            questions.add(new Task(task_list.get(i).getName()));
         }
 
         /*
@@ -98,10 +98,11 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
     @Override
     public void discarded(int i, int i1) {
 
-        if(i1 == 0 || i1 == 2) // direction 0 and 2 are LEFT (whereas 1 and 3 are right)
+        if(i1 == 0 || i1 == 2) { // direction 0 and 2 are LEFT (whereas 1 and 3 are right)
 
             card_adapter.add(card_adapter.getItem(0)); // so if LEFT, then add to back of stack
-        else if(leftToDo == 1){
+            System.out.println(card_adapter.getItem(0).getQuestion());
+        }else if(leftToDo == 1){
             /*
             Intent intent = new Intent(TodaysTasks.this, ChildMain.class); // otherwise, if right and end of stack, start main child activity because child has completed all tasks!
             startActivity(intent);

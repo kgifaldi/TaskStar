@@ -128,4 +128,16 @@ public class Child implements Serializable{
         }
 
     }
+
+    public void complete_task(String task_name){
+
+        int balance = Integer.parseInt(this.getRewardBalance().trim());
+        for (TaskClass t : this.getTaskList()){
+            if (t.getName() == task_name){
+                this.setRewardBalance(Integer.toString(balance + Integer.parseInt(t.getPrize().trim())));
+                this.task_list.remove(t);
+                return;
+            }
+        }
+    }
 }

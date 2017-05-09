@@ -54,13 +54,14 @@ public class CardAdapter extends ArrayAdapter<Task> {
             view.setBackgroundResource(R.color.colorSecondary);
             color = 0;
         }
-        TextView txtView = (TextView) view.findViewById(R.id.quesiton);
+        final TextView txtView = (TextView) view.findViewById(R.id.quesiton);
         Button yes = (Button) view.findViewById(R.id.yes_button);
         Button no = (Button) view.findViewById(R.id.no_button);
 
         yes.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 TodaysTasks.todays_tasks.discardTop(1);
+                PublicData.selected_child.complete_task(txtView.getText().toString());
             }
         });
         no.setOnClickListener(new View.OnClickListener(){
