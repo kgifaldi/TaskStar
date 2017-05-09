@@ -148,9 +148,9 @@ public class ParentLogin extends Activity {
                                     }
 
 
-                                    String [] simple_child_info = Arrays.copyOfRange(csv_list, 0, 3);
+                                    String [] simple_child_info = Arrays.copyOfRange(csv_list, 0, 4);
 
-                                    Child child_obj = new Child(simple_child_info, purchased_rewards, available_rewards, tasks_list, csv_list[8]);
+                                    Child child_obj = new Child(simple_child_info, purchased_rewards, available_rewards, tasks_list, csv_list[7]);
 
 
 
