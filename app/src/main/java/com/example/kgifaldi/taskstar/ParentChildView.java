@@ -39,13 +39,13 @@ public class ParentChildView extends Activity{
         ll = (LinearLayout) findViewById(R.id.pc_view);
         // some variables used to format xml elements
         int cardHeight = 300;
-        int txtSz = 40;
+        int txtSz = 35;
         int tempId; // tempId used when generating new id for each CardView
 
         // set lp to linear layouts params to pass to cards
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams lp_txt = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 50, 0, 0);
+        lp.setMargins(0, 40, 0, 0);
 
         // instantiate card view and set some values
         CardView tmp = new CardView(this);
@@ -86,7 +86,7 @@ public class ParentChildView extends Activity{
         NameText.setLayoutParams(lp);
         NameText.setText(ParentMain.curr_name);
         NameText.setTextSize(txtSz);
-        NameText.setPadding(450, 65, 0, 0);
+        NameText.setPadding(350, 55, 0, 0);
         NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
         int randomColor = ParentMain.curr_color;
 
