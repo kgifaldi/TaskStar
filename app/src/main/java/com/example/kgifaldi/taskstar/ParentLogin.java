@@ -173,18 +173,13 @@ public class ParentLogin extends Activity {
                                     for (RewardClass each : rewardsAvailable)
                                         buffer_new.append(",").append(each.getRewardName());
                                     String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
-
-                                    contentValuesChild.put(DBHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
-                                    contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
-
                                     ArrayList<TaskClass> tasks = child_obj.getTaskList();
                                     StringBuilder buffer_tasks = new StringBuilder();
                                     for (TaskClass each : tasks)
                                         buffer_tasks.append(",").append(each.getName());
                                     String tasksString = buffer_tasks.deleteCharAt(0).toString();
 
-                                    contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
-                                    contentValuesChild.put(dbHelper.TASK_LIST, child_obj.getImageSrc());
+                                    contentValuesChild.put(dbHelper.CHILD_IMAGE_SRC, child_obj.getImageSrc());
 
                                     dbHelper.insertData(dbHelper.TABLE_CHILDREN, contentValuesChild);
                                 }

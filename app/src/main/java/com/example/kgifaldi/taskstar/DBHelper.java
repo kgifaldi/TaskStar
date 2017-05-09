@@ -194,7 +194,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 do {
                     Log.d("DBHelper", "Parent ID " + cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim());
                     if (cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim().equals(parent_id.trim())){
-                        String [] child_info = new String [8];
+                        String [] child_info = new String [4];
+                        String img_for_child = null;
 
                         Log.d("DBHelper", ("Retrieving child " + (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME))) + " from the database"));
 
@@ -203,13 +204,10 @@ public class DBHelper extends SQLiteOpenHelper {
                         child_info[1] = (cursor.getString(cursor.getColumnIndex(CHILD_ID)));
                         child_info[2] = (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME)));
                         child_info[3] = (cursor.getString(cursor.getColumnIndex(CHILD_REWARD_BALANCE)));
-                        child_info[4] = (cursor.getString(cursor.getColumnIndex(REWARDS_PURCHASED_LIST)));
-                        child_info[5] = (cursor.getString(cursor.getColumnIndex(REWARDS_AVAILABLE_LIST)));
-                        child_info[6] = (cursor.getString(cursor.getColumnIndex(TASK_LIST)));
-                        child_info[7] = (cursor.getString(cursor.getColumnIndex(CHILD_IMAGE_SRC)));
+                        img_for_child = (cursor.getString(cursor.getColumnIndex(CHILD_IMAGE_SRC)));
 
                         // Construct the object and add it to the array
-                        Child child = new Child(child_info);
+                        Child child = new Child(child_info, null, null, null, img_for_child);
                         parents_children.add(child);
                     }
                     else{
