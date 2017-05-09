@@ -93,7 +93,7 @@ public class Child implements Serializable{
      */
 
     public void parent_adding_reward(RewardClass reward_obj){
-        rewards_available.add(reward_obj);
+        this.rewards_available.add(reward_obj);
     }
 
     /*
