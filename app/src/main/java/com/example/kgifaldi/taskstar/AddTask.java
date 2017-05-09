@@ -72,6 +72,14 @@ public class AddTask extends Activity {
 
         final String parent_id = ParentMain.pid;
 
+        int resID = getApplicationContext().getResources().getIdentifier("tasks", "raw", getApplicationContext().getPackageName());
+
+        MyCsvFileReader tasks_csv = new MyCsvFileReader(getApplicationContext());
+        ArrayList<String[]> tasks_list = tasks_csv.readCsvFileBySemiColon(resID);
+
+        for (String[] element : tasks_list){
+            PublicData.all_tasks.add(new TaskClass(element[0], element[1]));
+        }
 
         ArrayList<Child> children_array_list;
         dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
@@ -109,7 +117,7 @@ public class AddTask extends Activity {
         });
 
 
-        int txtSz = 40;
+        int txtSz = 35;
 
         ll = (LinearLayout) findViewById(R.id.parentchild_list2);
 
@@ -125,11 +133,11 @@ public class AddTask extends Activity {
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             LinearLayout.LayoutParams lp_txt = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 50, 0, 0);
+            lp.setMargins(0, 40, 0, 0);
 
             // instantiate card view and set some values
             CardView tmp = new CardView(this);
-            tmp.setBackgroundColor(getResources().getColor(R.color.text_icons));
+            tmp.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
 
 
             // give card unique id for future referencing:
@@ -168,7 +176,7 @@ public class AddTask extends Activity {
             NameText.setLayoutParams(lp);
             NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
-            NameText.setPadding(450, 65, 0, 0);
+            NameText.setPadding(350, 55, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
             int randomColor = MaterialColorPalette.getRandomColor("500");
 
@@ -210,6 +218,8 @@ public class AddTask extends Activity {
                 System.out.println(TaskNametext.getText());
                 TaskRewardtext = (EditText) findViewById(R.id.TaskReward);
                 System.out.println(TaskRewardtext.getText());
+
+                PublicData.all_tasks.add(new TaskClass(TaskNametext.getText().toString(), TaskRewardtext.getText().toString()));
 
                 if(((LinearLayout)findViewById(R.id.weekly_list)).getVisibility() == View.INVISIBLE){
                     frequency = "once";

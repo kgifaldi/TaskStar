@@ -188,25 +188,13 @@ public class RewardsStore extends Activity {
 
 
                 for(String[] rew : selected){
-                    int i;
-                    int balance = Integer.parseInt(PublicData.selected_child.getRewardBalance().trim());
-                    if (balance >= Integer.parseInt(rew[1].trim())) {
-                        String[] temp_rews = new String[PublicData.selected_child.getRewardsPurchased().length + 1];
-                        for (i = 0; i < PublicData.selected_child.getRewardsPurchased().length; i++) {
+                    PublicData.selected_child.purchased_reward(rew);
 
-                            temp_rews[i] = PublicData.selected_child.getRewardsPurchased()[i];
 
-                        }
-                        //System.out.println("before adding new rew");
-                        temp_rews[PublicData.selected_child.getRewardsPurchased().length] = rew[0];
-                        PublicData.selected_child.setRewardsPurchased(temp_rews);
-                        PublicData.selected_child.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
-                    }
-/*
                     Intent intent;
                     intent = new Intent(RewardsStore.this, ChildMain.class);
                     startActivity(intent);
-                    */
+
                     finish();
                 }
 

@@ -103,4 +103,30 @@ public class Child implements Serializable{
         rewards_available.add(reward_id);
     }
 
+    /*
+    purchased_reward(String cost_of_reward)
+    redeem_reward(String Id_Reward)
+    complete_task(String task_name)
+     */
+
+    public void purchased_reward(String[] rew){
+        int i;
+        int balance = Integer.parseInt(this.getRewardBalance().trim());
+        if (balance >= Integer.parseInt(rew[1].trim())) {
+            String[] temp_rews = new String[this.getRewardsPurchased().length + 1];
+            for (i = 0; i < this.getRewardsPurchased().length; i++) {
+
+                temp_rews[i] = this.getRewardsPurchased()[i];
+
+            }
+            //System.out.println("before adding new rew");
+            temp_rews[PublicData.selected_child.getRewardsPurchased().length] = rew[0];
+            this.setRewardsPurchased(temp_rews);
+            this.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
+        }
+    }
+
+    public void redeem_reward(String rew){
+
+    }
 }

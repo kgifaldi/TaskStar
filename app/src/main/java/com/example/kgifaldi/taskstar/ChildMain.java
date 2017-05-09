@@ -33,6 +33,7 @@ public class ChildMain extends Activity {
                     intent = new Intent(ChildMain.this, RewardsStore.class);
                 else
                     intent = new Intent(ChildMain.this, RedeemReward.class);
+                finish();
                 startActivity(intent);
             }
 
@@ -45,6 +46,7 @@ public class ChildMain extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_main);
 
+
         // set coin amount
         TextView coinAmount = (TextView) findViewById(R.id.num_coins);
         String childs_coins = PublicData.child_obj.getBalance();
@@ -55,13 +57,13 @@ public class ChildMain extends Activity {
         ll = (LinearLayout) findViewById(R.id.child_container);
         // some variables used to format xml elements
         int cardHeight = 300;
-        int txtSz = 40;
+        int txtSz = 35;
         int tempId; // tempId used when generating new id for each CardView
 
         // set lp to linear layouts params to pass to cards
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams lp_txt = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        lp.setMargins(0, 50, 0, 0);
+        lp.setMargins(0, 40, 0, 0);
 
         // instantiate card view and set some values
         CardView tmp = new CardView(this);
@@ -102,7 +104,7 @@ public class ChildMain extends Activity {
         NameText.setLayoutParams(lp);
         NameText.setText(PublicData.selected_child.getUsername());
         NameText.setTextSize(txtSz);
-        NameText.setPadding(450, 65, 0, 0);
+        NameText.setPadding(350, 55, 0, 0);
         NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
         int randomColor = ChildLogin.curr_color;
 
