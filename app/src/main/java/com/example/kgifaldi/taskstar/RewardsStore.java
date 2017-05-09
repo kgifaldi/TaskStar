@@ -49,7 +49,11 @@ public class RewardsStore extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rewards_store);
 
-        final String[] rewardsDescriptions = PublicData.selected_child.getRewardsAvailable();
+        final ArrayList<String> rewardsDescriptions = new ArrayList<>();
+
+        for (RewardClass r : PublicData.selected_child.getRewardsAvailable()){
+            rewardsDescriptions.add(r.getRewardName());
+        }
 
 
         scrollView = (ScrollView) findViewById(R.id.ScrollView02);
@@ -84,7 +88,7 @@ public class RewardsStore extends Activity {
         ArrayList<String> rew_desc_from_db = rewardsinfo.get(0);
         ArrayList<String> rewardsValues = new ArrayList<String>();
 
-        System.out.print(rewardsDescriptions.length);
+        System.out.print(rewardsDescriptions.size());
         System.out.print(rew_desc_from_db.size());
         System.out.println("----");
 
@@ -114,7 +118,7 @@ public class RewardsStore extends Activity {
         int tempId; // tempId used when generating new id for each CardView
         // add Children cards to child_login:
 
-        for (int i = 0; i < rewardsDescriptions.length; i++) {
+        for (int i = 0; i < rewardsDescriptions.size(); i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -146,7 +150,7 @@ public class RewardsStore extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(rewardsDescriptions[i]);
+            NameText.setText(rewardsDescriptions.get(i));
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
