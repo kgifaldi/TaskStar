@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -34,7 +35,7 @@ public class AddReward extends Activity {
     private EditText TaskNametext;
     private EditText TaskRewardtext;
     private String frequency;
-    ArrayList<String> children_selected;
+    ArrayList<String> children_selected = new ArrayList<String>();
     private static Parent this_parent = new Parent();
     // DATABASE HELPER ----------------------------------------------
     DBHelper dbHelper;
@@ -147,7 +148,7 @@ public class AddReward extends Activity {
     }
 
     void setButtonListener(int button_id){
-        Button add_reward = (Button) findViewById(button_id);
+        FloatingActionButton add_reward = (FloatingActionButton) findViewById(button_id);
 
         add_reward.setOnClickListener(new View.OnClickListener() {
 
@@ -198,6 +199,7 @@ public class AddReward extends Activity {
 
         View card = (View) findViewById(cardId);
 
+        System.out.println("Child id on outside is " + child_id);
 
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +213,7 @@ public class AddReward extends Activity {
                 if (alph == (float) 0.9) {
                     v.setBackgroundColor(getResources().getColor(R.color.primaryText));
                     v.setAlpha((float) 1.0);
+                    System.out.println("Child id on inside is: " + child_id);
                     children_selected.add(child_id);
 
                 } else { // card is selected: change to not selected

@@ -13,9 +13,9 @@ public class Child implements Serializable{
     String parent_id;
     String username;
     String reward_balance;
-    ArrayList<RewardClass> rewards_purchased;
-    ArrayList<RewardClass> rewards_available;
-    ArrayList<TaskClass> task_list;
+    ArrayList<RewardClass> rewards_purchased = new ArrayList<RewardClass>();
+    ArrayList<RewardClass> rewards_available = new ArrayList<RewardClass>();
+    ArrayList<TaskClass> task_list = new ArrayList<TaskClass>();
     String image_src;
 
     public Child(){
