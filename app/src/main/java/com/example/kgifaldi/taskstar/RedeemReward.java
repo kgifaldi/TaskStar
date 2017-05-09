@@ -162,10 +162,10 @@ public class RedeemReward extends Activity {
             int randomColor = MaterialColorPalette.getRandomColor("500");
 
 
-            String letter = (NameText.getText().charAt(0) + "");
+            //String letter = (NameText.getText().charAt(0) + "");
             //System.out.println("HERE? bef");
             //letter = rewardsValues.get(i);
-            letter = "1";
+            String letter = "1";
             //System.out.println("HERE? aft");
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);

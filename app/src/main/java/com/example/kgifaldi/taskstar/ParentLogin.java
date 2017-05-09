@@ -217,7 +217,7 @@ public class ParentLogin extends Activity {
                 MyCsvFileReader task_csv = new MyCsvFileReader(getApplicationContext());
                 ArrayList<String[]> task_list = task_csv.readCsvFile(res_id_tasks);
 
-                ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId(), reward_list, task_list);
+                ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId());
 
 
                 PublicData.children_list = children_array_list;

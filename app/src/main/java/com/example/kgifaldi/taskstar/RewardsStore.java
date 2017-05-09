@@ -157,9 +157,9 @@ public class RewardsStore extends Activity {
             int randomColor = MaterialColorPalette.getRandomColor("500");
 
 
-            String letter = (NameText.getText().charAt(0) + "");
+            //String letter = (NameText.getText().charAt(0) + "");
             //letter = coins[i];
-            letter = rewardsValues.get(i);
+            String letter = rewardsValues.get(i);
             TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
             ImageView childImg = new ImageView(this);
 
