@@ -53,10 +53,10 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
         questions.add(new Task("Have you completed your math homework?"));
         questions.add(new Task("Did you have a great day?"));
 */
-        String[] task_list = PublicData.child_obj.getTaskList();
-        leftToDo = task_list.length;
+        ArrayList<TaskClass> task_list = PublicData.child_obj.getTaskList();
+        leftToDo = task_list.size();
         for(int i = 0; i < leftToDo; i++){
-            questions.add(new Task(task_list[i]));
+            questions.add(new Task(task_list.get(i).getName()));
         }
 
         /*
