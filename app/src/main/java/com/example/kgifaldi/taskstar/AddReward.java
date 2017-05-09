@@ -46,7 +46,7 @@ public class AddReward extends Activity {
         setContentView(R.layout.addrewardview);
 
 
-        int txtSz = 40;
+        int txtSz = 35;
 
         ll = (LinearLayout) findViewById(R.id.parentchild_list2);
 
@@ -62,11 +62,11 @@ public class AddReward extends Activity {
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             LinearLayout.LayoutParams lp_txt = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            lp.setMargins(0, 50, 0, 0);
+            lp.setMargins(0, 40, 0, 0);
 
             // instantiate card view and set some values
             CardView tmp = new CardView(this);
-            tmp.setBackgroundColor(getResources().getColor(R.color.text_icons));
+            tmp.setBackgroundColor(getResources().getColor(R.color.cardview_light_background));
 
 
             // give card unique id for future referencing:
@@ -105,7 +105,7 @@ public class AddReward extends Activity {
             NameText.setLayoutParams(lp);
             NameText.setText(each_child.getUsername().trim());
             NameText.setTextSize(txtSz);
-            NameText.setPadding(450, 65, 0, 0);
+            NameText.setPadding(350, 55, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
             int randomColor = MaterialColorPalette.getRandomColor("500");
 
