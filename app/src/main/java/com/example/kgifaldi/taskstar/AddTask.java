@@ -72,6 +72,14 @@ public class AddTask extends Activity {
 
         final String parent_id = ParentMain.pid;
 
+        int resID = getApplicationContext().getResources().getIdentifier("tasks", "raw", getApplicationContext().getPackageName());
+
+        MyCsvFileReader tasks_csv = new MyCsvFileReader(getApplicationContext());
+        ArrayList<String[]> tasks_list = tasks_csv.readCsvFileBySemiColon(resID);
+
+        for (String[] element : tasks_list){
+            PublicData.all_tasks.add(new TaskClass(element[0], element[1]));
+        }
 
         ArrayList<Child> children_array_list;
         dbHelper.onUpgrade(dbHelper.getWritableDatabase(), 1, 2);
@@ -210,6 +218,8 @@ public class AddTask extends Activity {
                 System.out.println(TaskNametext.getText());
                 TaskRewardtext = (EditText) findViewById(R.id.TaskReward);
                 System.out.println(TaskRewardtext.getText());
+
+                PublicData.all_tasks.add(new TaskClass(TaskNametext.getText().toString(), TaskRewardtext.getText().toString()));
 
                 if(((LinearLayout)findViewById(R.id.weekly_list)).getVisibility() == View.INVISIBLE){
                     frequency = "once";
