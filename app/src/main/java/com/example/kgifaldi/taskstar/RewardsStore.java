@@ -202,11 +202,12 @@ public class RewardsStore extends Activity {
                         PublicData.selected_child.setRewardsPurchased(temp_rews);
                         PublicData.selected_child.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
                     }
-
+/*
                     Intent intent;
                     intent = new Intent(RewardsStore.this, ChildMain.class);
                     startActivity(intent);
-
+                    */
+                    finish();
                 }
 
 

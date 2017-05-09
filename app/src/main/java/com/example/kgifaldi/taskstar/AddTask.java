@@ -257,8 +257,10 @@ public class AddTask extends Activity {
                 ArrayList<String> childrenSelected = new ArrayList<String>();
                 for(int vi = 0; vi < iv.size(); vi++) {
                     if (findViewById(iv.get(vi)).getAlpha() > 0.95) {
-                        //childrenSelected.add(ChildLogin.children[vi]);
+                       // childrenSelected.add(ChildLogin.children[vi]);
+
                     }
+                    childrenSelected.add(ChildLogin.children[vi]);
 
 
 
@@ -272,6 +274,7 @@ public class AddTask extends Activity {
                         temp_tasklist = child.getTaskList();
                         temp_tasklist[(temp_tasklist.length)+1] = TaskNametext.getText().toString();
                     }
+
                 }
 
                 ContentValues contentValuesChild = new ContentValues();
@@ -321,12 +324,14 @@ public class AddTask extends Activity {
                 // TODO: push task name and task reward to each child in this array
 
                 // start new intent
-
+/*
                 Intent intent = new Intent(AddTask.this, ParentMain.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("parent", (Serializable) this_parent);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                */
+                finish();
 
 
                 /* commenting this out: changing FAB from selecting all children -> submitting children

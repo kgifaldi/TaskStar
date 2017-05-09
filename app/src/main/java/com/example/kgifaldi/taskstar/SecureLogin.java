@@ -56,6 +56,7 @@ public  class SecureLogin extends Activity {
                     intent = new Intent(SecureLogin.this, ParentMain.class);
                     this_parent = (Parent) ParentLogin.parent_obj;
                     startActivity(intent);
+                    finish();
                 }
                 else{
                     System.out.println("incorrect");

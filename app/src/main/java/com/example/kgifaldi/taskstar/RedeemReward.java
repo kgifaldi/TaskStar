@@ -206,9 +206,12 @@ public class RedeemReward extends Activity {
                     counter++;
                 }
                 PublicData.selected_child.setRewardsPurchased(newRewards);
+                /*
                 Intent intent;
                 intent = new Intent(RedeemReward.this, ChildMain.class);
                 startActivity(intent);
+                */
+                finish();
             }
         });
 

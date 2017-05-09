@@ -47,11 +47,17 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
 
     private void initCards(){
         card_adapter = new CardAdapter(getApplicationContext(), 0, questions);
-
+/*
         questions.add(new Task("Did you do laundry?"));
         questions.add(new Task("Have you cleaned your room?"));
         questions.add(new Task("Have you completed your math homework?"));
         questions.add(new Task("Did you have a great day?"));
+*/
+        String[] task_list = PublicData.child_obj.getTaskList();
+        leftToDo = task_list.length;
+        for(int i = 0; i < leftToDo; i++){
+            questions.add(new Task(task_list[i]));
+        }
 
         /*
 
@@ -64,7 +70,6 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
             2. have a helper function which deletes task once swiped left
 
          */
-        leftToDo = 4;
     }
 
 
@@ -97,8 +102,11 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
 
             card_adapter.add(card_adapter.getItem(0)); // so if LEFT, then add to back of stack
         else if(leftToDo == 1){
+            /*
             Intent intent = new Intent(TodaysTasks.this, ChildMain.class); // otherwise, if right and end of stack, start main child activity because child has completed all tasks!
             startActivity(intent);
+            */
+            finish();
         }
         else {
             leftToDo--;
