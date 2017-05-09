@@ -287,6 +287,49 @@ public class AddTask extends Activity {
 
                 }
 
+                ContentValues contentValuesChild = new ContentValues();
+                //dbHelper.deleteData(dbHelper.TABLE_CHILDREN, null, );
+                for(Child child: children_fromdb){
+                    contentValuesChild.put(dbHelper.CHILD_ID, child.getId());
+                    contentValuesChild.put(dbHelper.CHILDS_PARENT, child.getParentId());
+                    contentValuesChild.put(dbHelper.CHILD_USER_NAME, child.getUsername());
+                    contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child.getRewardBalance());
+                    String [] rewardsPurchased = child.getRewardsPurchased();
+                    StringBuilder buffer = new StringBuilder();
+                    for (String each : rewardsPurchased)
+                        buffer.append(",").append(each);
+                    String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
+
+                    String [] rewardsAvailable = child.getRewardsAvailable();
+                    StringBuilder buffer_new = new StringBuilder();
+                    for (String each : rewardsAvailable)
+                        buffer.append(",").append(each);
+                    String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
+
+                    contentValuesChild.put(dbHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
+                    contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
+
+                    String [] tasks = child.getTaskList();
+                    StringBuilder buffer_tasks = new StringBuilder();
+                    for (String each : tasks)
+                        buffer.append(",").append(each);
+                    String tasksString = buffer_new.deleteCharAt(0).toString();
+
+                    contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
+                    contentValuesChild.put(dbHelper.TASK_LIST, child.getImageSrc());
+
+                    dbHelper.insertData(dbHelper.TABLE_CHILDREN, contentValuesChild);
+
+                }
+
+                ContentValues contentValuesTask = new ContentValues();
+
+                contentValuesTask.put(dbHelper.TASK_DESCRIPTION, TaskNametext.getText().toString());
+                contentValuesTask.put(dbHelper.COINS_WORTH, TaskRewardtext.getText().toString());
+                contentValuesTask.put(dbHelper.WEEKLY_OCCURENCE, frequency);
+
+                dbHelper.insertData(dbHelper.TABLE_TASK, contentValuesChild);
+
                 // TODO: push this ArryayList of children to database:
                 // TODO: push task name and task reward to each child in this array
 
@@ -299,6 +342,29 @@ public class AddTask extends Activity {
                 startActivity(intent);
                 */
                 finish();
+
+
+                /* commenting this out: changing FAB from selecting all children -> submitting children
+                int alreadySel = 0;
+                int sz = iv.size();
+                System.out.println("SIZE, HERRRRRRRREE, APLHA OF FIRSSTTTTT:");
+                System.out.println(sz);
+
+                for(int vi = 0; vi < iv.size(); vi++){
+                    if(findViewById(iv.get(vi)).getAlpha() == (float)1.0)
+                        alreadySel++;
+                    findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.primaryText));
+                    findViewById(iv.get(vi)).setAlpha((float) 1.0);
+
+                }
+                if(alreadySel == sz){
+                    for(int vi = 0; vi < iv.size(); vi++){
+                        findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.text_icons));
+                        findViewById(iv.get(vi)).setAlpha((float) .9);
+                    }
+
+                }
+            */
             }
         });
 
