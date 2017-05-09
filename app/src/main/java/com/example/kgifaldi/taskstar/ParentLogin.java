@@ -167,17 +167,22 @@ public class ParentLogin extends Activity {
                                     for (RewardClass each : rewardsPurchased)
                                         buffer.append(",").append(each.getRewardName());
                                     String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
+                                    contentValuesChild.put(dbHelper.REWARDS_PURCHASED_LIST, csv_list[4]);
 
                                     ArrayList<RewardClass> rewardsAvailable = child_obj.getRewardsAvailable();
                                     StringBuilder buffer_new = new StringBuilder();
                                     for (RewardClass each : rewardsAvailable)
                                         buffer_new.append(",").append(each.getRewardName());
                                     String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
+                                    contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, csv_list[5]);
+
+
                                     ArrayList<TaskClass> tasks = child_obj.getTaskList();
                                     StringBuilder buffer_tasks = new StringBuilder();
                                     for (TaskClass each : tasks)
                                         buffer_tasks.append(",").append(each.getName());
                                     String tasksString = buffer_tasks.deleteCharAt(0).toString();
+                                    contentValuesChild.put(dbHelper.TASK_LIST, csv_list[6]);
 
                                     contentValuesChild.put(dbHelper.CHILD_IMAGE_SRC, child_obj.getImageSrc());
 
@@ -199,7 +204,22 @@ public class ParentLogin extends Activity {
                 }
                 PublicData.parent_obj = parent_obj;
 
-                ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId());
+
+                // Load the current rewards
+                int res_id_rewards = getApplicationContext().getResources().getIdentifier("rewards", "raw", getApplicationContext().getPackageName());
+                // Read in the csv file
+                MyCsvFileReader reward_csv = new MyCsvFileReader(getApplicationContext());
+                ArrayList<String[]> reward_list = reward_csv.readCsvFile(res_id_rewards);
+
+                // Load the current rewards
+                int res_id_tasks = getApplicationContext().getResources().getIdentifier("tasks", "raw", getApplicationContext().getPackageName());
+                // Read in the csv file
+                MyCsvFileReader task_csv = new MyCsvFileReader(getApplicationContext());
+                ArrayList<String[]> task_list = task_csv.readCsvFile(res_id_tasks);
+
+                ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId(), reward_list, task_list);
+
+
                 PublicData.children_list = children_array_list;
                 PublicData.password = ((TextView) findViewById(R.id.password_enter)).getText().toString();
                 Intent parent_main_intent = new Intent(ParentLogin.this, MainActivity.class);

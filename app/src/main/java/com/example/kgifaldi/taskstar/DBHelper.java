@@ -181,7 +181,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return rewardsinfo;
     }
 
-    public ArrayList<Child> get_children_from_db(String parent_id) {
+    public ArrayList<Child> get_children_from_db(String parent_id, String [] reward_list, String [] task_list) {
         Log.d("DBHelper", "get_children_drom_db called");
         Log.d("DBHelper", ("called with id " + parent_id));
         SQLiteDatabase db = getReadableDatabase();
@@ -194,7 +194,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 do {
                     Log.d("DBHelper", "Parent ID " + cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim());
                     if (cursor.getString(cursor.getColumnIndex(CHILDS_PARENT)).trim().equals(parent_id.trim())){
-                        String [] child_info = new String [4];
+                        String [] child_info = new String [8];
                         String img_for_child = null;
 
                         Log.d("DBHelper", ("Retrieving child " + (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME))) + " from the database"));
@@ -204,10 +204,42 @@ public class DBHelper extends SQLiteOpenHelper {
                         child_info[1] = (cursor.getString(cursor.getColumnIndex(CHILD_ID)));
                         child_info[2] = (cursor.getString(cursor.getColumnIndex(CHILD_USER_NAME)));
                         child_info[3] = (cursor.getString(cursor.getColumnIndex(CHILD_REWARD_BALANCE)));
+                        child_info[4] = (cursor.getString(cursor.getColumnIndex(REWARDS_AVAILABLE_LIST)));
+                        child_info[5] = (cursor.getString(cursor.getColumnIndex(REWARDS_PURCHASED_LIST)));
+                        child_info[6] = (cursor.getString(cursor.getColumnIndex(TASK_LIST)));
+
+                        // Create the purchased objects from the csv_list
+                        ArrayList<RewardClass> purchased_rewards = new ArrayList<RewardClass>();
+                        for (String each_purchased_reward : child_info[4].split(",")){
+                            String [] reward_attrs = each_purchased_reward.split(" ");
+                            String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
+                            RewardClass reward_obj = new RewardClass(reward_list_construct);
+                            purchased_rewards.add(reward_obj);
+                        }
+
+
+                        // Create the available objects from the csv_list
+                        ArrayList<RewardClass> available_rewards = new ArrayList<RewardClass>();
+                        for (String each_available_reward : child_info[5].split(",")){
+                            String [] reward_attrs = each_available_reward.split(" ");
+                            String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
+                            RewardClass reward_obj = new RewardClass(reward_list_construct);
+                            available_rewards.add(reward_obj);
+                        }
+
+
+                        // Create the available objects from the csv_list
+                        ArrayList<TaskClass> tasks_list = new ArrayList<TaskClass>();
+                        for (String each_task : child_info[6].split(",")){
+                            String [] task_attrs = each_task.split(" ");
+                            TaskClass task_obj = new TaskClass(task_attrs[1], task_attrs[0], task_attrs[2]);
+                            tasks_list.add(task_obj);
+                        }
+
                         img_for_child = (cursor.getString(cursor.getColumnIndex(CHILD_IMAGE_SRC)));
 
                         // Construct the object and add it to the array
-                        Child child = new Child(child_info, null, null, null, img_for_child);
+                        Child child = new Child(child_info, purchased_rewards, available_rewards, tasks_list, img_for_child);
                         parents_children.add(child);
                     }
                     else{
