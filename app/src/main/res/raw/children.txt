@@ -1,2 +1,2 @@
-1; 1; Minnie Mouse; 1000; Waterpark.1.400, Shopping 2 200, Ice Cream Store Trip.3.100; Ice Cream Store Trip.3.100; Clean your room.1.50, Help Mickey with his Homework.3.100; minniemouse
-1; 2; Mickey Mouse; 50; Paintball.4.200; Ice Cream Store Trip.3.100; Clean your room.1.50, Help Minnie clean her room.2.100; mickeymouse
+1; 1; Minnie Mouse; 1000; Waterpark:1:400, Shopping:2:200, Ice Cream Store Trip:3:100; Ice Cream Store Trip:3:100; Clean your room:1:50, Help Mickey with his Homework:3:100; minniemouse
+1; 2; Mickey Mouse; 50; Paintball:4:200; Ice Cream Store Trip:3:100; Clean your room:1:50, Help Minnie clean her room:2:100; mickeymouse

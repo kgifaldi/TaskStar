@@ -121,9 +121,12 @@ public class ParentLogin extends Activity {
 
                                     // Create the purchased objects from the csv_list
                                     ArrayList<RewardClass> purchased_rewards = new ArrayList<RewardClass>();
-                                    for (String each_purchased_reward : csv_list[4].split(",")){
-                                        String [] reward_attrs = each_purchased_reward.split(".");
-                                        String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
+                                    String[] tmp_str = csv_list[4].split(",");
+                                    for (String each_purchased_reward : tmp_str){
+                                        System.out.println(each_purchased_reward);
+                                        String[] reward_attrs = each_purchased_reward.split(":");
+                                        System.out.println(reward_attrs[0]);
+                                        String[] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
                                         RewardClass reward_obj = new RewardClass(reward_list_construct);
                                         purchased_rewards.add(reward_obj);
                                     }
@@ -132,7 +135,7 @@ public class ParentLogin extends Activity {
                                     // Create the available objects from the csv_list
                                     ArrayList<RewardClass> available_rewards = new ArrayList<RewardClass>();
                                     for (String each_available_reward : csv_list[5].split(",")){
-                                        String [] reward_attrs = each_available_reward.split(".");
+                                        String [] reward_attrs = each_available_reward.split(":");
                                         String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
                                         RewardClass reward_obj = new RewardClass(reward_list_construct);
                                         available_rewards.add(reward_obj);
@@ -142,7 +145,7 @@ public class ParentLogin extends Activity {
                                     // Create the available objects from the csv_list
                                     ArrayList<TaskClass> tasks_list = new ArrayList<TaskClass>();
                                     for (String each_task : csv_list[6].split(",")){
-                                        String [] task_attrs = each_task.split(".");
+                                        String [] task_attrs = each_task.split(":");
                                         TaskClass task_obj = new TaskClass(task_attrs[1], task_attrs[0], task_attrs[2]);
                                         tasks_list.add(task_obj);
                                     }
