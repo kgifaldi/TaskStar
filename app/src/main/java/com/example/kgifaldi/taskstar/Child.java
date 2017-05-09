@@ -106,16 +106,15 @@ public class Child implements Serializable{
         int i;
         int balance = Integer.parseInt(this.getRewardBalance().trim());
         if (balance >= Integer.parseInt(rew[1].trim())) {
-            String[] temp_rews = new String[this.getRewardsPurchased().size() + 1];
-            for (i = 0; i < this.getRewardsPurchased().size(); i++) {
 
-                temp_rews[i] = this.getRewardsPurchased()[i];
-
+            for (RewardClass r : this.getRewardsAvailable()){
+                if (r.getRewardName() == rew[0]){
+                    ArrayList<RewardClass> temp_rews = this.getRewardsPurchased();
+                    temp_rews.add(r);
+                    this.setRewardBalance(Integer.toString(balance - Integer.parseInt(r.getRewardPrice().trim())));
+                    break;
+                }
             }
-            //System.out.println("before adding new rew");
-            temp_rews[PublicData.selected_child.getRewardsPurchased().size()] = rew[0];
-            this.setRewardsPurchased(temp_rews);
-            this.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
         }
     }
 

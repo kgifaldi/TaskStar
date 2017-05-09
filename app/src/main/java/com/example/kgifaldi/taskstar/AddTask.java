@@ -276,13 +276,13 @@ public class AddTask extends Activity {
 
                 }
 
-                String[] temp_tasklist;
+                ArrayList<String> temp_tasklist = new ArrayList<String>();
 
                 ArrayList<Child> children_fromdb = dbHelper.get_children_from_db(parent_id);
                 for(Child child : children_fromdb){
                     if(childrenSelected.contains(child.getUsername())){
                         temp_tasklist = child.getTaskList();
-                        temp_tasklist[(temp_tasklist.length)+1] = TaskNametext.getText().toString();
+                        temp_tasklist.add(TaskNametext.getText().toString());
                     }
 
                 }

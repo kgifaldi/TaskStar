@@ -48,8 +48,9 @@ public class RedeemReward extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redeem_reward);
-        final String[] rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
-        //System.out.println(rewardsDescriptions[1]);
+        final rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
+
+        for ()
 
         //TODO
         /*
@@ -206,11 +207,11 @@ public class RedeemReward extends Activity {
                     counter++;
                 }
                 PublicData.selected_child.setRewardsPurchased(newRewards);
-                /*
+
                 Intent intent;
                 intent = new Intent(RedeemReward.this, ChildMain.class);
                 startActivity(intent);
-                */
+
                 finish();
             }
         });
