@@ -56,7 +56,7 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
         ArrayList<TaskClass> task_list = PublicData.selected_child.getTaskList();
         leftToDo = task_list.size();
         for(int i = 0; i < leftToDo; i++){
-            questions.add(new Task(task_list.get(i).getName()));
+            questions.add(new Task("Did you" + task_list.get(i).getName() +"?"));
         }
 
         /*
