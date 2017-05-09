@@ -190,7 +190,7 @@ public class RewardsStore extends Activity {
                 for(String[] rew : selected){
                     int i;
                     int balance = Integer.parseInt(PublicData.selected_child.getRewardBalance().trim());
-                    if (balance > Integer.parseInt(rew[1].trim())) {
+                    if (balance >= Integer.parseInt(rew[1].trim())) {
                         String[] temp_rews = new String[PublicData.selected_child.getRewardsPurchased().length + 1];
                         for (i = 0; i < PublicData.selected_child.getRewardsPurchased().length; i++) {
 
