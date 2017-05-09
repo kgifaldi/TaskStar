@@ -33,6 +33,7 @@ public class ChildMain extends Activity {
                     intent = new Intent(ChildMain.this, RewardsStore.class);
                 else
                     intent = new Intent(ChildMain.this, RedeemReward.class);
+                finish();
                 startActivity(intent);
             }
 
@@ -44,6 +45,7 @@ public class ChildMain extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.child_main);
+
 
         // set coin amount
         TextView coinAmount = (TextView) findViewById(R.id.num_coins);
