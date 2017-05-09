@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:fontFamily="casual"
+                android:fontFamily="sans-serif"
                 android:text="Add Reward"
                 android:textSize="40sp" />
         </RelativeLayout>

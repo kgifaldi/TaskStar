@@ -1,6 +1,8 @@
 package com.example.kgifaldi.taskstar;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Luigi on 5/5/17.
@@ -53,6 +55,14 @@ public class Parent implements Serializable {
 
     public void setImage_src(String image_src) {
         this.image_src = image_src;
+    }
+
+    public void add_reward(RewardClass reward_obj, ArrayList<Child> children_obj_list){
+        // Update all the children to have that reward available in the reward store
+        for (Child each_child : children_obj_list){
+            each_child.parent_adding_reward(reward_obj);
+        }
+
     }
 
 }

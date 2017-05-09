@@ -179,7 +179,6 @@ public class ParentMain extends Activity {
                 newChild.setParentId(PublicData.parent_obj.getId());
                 newChild.setRewardBalance("0");
                 newChild.setUsername(childName);
-                newChild.setAge(editAge.getText().toString());
 
                 int size = PublicData.children_list.size();
                 int newId = Integer.parseInt(PublicData.children_list.get(size-1).getId()) + 1;
@@ -286,6 +285,7 @@ public class ParentMain extends Activity {
 
                 Intent intent;
                 intent = new Intent(ParentMain.this, AddReward.class);
+
                 startActivity(intent);
 
             }
