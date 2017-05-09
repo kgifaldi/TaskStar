@@ -181,7 +181,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return rewardsinfo;
     }
 
-    public ArrayList<Child> get_children_from_db(String parent_id, String [] reward_list, String [] task_list) {
+    public ArrayList<Child> get_children_from_db(String parent_id) {
         Log.d("DBHelper", "get_children_drom_db called");
         Log.d("DBHelper", ("called with id " + parent_id));
         SQLiteDatabase db = getReadableDatabase();
