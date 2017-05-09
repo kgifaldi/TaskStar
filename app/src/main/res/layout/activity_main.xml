@@ -35,19 +35,10 @@
                 android:id="@+id/parent_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:text="PARENT"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/parent_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/parent_label"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="18dp"
-                android:text="Carl Gifaldi" />
+                android:textSize="50sp" />
 
         </RelativeLayout>
 
@@ -83,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CHILD"
-                android:textSize="30sp"
+                android:textSize="50sp"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
 
