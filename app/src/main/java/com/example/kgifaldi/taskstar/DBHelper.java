@@ -211,7 +211,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         // Create the purchased objects from the csv_list
                         ArrayList<RewardClass> purchased_rewards = new ArrayList<RewardClass>();
                         for (String each_purchased_reward : child_info[4].split(",")){
-                            String [] reward_attrs = each_purchased_reward.split(" ");
+                            String [] reward_attrs = each_purchased_reward.split(".");
                             String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
                             RewardClass reward_obj = new RewardClass(reward_list_construct);
                             purchased_rewards.add(reward_obj);
@@ -221,7 +221,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         // Create the available objects from the csv_list
                         ArrayList<RewardClass> available_rewards = new ArrayList<RewardClass>();
                         for (String each_available_reward : child_info[5].split(",")){
-                            String [] reward_attrs = each_available_reward.split(" ");
+                            String [] reward_attrs = each_available_reward.split(".");
                             String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
                             RewardClass reward_obj = new RewardClass(reward_list_construct);
                             available_rewards.add(reward_obj);
@@ -231,7 +231,7 @@ public class DBHelper extends SQLiteOpenHelper {
                         // Create the available objects from the csv_list
                         ArrayList<TaskClass> tasks_list = new ArrayList<TaskClass>();
                         for (String each_task : child_info[6].split(",")){
-                            String [] task_attrs = each_task.split(" ");
+                            String [] task_attrs = each_task.split(".");
                             TaskClass task_obj = new TaskClass(task_attrs[1], task_attrs[0], task_attrs[2]);
                             tasks_list.add(task_obj);
                         }
