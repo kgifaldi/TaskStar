@@ -15,7 +15,7 @@ public class Child implements Serializable{
     String reward_balance;
     ArrayList<RewardClass> rewards_purchased;
     ArrayList<RewardClass> rewards_available;
-    ArrayList<String> task_list;
+    ArrayList<TaskClass> task_list;
     String image_src;
 
     public Child(){
@@ -24,7 +24,7 @@ public class Child implements Serializable{
 
     //
 
-    Child(String[] args, ArrayList<RewardClass> rewards_purchased, ArrayList<RewardClass> rewards_available){
+    Child(String[] args, ArrayList<RewardClass> rewards_purchased, ArrayList<RewardClass> rewards_available, ArrayList<TaskClass> tasks_array, String image_src){
         setParentId(args[0]);
         setId(args[1]);
         setUsername(args[2]);
@@ -33,15 +33,9 @@ public class Child implements Serializable{
         setRewardsPurchased(rewards_purchased);
 
         setRewardsAvailable(rewards_available);
+        setTaskList(tasks_array);
 
-
-        ArrayList<String> task_list_set_up = null;
-        for (String each_task : args[6].split(",")){
-            task_list_set_up.add(each_task);
-        }
-        setTaskList(task_list_set_up);
-
-        setImageSrc(args[7]);
+        setImageSrc(image_src);
     }
 
     public String getBalance(){ return reward_balance;}
@@ -80,8 +74,8 @@ public class Child implements Serializable{
         rewards_available = rewards;
     }
 
-    public ArrayList<String> getTaskList() { return task_list;}
-    public void setTaskList(ArrayList<String> tasks) {
+    public ArrayList<TaskClass> getTaskList() { return task_list;}
+    public void setTaskList(ArrayList<TaskClass> tasks) {
         task_list = tasks;
     }
 
@@ -99,8 +93,7 @@ public class Child implements Serializable{
      */
 
     public void parent_adding_reward(RewardClass reward_obj){
-        String reward_id = reward_obj.getRewardId();
-        rewards_available.add(reward_id);
+        rewards_available.add(reward_obj);
     }
 
     /*
@@ -113,14 +106,14 @@ public class Child implements Serializable{
         int i;
         int balance = Integer.parseInt(this.getRewardBalance().trim());
         if (balance >= Integer.parseInt(rew[1].trim())) {
-            String[] temp_rews = new String[this.getRewardsPurchased().length + 1];
-            for (i = 0; i < this.getRewardsPurchased().length; i++) {
+            String[] temp_rews = new String[this.getRewardsPurchased().size() + 1];
+            for (i = 0; i < this.getRewardsPurchased().size(); i++) {
 
                 temp_rews[i] = this.getRewardsPurchased()[i];
 
             }
             //System.out.println("before adding new rew");
-            temp_rews[PublicData.selected_child.getRewardsPurchased().length] = rew[0];
+            temp_rews[PublicData.selected_child.getRewardsPurchased().size()] = rew[0];
             this.setRewardsPurchased(temp_rews);
             this.setRewardBalance(Integer.toString(balance - Integer.parseInt(rew[1].trim())));
         }

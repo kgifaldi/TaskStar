@@ -5,10 +5,12 @@ package com.example.kgifaldi.taskstar;
  */
 
 public class TaskClass {
+    String task_id;
     String Name;
     String Prize;
 
-    TaskClass (String nm, String pz){
+    TaskClass (String id, String nm, String pz){
+        task_id = id;
         Name = nm;
         Prize = pz;
     }
@@ -28,4 +30,13 @@ public class TaskClass {
     public void setPrize(String prize) {
         Prize = prize;
     }
+
+    public String getTaskId() {
+        return task_id;
+    }
+
+    public void setTaskId(String id) {
+        task_id = id;
+    }
+
 }

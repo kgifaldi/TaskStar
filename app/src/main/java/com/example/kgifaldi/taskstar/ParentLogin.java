@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class ParentLogin extends Activity {
@@ -117,33 +118,69 @@ public class ParentLogin extends Activity {
 
                                 if (csv_id.trim().equals(parent_child_id.trim())){
                                     Log.d("ParentLogin", "Child in csv matches child of current parent");
-                                    Child child_obj = new Child(csv_list);
+
+                                    // Create the purchased objects from the csv_list
+                                    ArrayList<RewardClass> purchased_rewards = null;
+                                    for (String each_purchased_reward : csv_list[4].split(",")){
+                                        String [] reward_attrs = each_purchased_reward.split(" ");
+                                        String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
+                                        RewardClass reward_obj = new RewardClass(reward_list_construct);
+                                        purchased_rewards.add(reward_obj);
+                                    }
+
+
+                                    // Create the available objects from the csv_list
+                                    ArrayList<RewardClass> available_rewards = null;
+                                    for (String each_available_reward : csv_list[5].split(",")){
+                                        String [] reward_attrs = each_available_reward.split(" ");
+                                        String [] reward_list_construct = {reward_attrs[1], reward_attrs[0], reward_attrs[2], "empty"};
+                                        RewardClass reward_obj = new RewardClass(reward_list_construct);
+                                        available_rewards.add(reward_obj);
+                                    }
+
+
+                                    // Create the available objects from the csv_list
+                                    ArrayList<TaskClass> tasks_list = null;
+                                    for (String each_task : csv_list[6].split(",")){
+                                        String [] task_attrs = each_task.split(" ");
+                                        TaskClass task_obj = new TaskClass(task_attrs[1], task_attrs[0], task_attrs[2]);
+                                        tasks_list.add(task_obj);
+                                    }
+
+
+                                    String [] simple_child_info = Arrays.copyOfRange(csv_list, 0, 3);
+
+                                    Child child_obj = new Child(simple_child_info, purchased_rewards, available_rewards, tasks_list, csv_list[8]);
+
+
+
                                     contentValuesChild.put(dbHelper.CHILD_ID, child_obj.getId());
                                     contentValuesChild.put(dbHelper.CHILDS_PARENT, child_obj.getParentId());
                                     contentValuesChild.put(dbHelper.CHILD_USER_NAME, child_obj.getUsername());
                                     Log.d("ParentLogin", ("Inserting child " + child_obj.getUsername() + " into the DB."));
                                     contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child_obj.getRewardBalance());
                                     contentValuesChild.put(dbHelper.CHILD_IMAGE_SRC, child_obj.getImageSrc());
-                                    String [] rewardsPurchased = child_obj.getRewardsPurchased();
+
+
+                                    ArrayList<RewardClass> rewardsPurchased = child_obj.getRewardsPurchased();
                                     StringBuilder buffer = new StringBuilder();
-                                    for (String each : rewardsPurchased)
-                                        buffer.append(",").append(each);
+                                    for (RewardClass each : rewardsPurchased)
+                                        buffer.append(",").append(each.getRewardName());
                                     String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
 
-                                    String [] rewardsAvailable = child_obj.getRewardsAvailable();
-                                    Log.d("Rewards available", rewardsAvailable[0]);
+                                    ArrayList<RewardClass> rewardsAvailable = child_obj.getRewardsAvailable();
                                     StringBuilder buffer_new = new StringBuilder();
-                                    for (String each : rewardsAvailable)
-                                        buffer_new.append(",").append(each);
+                                    for (RewardClass each : rewardsAvailable)
+                                        buffer_new.append(",").append(each.getRewardName());
                                     String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
 
                                     contentValuesChild.put(DBHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
                                     contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
 
-                                    String [] tasks = child_obj.getTaskList();
+                                    ArrayList<TaskClass> tasks = child_obj.getTaskList();
                                     StringBuilder buffer_tasks = new StringBuilder();
-                                    for (String each : tasks)
-                                        buffer_tasks.append(",").append(each);
+                                    for (TaskClass each : tasks)
+                                        buffer_tasks.append(",").append(each.getName());
                                     String tasksString = buffer_tasks.deleteCharAt(0).toString();
 
                                     contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
