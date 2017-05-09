@@ -2,6 +2,7 @@ package com.example.kgifaldi.taskstar;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 /**
@@ -16,7 +17,11 @@ public class Reward extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reward);
 
+        System.out.println("Inside the reward");
+
     }
+
+
 
 
 }

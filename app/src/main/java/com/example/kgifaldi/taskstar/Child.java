@@ -1,21 +1,11 @@
 package com.example.kgifaldi.taskstar;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by MaggieThomann on 5/5/17.
- */
-
-/*
-public static final String TABLE_CHILDREN = "children";
-    public static final String CHILD_ID = "_id";
-    public static final String CHILD_USER_NAME = "child_user_name";
-    public static final String CHILD_REWARD_BALANCE = "child_reward_balance";
-    public static final String REWARDS_PURCHASED_LIST = "rewards_purchased_list";
-    public static final String REWARDS_AVAILABLE_LIST = "rewards_available_list";
-    public static final String TASK_LIST = "task_list";
-    public static final String CHILD_IMAGE_SRC = "image_src";
-
  */
 
 public class Child implements Serializable{
@@ -23,12 +13,10 @@ public class Child implements Serializable{
     String parent_id;
     String username;
     String reward_balance;
-    String[] rewards_purchased;
-    String[] rewards_available;
-    String[] task_list;
+    ArrayList<RewardClass> rewards_purchased;
+    ArrayList<RewardClass> rewards_available;
+    ArrayList<String> task_list;
     String image_src;
-    String age; // TODO add to database
-    String balance; // TODO: add to Database
 
     public Child(){
         // This has no parameters and is used to initialize a parent
@@ -36,20 +24,27 @@ public class Child implements Serializable{
 
     //
 
-    Child(String[] args){
+    Child(String[] args, ArrayList<RewardClass> rewards_purchased, ArrayList<RewardClass> rewards_available){
         setParentId(args[0]);
         setId(args[1]);
         setUsername(args[2]);
         setRewardBalance(args[3]);
-        setRewardsPurchased(args[4].split(","));
-        setRewardsAvailable(args[5].split(","));
-        setTaskList(args[6].split(","));
+
+        setRewardsPurchased(rewards_purchased);
+
+        setRewardsAvailable(rewards_available);
+
+
+        ArrayList<String> task_list_set_up = null;
+        for (String each_task : args[6].split(",")){
+            task_list_set_up.add(each_task);
+        }
+        setTaskList(task_list_set_up);
+
         setImageSrc(args[7]);
-        setBalance("0");
     }
 
-    public String getBalance(){ return balance;}
-    public void setBalance(String balance){ this.balance = balance;}
+    public String getBalance(){ return reward_balance;}
     public String getId() {
         return id;
     }
@@ -75,18 +70,18 @@ public class Child implements Serializable{
     public String getRewardBalance(){return reward_balance;}
 
 
-    public String[] getRewardsPurchased() { return rewards_purchased;}
-    public void setRewardsPurchased(String[] rewards) {
+    public ArrayList<RewardClass> getRewardsPurchased() { return rewards_purchased;}
+    public void setRewardsPurchased(ArrayList<RewardClass> rewards) {
         rewards_purchased = rewards;
     }
 
-    public String[] getRewardsAvailable() { return rewards_available;}
-    public void setRewardsAvailable(String[] rewards) {
+    public ArrayList<RewardClass> getRewardsAvailable() { return rewards_available;}
+    public void setRewardsAvailable(ArrayList<RewardClass> rewards) {
         rewards_available = rewards;
     }
 
-    public String[] getTaskList() { return task_list;}
-    public void setTaskList(String[] tasks) {
+    public ArrayList<String> getTaskList() { return task_list;}
+    public void setTaskList(ArrayList<String> tasks) {
         task_list = tasks;
     }
 
@@ -97,7 +92,15 @@ public class Child implements Serializable{
         this.image_src = image_src;
     }
 
-    public void setAge(String age){ this.age = age;}
-    public String getAge(){return this.age;}
+    /*
+    complete_task(String task_id)
+    purchased_reward(String cost_of_reward)
+    redeem_reward(String cost_of_reward)
+     */
+
+    public void parent_adding_reward(RewardClass reward_obj){
+        String reward_id = reward_obj.getRewardId();
+        rewards_available.add(reward_id);
+    }
 
 }

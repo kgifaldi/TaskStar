@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ public class AddReward extends Activity {
     private EditText TaskNametext;
     private EditText TaskRewardtext;
     private String frequency;
+    ArrayList<String> children_selected;
     private static Parent this_parent = new Parent();
     // DATABASE HELPER ----------------------------------------------
     DBHelper dbHelper;
@@ -45,6 +47,7 @@ public class AddReward extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addrewardview);
 
+        setButtonListener(R.id.AddRewardFAB);
 
         int txtSz = 40;
 
@@ -131,7 +134,10 @@ public class AddReward extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId);
+            String child_id = each_child.getId();
+            setCardListener(tempId, child_id);
+
+
             iv.add(tempId);
             enterReveal(childImg);
         }
@@ -140,9 +146,58 @@ public class AddReward extends Activity {
 
     }
 
-    void setCardListener(int cardId) {
+    void setButtonListener(int button_id){
+        Button add_reward = (Button) findViewById(button_id);
+
+        add_reward.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // Get all the children that have been selected
+                String string_of_children_selected = "";
+                for (String each_child_id : children_selected){
+                    string_of_children_selected.concat(" " + each_child_id + " ");
+                }
+
+                // Get the name of the reward
+                EditText reward_name_edit_text = (EditText) findViewById(R.id.RewardName);
+                String reward_name = reward_name_edit_text.getText().toString();
+
+                // Get the price of the reward
+                EditText reward_price_edit_text = (EditText) findViewById(R.id.RewardCost);
+                String reward_price = reward_price_edit_text.getText().toString();
+
+                // Load the current rewards
+                int resID = getApplicationContext().getResources().getIdentifier("rewards", "raw", getApplicationContext().getPackageName());
+
+
+                // Read in the csv file
+                MyCsvFileReader reward_csv = new MyCsvFileReader(getApplicationContext());
+                ArrayList<String[]> reward_list = reward_csv.readCsvFile(resID);
+                int reward_id = 1;
+                for (int i = 0; i < reward_list.size(); i++) {
+                    reward_id += 1;
+                }
+
+                // Put it all into a list so all the info can be passed to the reward
+                String [] info = {Integer.toString(reward_id), reward_name, reward_price, string_of_children_selected};
+
+                // Initialize a reward
+                RewardClass new_reward = new RewardClass(info);
+                this_parent.add_reward(new_reward, PublicData.children_list);
+
+            }
+
+        });
+    }
+
+
+
+    void setCardListener(int cardId, final String child_id) {
 
         View card = (View) findViewById(cardId);
+
 
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -156,9 +211,12 @@ public class AddReward extends Activity {
                 if (alph == (float) 0.9) {
                     v.setBackgroundColor(getResources().getColor(R.color.primaryText));
                     v.setAlpha((float) 1.0);
+                    children_selected.add(child_id);
+
                 } else { // card is selected: change to not selected
                     v.setBackgroundColor(getResources().getColor(R.color.text_icons));
                     v.setAlpha((float) 0.9);
+                    children_selected.remove(child_id);
                 }
 
             }
