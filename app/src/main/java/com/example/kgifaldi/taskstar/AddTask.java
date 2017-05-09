@@ -78,7 +78,7 @@ public class AddTask extends Activity {
         ArrayList<String[]> tasks_list = tasks_csv.readCsvFileBySemiColon(resID);
 
         for (String[] element : tasks_list){
-            PublicData.all_tasks.add(new TaskClass(element[0], element[1]));
+            PublicData.all_tasks.add(new TaskClass(element[0], element[1], element[2]));
         }
 
         ArrayList<Child> children_array_list;
@@ -219,7 +219,14 @@ public class AddTask extends Activity {
                 TaskRewardtext = (EditText) findViewById(R.id.TaskReward);
                 System.out.println(TaskRewardtext.getText());
 
-                PublicData.all_tasks.add(new TaskClass(TaskNametext.getText().toString(), TaskRewardtext.getText().toString()));
+                int id = 1;
+                for (TaskClass each_task: PublicData.all_tasks){
+                    id += 1;
+                }
+
+                TaskClass new_task = new TaskClass(Integer.toString(id), TaskNametext.getText().toString(), TaskRewardtext.getText().toString());
+
+                PublicData.all_tasks.add(new_task);
 
                 if(((LinearLayout)findViewById(R.id.weekly_list)).getVisibility() == View.INVISIBLE){
                     frequency = "once";
@@ -276,13 +283,15 @@ public class AddTask extends Activity {
 
                 }
 
-                ArrayList<String> temp_tasklist = new ArrayList<String>();
+                ArrayList<TaskClass> temp_tasklist = null;
 
                 ArrayList<Child> children_fromdb = dbHelper.get_children_from_db(parent_id);
                 for(Child child : children_fromdb){
                     if(childrenSelected.contains(child.getUsername())){
                         temp_tasklist = child.getTaskList();
-                        temp_tasklist.add(TaskNametext.getText().toString());
+
+
+                        temp_tasklist.add(new_task);
                     }
 
                 }
@@ -294,25 +303,25 @@ public class AddTask extends Activity {
                     contentValuesChild.put(dbHelper.CHILDS_PARENT, child.getParentId());
                     contentValuesChild.put(dbHelper.CHILD_USER_NAME, child.getUsername());
                     contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child.getRewardBalance());
-                    String [] rewardsPurchased = child.getRewardsPurchased();
+                    ArrayList<RewardClass> rewardsPurchased = child.getRewardsPurchased();
                     StringBuilder buffer = new StringBuilder();
-                    for (String each : rewardsPurchased)
-                        buffer.append(",").append(each);
+                    for (RewardClass each : rewardsPurchased)
+                        buffer.append(",").append(each.getRewardName());
                     String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
 
-                    String [] rewardsAvailable = child.getRewardsAvailable();
+                    ArrayList<RewardClass> rewardsAvailable = child.getRewardsAvailable();
                     StringBuilder buffer_new = new StringBuilder();
-                    for (String each : rewardsAvailable)
-                        buffer.append(",").append(each);
+                    for (RewardClass each : rewardsAvailable)
+                        buffer.append(",").append(each.getRewardName());
                     String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
 
                     contentValuesChild.put(dbHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
                     contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
 
-                    String [] tasks = child.getTaskList();
+                    ArrayList<TaskClass> tasks = child.getTaskList();
                     StringBuilder buffer_tasks = new StringBuilder();
-                    for (String each : tasks)
-                        buffer.append(",").append(each);
+                    for (TaskClass each : tasks)
+                        buffer.append(",").append(each.getName());
                     String tasksString = buffer_new.deleteCharAt(0).toString();
 
                     contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
