@@ -48,9 +48,11 @@ public class RedeemReward extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.redeem_reward);
-        final rewardsDescriptions = PublicData.selected_child.getRewardsPurchased();
+        final ArrayList<String> rewardsDescriptions = new ArrayList<>();
 
-        for ()
+        for (RewardClass r : PublicData.selected_child.getRewardsPurchased()){
+            rewardsDescriptions.add(r.getRewardName());
+        }
 
         //TODO
         /*
@@ -121,7 +123,7 @@ public class RedeemReward extends Activity {
         //System.out.print(rewardsDescriptions.length);
         //System.out.print(rewardsValues.size());
 
-        for (int i = 0; i < rewardsDescriptions.length; i++) {
+        for (int i = 0; i < rewardsDescriptions.size(); i++) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -153,7 +155,7 @@ public class RedeemReward extends Activity {
             // initialize TextView to place into Child Card
             TextView NameText = new TextView(this);
             NameText.setLayoutParams(lp);
-            NameText.setText(rewardsDescriptions[i]);
+            NameText.setText(rewardsDescriptions.get(i));
             NameText.setTextSize(txtSz);
             NameText.setPadding(450, 65, 0, 0);
             NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
@@ -193,20 +195,7 @@ public class RedeemReward extends Activity {
         final View FAB = findViewById(R.id.AddChildFAB);
         FAB.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                String[] newRewards = new String[rewardsDescriptions.length - selected.size()];
-
-                int counter = 0;
-                //System.out.println("Resulting Rewards");
-                for(String reward : rewardsDescriptions){
-                    if (selected.contains(reward)){
-                        continue;
-                    } else {
-                        //System.out.println(reward);
-                        newRewards[counter] = reward;
-                    }
-                    counter++;
-                }
-                PublicData.selected_child.setRewardsPurchased(newRewards);
+                PublicData.selected_child.redeem_reward(selected);
 
                 Intent intent;
                 intent = new Intent(RedeemReward.this, ChildMain.class);

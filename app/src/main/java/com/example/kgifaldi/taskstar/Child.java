@@ -118,7 +118,14 @@ public class Child implements Serializable{
         }
     }
 
-    public void redeem_reward(String rew){
+    public void redeem_reward(ArrayList<String> sel){
+        for(RewardClass reward : this.getRewardsPurchased()){
+            if (sel.contains(reward.getRewardName())){
+                this.rewards_purchased.remove(reward);
+            } else {
+                continue;
+            }
+        }
 
     }
 }
