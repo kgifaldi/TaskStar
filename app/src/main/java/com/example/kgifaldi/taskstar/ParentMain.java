@@ -184,8 +184,9 @@ public class ParentMain extends Activity {
                 int newId = Integer.parseInt(PublicData.children_list.get(size-1).getId()) + 1;
                 newChild.setId(String.valueOf(newId));
 
-                PublicData.children_list.add(newChild);
-                PublicData.new_children.add(newChild);
+                this_parent.add_child(newChild);
+
+
 
                 // reload current activity with new children
                 finish();
@@ -270,6 +271,11 @@ public class ParentMain extends Activity {
                 Log.d("ParentMain", "Clicked an add task card");
 
                 Intent intent = new Intent(ParentMain.this, AddTask.class);
+
+                Intent parent_main_intent = getIntent();
+                this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+                intent.putExtra("Parent", (Serializable) this_parent);
                 startActivity(intent);
 
             }
@@ -284,7 +290,13 @@ public class ParentMain extends Activity {
             public void onClick(View v){
 
                 Intent intent;
+
                 intent = new Intent(ParentMain.this, AddReward.class);
+
+                Intent parent_main_intent = getIntent();
+                this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+
+                intent.putExtra("Parent", (Serializable) this_parent);
 
                 startActivity(intent);
 
@@ -296,6 +308,8 @@ public class ParentMain extends Activity {
         FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                System.out.println("Add child set on click listener");
 
                 int x = scrollView.getRight();
                 int y = scrollView.getBottom();

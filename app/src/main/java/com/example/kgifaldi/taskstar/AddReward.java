@@ -2,6 +2,7 @@ package com.example.kgifaldi.taskstar;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
@@ -47,6 +49,9 @@ public class AddReward extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addrewardview);
+
+        Intent parent_main_intent = getIntent();
+        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
         setButtonListener(R.id.AddRewardFAB);
 
@@ -186,8 +191,13 @@ public class AddReward extends Activity {
 
                 // Initialize a reward
                 RewardClass new_reward = new RewardClass(info);
-                this_parent.add_reward(new_reward, PublicData.children_list);
+                PublicData.parent_obj.add_reward(new_reward, PublicData.children_list);
 
+
+                Toast t = new Toast(getApplicationContext());
+                t.makeText(getApplicationContext(), "Reward added!", Toast.LENGTH_SHORT).show();
+
+                finish();
             }
 
         });

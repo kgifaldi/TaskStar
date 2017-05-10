@@ -1,9 +1,11 @@
 package com.example.kgifaldi.taskstar;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -12,23 +14,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.util.ArrayList;
 import java.util.jar.Attributes;
 
 /**
  * Created by Luigi on 4/8/17.
  */
 
-public class ParentChildView extends Activity{
+public class ParentChildView extends Activity {
 
-    String[] children = {"Ben", "Emma", "Ethan", "Nick", "Iris", "Sarah", "Henry"};
     LinearLayout ll;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,21 +72,6 @@ public class ParentChildView extends Activity{
         RippleDrawable d = new RippleDrawable(csl, null, null);
         tmp.setForeground(d);
 
-        // initialize ImageView to place into Child Card
-        // TODO: dynamically select child photo, rn generic photo is used
-        // ImageView childImg = new ImageView(this);
-        //childImg.setLayoutParams(lp);
-
-        // childImg.setImageResource(R.drawable.genchild);
-        //childImg.setMaxWidth(cardHeight/2);
-        //childImg.setMinimumHeight(cardHeight/2);
-        //childImg.setMaxHeight(cardHeight/2);
-        //childImg.setAdjustViewBounds(true);
-
-
-
-        // TODO: formatting image and text with each child card...
-
         // initialize TextView to place into Child Card
         TextView NameText = new TextView(this);
         NameText.setLayoutParams(lp);
@@ -90,9 +81,9 @@ public class ParentChildView extends Activity{
         NameText.setTextColor(getResources().getColor(R.color.colorSecondary));
         int randomColor = ParentMain.curr_color;
 
-
-
-        String letter = (NameText.getText().charAt(0)+"");
+        String letter = ParentMain.curr_name.trim().substring(0, 1);
+        System.out.println("letter thing: " + letter);
+        System.out.println("name for child: " + ParentMain.curr_name);
         TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
         ImageView childImg = new ImageView(this);
 
@@ -109,6 +100,88 @@ public class ParentChildView extends Activity{
         tmp.addView(NameText);
         ll.addView(tmp);
 
-        // add onClickListener to CardViews
+        /* List View Stuff */
+
+
+        Child this_child = new Child();
+        for (Child each_child : PublicData.children_list){
+            if (each_child.getUsername().trim().equals(ParentMain.curr_name.trim())){
+                this_child = each_child;
+                break;
+            }
+        }
+
+        // Reward Balance
+        // Card view for each task
+        CardView reward_balance_card = new CardView(this);
+        reward_balance_card.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        tempId = View.generateViewId();
+        reward_balance_card.setId(tempId);
+        reward_balance_card.setLayoutParams(lp);
+        reward_balance_card.setClickable(false);
+        reward_balance_card.setCardElevation(0);
+
+        // Edit text view for each task card
+        TextView reward_text = new TextView(this);
+        reward_text.setLayoutParams(lp);
+        reward_text.setText("REWARD BALANCE: " + this_child.getBalance());
+        reward_text.setTextSize(30);
+        reward_text.setPadding(20, 20, 20, 20);
+        reward_text.setTextColor(Color.BLACK);
+
+        // Add the text view to the card
+        reward_balance_card.addView(reward_text);
+        ll.addView(reward_balance_card);
+
+        // Card view for each task
+        CardView general_task_card = new CardView(this);
+        general_task_card.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        tempId = View.generateViewId();
+        general_task_card.setId(tempId);
+        general_task_card.setLayoutParams(lp);
+        general_task_card.setClickable(false);
+        general_task_card.setCardElevation(0);
+
+        // Edit text view for each task card
+        TextView generaltasktext = new TextView(this);
+        generaltasktext.setLayoutParams(lp);
+        generaltasktext.setText("TASKS ASSIGNED");
+        generaltasktext.setTextSize(30);
+        generaltasktext.setPadding(20, 20, 20, 20);
+        generaltasktext.setTextColor(Color.BLACK);
+
+        // Add the text view to the card
+        general_task_card.addView(generaltasktext);
+        ll.addView(general_task_card);
+
+
+        for (TaskClass each_task : this_child.getTaskList()){
+
+            // Card view for each task
+            CardView task_card = new CardView(this);
+            task_card.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            tempId = View.generateViewId();
+            task_card.setId(tempId);
+            task_card.setLayoutParams(lp);
+            task_card.setClickable(false);
+            task_card.setCardElevation(0);
+
+            // Edit text view for each task card
+            TextView TaskText = new TextView(this);
+            TaskText.setLayoutParams(lp);
+            TaskText.setText(" - " + each_task.getName());
+            TaskText.setTextSize(20);
+            TaskText.setPadding(20, 20, 20, 20);
+            TaskText.setTextColor(Color.BLACK);
+
+            // Add the text view to the card
+            task_card.addView(TaskText);
+            ll.addView(task_card);
+
+        }
+
+
     }
+
+
 }

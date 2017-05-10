@@ -222,14 +222,18 @@ public class ParentLogin extends Activity {
 
                 ArrayList<Child> children_array_list = dbHelper.get_children_from_db(parent_obj.getId());
 
+                System.out.println("Setting public data children to be the children from the database");
 
                 PublicData.children_list = children_array_list;
+
+                System.out.println("First child in PublicData: " + PublicData.children_list.get(0).getUsername());
+
                 PublicData.password = ((TextView) findViewById(R.id.password_enter)).getText().toString();
                 Intent parent_main_intent = new Intent(ParentLogin.this, MainActivity.class);
 
 
 
-                //parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
+                parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
                 startActivity(parent_main_intent);
             }
         });

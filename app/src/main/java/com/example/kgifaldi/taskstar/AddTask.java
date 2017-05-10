@@ -9,6 +9,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -25,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -51,7 +53,9 @@ public class AddTask extends Activity {
     private EditText TaskNametext;
     private EditText TaskRewardtext;
     private String frequency;
+    ArrayList<String> children_selected = new ArrayList<String>();
     private static Parent this_parent = new Parent();
+    private View FAB;
     // DATABASE HELPER ----------------------------------------------
     DBHelper dbHelper;
     // ----------------------------------------------------------------------
@@ -61,8 +65,8 @@ public class AddTask extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addtaskview);
-     //   Intent parent_main_intent = getIntent();
-     //   this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+        Intent parent_main_intent = getIntent();
+        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
 
         //final String parent_id = this_parent.getId();
@@ -77,7 +81,7 @@ public class AddTask extends Activity {
         MyCsvFileReader tasks_csv = new MyCsvFileReader(getApplicationContext());
         ArrayList<String[]> tasks_list = tasks_csv.readCsvFileBySemiColon(resID);
 
-        for (String[] element : tasks_list){
+        for (String[] element : tasks_list) {
             PublicData.all_tasks.add(new TaskClass(element[0], element[1], element[2]));
         }
 
@@ -128,7 +132,7 @@ public class AddTask extends Activity {
 
         children_array_list = PublicData.children_list;
 
-        for(Child each_child : children_array_list) {
+        for (Child each_child : children_array_list) {
 
             // set lp to linear layouts params to pass to cards
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -202,14 +206,27 @@ public class AddTask extends Activity {
             ll.addView(tmp);
 
             // add onClickListener to CardViews
-            setCardListener(tempId);
+            String child_id = each_child.getId();
+            setCardListener(tempId, child_id);
             iv.add(tempId);
             enterReveal(childImg);
-        }
 
-        final View FAB = findViewById(R.id.AddChildFAB);
-        FAB.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+
+            // Set FAB listener
+            setButtonListener(R.id.AddChildFAB);
+
+
+        }
+    }
+
+
+    void setButtonListener(int button_id){
+        FloatingActionButton add_task = (FloatingActionButton) findViewById(button_id);
+
+        add_task.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
 
                 // this button will submit all children selected to the database
 
@@ -270,120 +287,36 @@ public class AddTask extends Activity {
                 }
                 System.out.println(frequency);
 
-                // get list of all children slected
-                ArrayList<String> childrenSelected = new ArrayList<String>();
-                for(int vi = 0; vi < iv.size(); vi++) {
-                    if (findViewById(iv.get(vi)).getAlpha() > 0.95) {
-                       // childrenSelected.add(ChildLogin.children[vi]);
-
-                    }
-                    childrenSelected.add(ChildLogin.children[vi]);
-
-
-
+                // Get all the children that have been selected
+                String string_of_children_selected = "";
+                for (String each_child_id : children_selected){
+                    string_of_children_selected.concat(" " + each_child_id + " ");
                 }
 
                 ArrayList<TaskClass> temp_tasklist = null;
+                System.out.println("The public data children list is: ");
 
-                ArrayList<Child> children_fromdb = dbHelper.get_children_from_db(parent_id);
-                for(Child child : PublicData.children_list){
-                    if(childrenSelected.contains(child.getUsername())){
-                        temp_tasklist = child.getTaskList();
+                System.out.print(PublicData.children_list);
 
+                System.out.println("First child in PublicData: " + PublicData.children_list.get(0).getUsername());
 
-                        temp_tasklist.add(new_task);
+                PublicData.parent_obj.add_task(new_task, children_selected);
 
-                        //child.task_list = temp_tasklist;
-                    }
+                Toast t = new Toast(getApplicationContext());
+                t.makeText(getApplicationContext(), "Task added!", Toast.LENGTH_SHORT).show();
 
-                }
-
-                ContentValues contentValuesChild = new ContentValues();
-                //dbHelper.deleteData(dbHelper.TABLE_CHILDREN, null, );
-                for(Child child: children_fromdb){
-                    contentValuesChild.put(dbHelper.CHILD_ID, child.getId());
-                    contentValuesChild.put(dbHelper.CHILDS_PARENT, child.getParentId());
-                    contentValuesChild.put(dbHelper.CHILD_USER_NAME, child.getUsername());
-                    contentValuesChild.put(dbHelper.CHILD_REWARD_BALANCE, child.getRewardBalance());
-                    ArrayList<RewardClass> rewardsPurchased = child.getRewardsPurchased();
-                    StringBuilder buffer = new StringBuilder();
-                    for (RewardClass each : rewardsPurchased)
-                        buffer.append(",").append(each.getRewardName());
-                    String rewardsPurchasedString = buffer.deleteCharAt(0).toString();
-
-                    ArrayList<RewardClass> rewardsAvailable = child.getRewardsAvailable();
-                    StringBuilder buffer_new = new StringBuilder();
-                    for (RewardClass each : rewardsAvailable)
-                        buffer.append(",").append(each.getRewardName());
-                    String rewardsAvailableString = buffer_new.deleteCharAt(0).toString();
-
-                    contentValuesChild.put(dbHelper.REWARDS_PURCHASED_LIST, rewardsPurchasedString);
-                    contentValuesChild.put(dbHelper.REWARDS_AVAILABLE_LIST, rewardsAvailableString);
-
-                    ArrayList<TaskClass> tasks = child.getTaskList();
-                    StringBuilder buffer_tasks = new StringBuilder();
-                    for (TaskClass each : tasks)
-                        buffer.append(",").append(each.getName());
-                    String tasksString = buffer_new.deleteCharAt(0).toString();
-
-                    contentValuesChild.put(dbHelper.TASK_LIST, tasksString);
-                    contentValuesChild.put(dbHelper.TASK_LIST, child.getImageSrc());
-
-                    dbHelper.insertData(dbHelper.TABLE_CHILDREN, contentValuesChild);
-
-                }
-
-                ContentValues contentValuesTask = new ContentValues();
-
-                contentValuesTask.put(dbHelper.TASK_DESCRIPTION, TaskNametext.getText().toString());
-                contentValuesTask.put(dbHelper.COINS_WORTH, TaskRewardtext.getText().toString());
-                contentValuesTask.put(dbHelper.WEEKLY_OCCURENCE, frequency);
-
-                dbHelper.insertData(dbHelper.TABLE_TASK, contentValuesChild);
-
-                // TODO: push this ArryayList of children to database:
-                // TODO: push task name and task reward to each child in this array
-
-                // start new intent
-/*
-                Intent intent = new Intent(AddTask.this, ParentMain.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("parent", (Serializable) this_parent);
-                intent.putExtras(bundle);
-                startActivity(intent);
-                */
                 finish();
 
-
-                /* commenting this out: changing FAB from selecting all children -> submitting children
-                int alreadySel = 0;
-                int sz = iv.size();
-                System.out.println("SIZE, HERRRRRRRREE, APLHA OF FIRSSTTTTT:");
-                System.out.println(sz);
-
-                for(int vi = 0; vi < iv.size(); vi++){
-                    if(findViewById(iv.get(vi)).getAlpha() == (float)1.0)
-                        alreadySel++;
-                    findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.primaryText));
-                    findViewById(iv.get(vi)).setAlpha((float) 1.0);
-
-                }
-                if(alreadySel == sz){
-                    for(int vi = 0; vi < iv.size(); vi++){
-                        findViewById(iv.get(vi)).setBackgroundColor(getResources().getColor(R.color.text_icons));
-                        findViewById(iv.get(vi)).setAlpha((float) .9);
-                    }
-
-                }
-            */
             }
-        });
 
+        });
     }
 
-    void setCardListener(int cardId) {
+    void setCardListener(int cardId, final String child_id) {
 
         View card = (View) findViewById(cardId);
+
+        System.out.println("Child id on outside is " + child_id);
 
 
         card.setOnClickListener(new View.OnClickListener() {
@@ -397,9 +330,12 @@ public class AddTask extends Activity {
                 if (alph == (float) 0.9) {
                     v.setBackgroundColor(getResources().getColor(R.color.primaryText));
                     v.setAlpha((float) 1.0);
+                    System.out.println("Child id on inside is: " + child_id);
+                    children_selected.add(child_id);
                 } else { // card is selected: change to not selected
                     v.setBackgroundColor(getResources().getColor(R.color.text_icons));
                     v.setAlpha((float) 0.9);
+                    children_selected.remove(child_id);
                 }
 
             }
@@ -428,5 +364,6 @@ public class AddTask extends Activity {
             }
         });
     }
+
 
 }

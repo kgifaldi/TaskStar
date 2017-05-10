@@ -3,6 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ScrollView01"
     android:layout_width="fill_parent"
+    android:background="@color/light_gray"
     android:layout_height="fill_parent">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,7 +11,7 @@
     android:padding="16dp"
     android:orientation="vertical"
     android:id="@+id/child_list"
-    android:background="@color/dividerColor"
+    android:background="@color/light_gray"
     >
 
     <TextView

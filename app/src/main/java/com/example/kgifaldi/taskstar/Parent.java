@@ -65,4 +65,27 @@ public class Parent implements Serializable {
 
     }
 
+    public void add_child(Child child_obj){
+        PublicData.children_list.add(child_obj);
+        PublicData.new_children.add(child_obj);
+    }
+
+    public void add_task(TaskClass task_obj, ArrayList<String> children_selected){
+        ArrayList<TaskClass> temp_tasklist = null;
+        for(Child child : PublicData.children_list){
+            for (String child_selected : children_selected){
+                System.out.println("Processing child selected: " + child_selected);
+                if (child_selected.trim().equals(child.getId().trim())){
+                    temp_tasklist = child.getTaskList();
+
+                    System.out.println("Adding task = " + task_obj.getName());
+                    temp_tasklist.add(task_obj);
+
+                    child.setTaskList(temp_tasklist);
+                }
+            }
+
+        }
+    }
+
 }

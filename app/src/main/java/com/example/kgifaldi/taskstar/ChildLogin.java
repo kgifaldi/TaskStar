@@ -70,6 +70,7 @@ public class ChildLogin extends Activity {
 
                 PublicData.selected_child = child_obj;
 
+
                animateIntent(v);
                 finish();
 
