@@ -297,6 +297,8 @@ public class ParentMain extends Activity {
             @Override
             public void onClick(View v) {
 
+                System.out.println("Add child set on click listener");
+
                 int x = scrollView.getRight();
                 int y = scrollView.getBottom();
                 x-=((28*pixelDensity) + (16*pixelDensity));
