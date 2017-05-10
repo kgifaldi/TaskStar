@@ -184,7 +184,7 @@ public class ParentMain extends Activity {
                 int newId = Integer.parseInt(PublicData.children_list.get(size-1).getId()) + 1;
                 newChild.setId(String.valueOf(newId));
 
-                this_parent.add_child(newChild);
+                PublicData.parent_obj.add_child(newChild);
 
 
 
