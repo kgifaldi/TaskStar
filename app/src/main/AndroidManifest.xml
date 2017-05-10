@@ -32,7 +32,6 @@
         <activity android:name=".AddReward"></activity>
         <activity android:name=".AddChild"></activity>
         <activity android:name=".ParentViewRewards"></activity>
-        <activity android:name=".ParentViewTasks"></activity>
         <activity android:name=".RedeemReward"></activity>
 
     </application>

@@ -103,11 +103,11 @@ public class TodaysTasks extends Activity implements CardStack.CardEventListener
             card_adapter.add(card_adapter.getItem(0)); // so if LEFT, then add to back of stack
             System.out.println(card_adapter.getItem(0).getQuestion());
         }else if(leftToDo == 1){
-            /*
+
             Intent intent = new Intent(TodaysTasks.this, ChildMain.class); // otherwise, if right and end of stack, start main child activity because child has completed all tasks!
             startActivity(intent);
-            */
-            finish();
+
+            //finish();
         }
         else {
             leftToDo--;

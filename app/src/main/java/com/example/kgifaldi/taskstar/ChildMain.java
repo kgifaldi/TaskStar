@@ -110,7 +110,7 @@ public class ChildMain extends Activity {
 
 
 
-        String letter = (NameText.getText().charAt(0)+"");
+        String letter = PublicData.selected_child.getUsername().trim().substring(0, 1);
         TextDrawable drbl = TextDrawable.builder().buildRound(letter, randomColor);
         ImageView childImg = new ImageView(this);
 
