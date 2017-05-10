@@ -233,7 +233,7 @@ public class ParentLogin extends Activity {
 
 
 
-                //parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
+                parent_main_intent.putExtra("Parent", (Serializable) parent_obj);
                 startActivity(parent_main_intent);
             }
         });

@@ -64,8 +64,8 @@ public class AddTask extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addtaskview);
-        //   Intent parent_main_intent = getIntent();
-        //   this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
+        Intent parent_main_intent = getIntent();
+        this_parent = (Parent) parent_main_intent.getSerializableExtra("parent");
 
 
         //final String parent_id = this_parent.getId();
@@ -299,20 +299,9 @@ public class AddTask extends Activity {
 
                 System.out.println("First child in PublicData: " + PublicData.children_list.get(0).getUsername());
 
-                for(Child child : PublicData.children_list){
-                    for (String child_selected : children_selected){
-                        System.out.println("Processing child selected: " + child_selected);
-                        if (child_selected.trim().equals(child.getId().trim())){
-                            temp_tasklist = child.getTaskList();
+                PublicData.parent_obj.add_task(new_task, children_selected);
 
-                            System.out.println("Adding task = " + new_task.getName());
-                            temp_tasklist.add(new_task);
 
-                            child.setTaskList(temp_tasklist);
-                        }
-                    }
-
-                }
                 finish();
 
             }
