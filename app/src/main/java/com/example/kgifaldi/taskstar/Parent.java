@@ -61,6 +61,7 @@ public class Parent implements Serializable {
         // Update all the children to have that reward available in the reward store
         for (Child each_child : children_obj_list){
             each_child.parent_adding_reward(reward_obj);
+            System.out.println(each_child.getId());
         }
 
     }

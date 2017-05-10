@@ -86,21 +86,14 @@ public class Child implements Serializable{
         this.image_src = image_src;
     }
 
-    /*
-    complete_task(String task_id)
-    purchased_reward(String cost_of_reward)
-    redeem_reward(String cost_of_reward)
-     */
-
     public void parent_adding_reward(RewardClass reward_obj){
         this.rewards_available.add(reward_obj);
-    }
+        System.out.println(this.getId());
 
-    /*
-    purchased_reward(String cost_of_reward)
-    redeem_reward(String Id_Reward)
-    complete_task(String task_name)
-     */
+        for (RewardClass rew : this.getRewardsAvailable()){
+            System.out.println(rew.getRewardName());
+        }
+    }
 
     public void purchased_reward(String[] rew){
         int i;

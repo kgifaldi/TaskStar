@@ -50,9 +50,11 @@ public class RewardsStore extends Activity {
         setContentView(R.layout.rewards_store);
 
         final ArrayList<String> rewardsDescriptions = new ArrayList<>();
+        ArrayList<String> rewardsValues = new ArrayList<String>();
 
         for (RewardClass r : PublicData.selected_child.getRewardsAvailable()){
             rewardsDescriptions.add(r.getRewardName());
+            rewardsValues.add(r.getRewardPrice());
         }
 
 
@@ -82,12 +84,17 @@ public class RewardsStore extends Activity {
         }
 
 
-        ArrayList<ArrayList<String>> rewardsinfo = dbHelper.get_Rewards();
+        //ArrayList<ArrayList<String>> rewardsinfo = dbHelper.get_Rewards();
 
-        ArrayList<String> rew_prz_from_db = rewardsinfo.get(1);
-        ArrayList<String> rew_desc_from_db = rewardsinfo.get(0);
-        ArrayList<String> rewardsValues = new ArrayList<String>();
+        /*ArrayList<String> rew_prz_from_db = rewardsinfo.get(1);
+        ArrayList<String> rew_desc_from_db = rewardsinfo.get(0);*/
 
+
+        /*for (RewardClass rew : PublicData.selected_child.getRewardsAvailable()){
+            rewardsDescriptions.add(rew.getRewardName());
+
+        }*/
+/*
         System.out.print(rewardsDescriptions.size());
         System.out.print(rew_desc_from_db.size());
         System.out.println("----");
@@ -106,7 +113,7 @@ public class RewardsStore extends Activity {
                 }
                 counter2++;
             }
-        }
+        }*/
 
 
         int txtSz = 40;

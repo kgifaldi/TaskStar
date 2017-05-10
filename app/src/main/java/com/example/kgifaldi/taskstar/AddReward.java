@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -163,7 +164,7 @@ public class AddReward extends Activity {
                 // Get all the children that have been selected
                 String string_of_children_selected = "";
                 for (String each_child_id : children_selected){
-                    string_of_children_selected.concat(" " + each_child_id + " ");
+                    string_of_children_selected = string_of_children_selected + each_child_id + " ";
                 }
 
                 // Get the name of the reward
@@ -187,11 +188,21 @@ public class AddReward extends Activity {
                 }
 
                 // Put it all into a list so all the info can be passed to the reward
-                String [] info = {Integer.toString(reward_id), reward_name, reward_price, string_of_children_selected};
+                String [] info = {Integer.toString(reward_id), reward_name, reward_price, string_of_children_selected.trim()};
 
                 // Initialize a reward
                 RewardClass new_reward = new RewardClass(info);
-                PublicData.parent_obj.add_reward(new_reward, PublicData.children_list);
+
+                ArrayList<Child> selected_childs = new ArrayList<Child>();
+
+                for (Child c : PublicData.children_list){
+                    if (children_selected.contains(c.getId()) ){
+                        selected_childs.add(c);
+                        System.out.println(c.getId());
+                    }
+                }
+
+                PublicData.parent_obj.add_reward(new_reward, selected_childs);
 
 
                 Toast t = new Toast(getApplicationContext());
