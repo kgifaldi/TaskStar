@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -301,6 +302,8 @@ public class AddTask extends Activity {
 
                 PublicData.parent_obj.add_task(new_task, children_selected);
 
+                Toast t = new Toast(getApplicationContext());
+                t.makeText(getApplicationContext(), "Task added!", Toast.LENGTH_SHORT).show();
 
                 finish();
 

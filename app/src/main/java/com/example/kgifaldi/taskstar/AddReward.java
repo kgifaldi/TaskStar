@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 
@@ -191,6 +192,10 @@ public class AddReward extends Activity {
                 // Initialize a reward
                 RewardClass new_reward = new RewardClass(info);
                 PublicData.parent_obj.add_reward(new_reward, PublicData.children_list);
+
+
+                Toast t = new Toast(getApplicationContext());
+                t.makeText(getApplicationContext(), "Reward added!", Toast.LENGTH_SHORT).show();
 
                 finish();
             }
